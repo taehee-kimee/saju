@@ -8,7 +8,9 @@ export async function POST(req: NextRequest) {
     {
       method: 'POST',
       headers: {
-        Authorization: `Basic ${Buffer.from(`${process.env.TOSS_SECRET_KEY}:`).toString('base64')}`,
+        Authorization: `Basic ${Buffer.from(
+          `${process.env.TOSS_SECRET_KEY}:`
+        ).toString('base64')}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ paymentKey, orderId, amount }),

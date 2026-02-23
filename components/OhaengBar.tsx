@@ -8,14 +8,6 @@ const COLORS: Record<Ohaeng, string> = {
   '水': 'bg-blue-400',
 };
 
-const LABELS: Record<Ohaeng, string> = {
-  '木': '나무',
-  '火': '불',
-  '土': '흙',
-  '金': '쇠',
-  '水': '물',
-};
-
 interface Props {
   ohaeng: Record<Ohaeng, number>;
   dominant: Ohaeng;
@@ -27,7 +19,7 @@ export default function OhaengBar({ ohaeng, dominant }: Props) {
       {(Object.entries(ohaeng) as [Ohaeng, number][]).map(([key, val]) => (
         <div key={key} className="flex items-center gap-3">
           <span
-            className={`text-sm font-bold w-6 text-center ${
+            className={`text-sm font-bold w-4 ${
               key === dominant ? 'text-orange-500' : 'text-gray-500'
             }`}
           >
@@ -39,7 +31,7 @@ export default function OhaengBar({ ohaeng, dominant }: Props) {
               style={{ width: `${val}%` }}
             />
           </div>
-          <span className="text-sm text-gray-500 w-10 text-right">{val}%</span>
+          <span className="text-sm text-gray-500 w-8 text-right">{val}%</span>
         </div>
       ))}
     </div>
