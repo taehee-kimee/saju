@@ -21,7 +21,7 @@ export default function Home() {
         </div>
         <Link
           href="/test"
-          className="block w-full p-4 bg-orange-400 text-white rounded-2xl font-bold text-lg shadow-lg shadow-orange-200"
+          className="block w-full p-4 bg-orange-400 text-white rounded-2xl font-bold text-lg shadow-lg shadow-orange-200 hover:bg-orange-500 transition-colors"
         >
           내 고양이 찾기 →
         </Link>
