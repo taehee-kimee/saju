@@ -14,37 +14,71 @@ export default function ResultPage() {
   const [saju, setSaju] = useState<SajuResult | null>(null);
   const [mbti, setMbti] = useState<MbtiType | null>(null);
   const [revealed, setRevealed] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const storedMbti = sessionStorage.getItem('mbti') as MbtiType;
-    const birth = JSON.parse(sessionStorage.getItem('birthInfo') || '{}');
-    if (!storedMbti || !birth.year) {
-      router.push('/');
-      return;
+    try {
+      const storedMbti = sessionStorage.getItem('mbti') as MbtiType | null;
+      const birthRaw = sessionStorage.getItem('birthInfo');
+
+      if (!storedMbti || !birthRaw) {
+        setError('필요한 정보가 없어 처음 화면으로 돌아가야 해요.');
+        setLoading(false);
+        return;
+      }
+
+      const birth = JSON.parse(birthRaw);
+      if (!birth.year || !birth.month || !birth.day) {
+        setError('생년월일 정보가 올바르지 않아요. 다시 입력해주세요.');
+        setLoading(false);
+        return;
+      }
+
+      const sajuResult = calculateSaju(
+        Number(birth.year),
+        Number(birth.month),
+        Number(birth.day),
+        Number.isFinite(Number(birth.hour)) ? Number(birth.hour) : 12
+      );
+      const mbtiGroup = getMbtiGroup(storedMbti);
+      const catResult = getCatCharacter(mbtiGroup, sajuResult.dominantOhaeng);
+
+      setSaju(sajuResult);
+      setCat(catResult);
+      setMbti(storedMbti);
+      setLoading(false);
+      const timer = setTimeout(() => setRevealed(true), 600);
+      return () => clearTimeout(timer);
+    } catch (err) {
+      console.error(err);
+      setError('정보를 불러오지 못했어요. 다시 시도해주세요.');
+      setLoading(false);
     }
+  }, []);
 
-    const sajuResult = calculateSaju(
-      parseInt(birth.year),
-      parseInt(birth.month),
-      parseInt(birth.day),
-      parseInt(birth.hour)
-    );
-    const mbtiGroup = getMbtiGroup(storedMbti);
-    const catResult = getCatCharacter(mbtiGroup, sajuResult.dominantOhaeng);
-
-    setSaju(sajuResult);
-    setCat(catResult);
-    setMbti(storedMbti);
-    setTimeout(() => setRevealed(true), 1500);
-  }, [router]);
-
-  if (!cat || !saju) {
+  if (loading) {
     return (
       <main className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4 animate-bounce">🔮</div>
           <p className="text-gray-500">운명을 계산하는 중...</p>
         </div>
+      </main>
+    );
+  }
+
+  if (error || !cat || !saju || !mbti) {
+    return (
+      <main className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+        <div className="text-5xl mb-4">🙀</div>
+        <p className="text-gray-600 mb-6">{error || '결과를 찾을 수 없어요.'}</p>
+        <button
+          onClick={() => router.replace('/test')}
+          className="px-6 py-3 bg-orange-400 text-white rounded-xl font-bold"
+        >
+          다시 시도하기
+        </button>
       </main>
     );
   }

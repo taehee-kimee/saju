@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function SajuPage() {
@@ -11,8 +11,20 @@ export default function SajuPage() {
     hour: '12',
   });
 
+  const handleValueChange = (field: 'year' | 'month' | 'day') =>
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value.replace(/[^0-9]/g, '');
+      setForm((prev) => ({ ...prev, [field]: value }));
+    };
+
   const handleSubmit = () => {
-    sessionStorage.setItem('birthInfo', JSON.stringify(form));
+    const payload = {
+      year: form.year,
+      month: form.month.padStart(2, '0'),
+      day: form.day.padStart(2, '0'),
+      hour: form.hour,
+    };
+    sessionStorage.setItem('birthInfo', JSON.stringify(payload));
     router.push('/result');
   };
 
@@ -22,30 +34,29 @@ export default function SajuPage() {
       <p className="text-gray-500 text-sm mb-8">사주 계산에 사용됩니다</p>
       <div className="space-y-4 w-full max-w-xs">
         <input
-          type="number"
+          type="text"
+          inputMode="numeric"
           placeholder="출생 연도 (예: 1995)"
           className="w-full p-4 border-2 border-gray-200 rounded-xl"
           value={form.year}
-          onChange={(e) => setForm({ ...form, year: e.target.value })}
+          onChange={handleValueChange('year')}
         />
         <div className="flex gap-3">
           <input
-            type="number"
+            type="text"
+            inputMode="numeric"
             placeholder="월"
-            min="1"
-            max="12"
             className="w-full p-4 border-2 border-gray-200 rounded-xl"
             value={form.month}
-            onChange={(e) => setForm({ ...form, month: e.target.value })}
+            onChange={handleValueChange('month')}
           />
           <input
-            type="number"
+            type="text"
+            inputMode="numeric"
             placeholder="일"
-            min="1"
-            max="31"
             className="w-full p-4 border-2 border-gray-200 rounded-xl"
             value={form.day}
-            onChange={(e) => setForm({ ...form, day: e.target.value })}
+            onChange={handleValueChange('day')}
           />
         </div>
         <select
@@ -55,7 +66,7 @@ export default function SajuPage() {
         >
           <option value="12">태어난 시간 모름</option>
           {Array.from({ length: 24 }, (_, i) => (
-            <option key={i} value={i}>
+            <option key={i} value={String(i)}>
               {i}시
             </option>
           ))}

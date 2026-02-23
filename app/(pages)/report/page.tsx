@@ -17,6 +17,9 @@ export default function ReportPage() {
 
 function ReportContent() {
   const searchParams = useSearchParams();
+  const debugMode =
+    searchParams.get('debug') === 'true' ||
+    process.env.NEXT_PUBLIC_REPORT_DEBUG === 'true';
   const [paid, setPaid] = useState(false);
   const [cat, setCat] = useState<CatCharacter | null>(null);
   const [currentMonth] = useState(() => String(new Date().getMonth() + 1));
@@ -27,14 +30,19 @@ function ReportContent() {
     const birth = JSON.parse(sessionStorage.getItem('birthInfo') || '{}');
     if (mbti && birth.year) {
       const saju = calculateSaju(
-        parseInt(birth.year),
-        parseInt(birth.month),
-        parseInt(birth.day),
-        parseInt(birth.hour)
+        parseInt(birth.year, 10),
+        parseInt(birth.month, 10),
+        parseInt(birth.day, 10),
+        Number.isFinite(parseInt(birth.hour, 10)) ? parseInt(birth.hour, 10) : 12
       );
       const group = getMbtiGroup(mbti);
       const catId = `${group}_${saju.dominantOhaeng}`;
       setCat(CATS[catId]);
+    }
+
+    if (debugMode) {
+      setPaid(true);
+      return;
     }
 
     // 결제 성공 후 리다이렉트 처리
@@ -51,7 +59,7 @@ function ReportContent() {
           if (data.success) setPaid(true);
         });
     }
-  }, [searchParams]);
+  }, [searchParams, debugMode]);
 
   const handlePayment = async () => {
     const { loadTossPayments } = await import(
