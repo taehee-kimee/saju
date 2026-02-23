@@ -37,7 +37,7 @@ export default function MbtiTest({ onComplete }: Props) {
   };
 
   const q = QUESTIONS[current];
-  const progress = ((current + 1) / 12) * 100;
+  const progress = (current / 12) * 100;
 
   return (
     <div className="max-w-md mx-auto p-6">
@@ -45,7 +45,7 @@ export default function MbtiTest({ onComplete }: Props) {
         <div className="text-sm text-gray-500 mb-2">{current + 1} / 12</div>
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div
-            className="bg-orange-400 h-2 rounded-full transition-all duration-300"
+            className="bg-orange-400 h-2 rounded-full transition-all"
             style={{ width: `${progress}%` }}
           />
         </div>
