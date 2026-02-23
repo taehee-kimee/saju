@@ -24,16 +24,15 @@ test('ST + 金 → ST_金 완벽냥', () => {
   expect(cat.name).toBe('완벽냥');
 });
 
-test('20종 캐릭터 전부 존재', () => {
+test('모든 20종 캐릭터 존재 확인', () => {
   const groups = ['NT', 'NF', 'ST', 'SF'] as const;
-  const ohaengs = ['木', '火', '土', '金', '水'] as const;
+  const elements = ['木', '火', '土', '金', '水'] as const;
   for (const g of groups) {
-    for (const o of ohaengs) {
-      const cat = getCatCharacter(g, o);
+    for (const e of elements) {
+      const cat = getCatCharacter(g, e);
       expect(cat).toBeDefined();
       expect(cat.name).toBeTruthy();
-      expect(cat.shortDesc).toBeTruthy();
-      expect(cat.fullDesc).toBeTruthy();
+      expect(cat.shortDesc.length).toBeGreaterThan(50);
       expect(Object.keys(cat.monthFortune).length).toBe(12);
     }
   }

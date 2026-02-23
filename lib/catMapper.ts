@@ -5,10 +5,7 @@ export function getCatId(mbtiGroup: MbtiGroup, ohaeng: Ohaeng): CatId {
   return `${mbtiGroup}_${ohaeng}` as CatId;
 }
 
-export function getCatCharacter(
-  mbtiGroup: MbtiGroup,
-  ohaeng: Ohaeng
-): CatCharacter {
+export function getCatCharacter(mbtiGroup: MbtiGroup, ohaeng: Ohaeng): CatCharacter {
   const id = getCatId(mbtiGroup, ohaeng);
   return CATS[id];
 }
