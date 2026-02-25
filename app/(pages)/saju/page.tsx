@@ -1,6 +1,11 @@
 'use client';
-import { useState, ChangeEvent } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+
+const HOURS = [
+  { value: '12', label: '태어난 시간 모름' },
+  ...Array.from({ length: 24 }, (_, i) => ({ value: String(i), label: `${i}시` }))
+];
 
 export default function SajuPage() {
   const router = useRouter();
@@ -10,12 +15,17 @@ export default function SajuPage() {
     day: '',
     hour: '12',
   });
+  const [showHourPicker, setShowHourPicker] = useState(false);
 
-  const handleValueChange = (field: 'year' | 'month' | 'day') =>
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value.replace(/[^0-9]/g, '');
-      setForm((prev) => ({ ...prev, [field]: value }));
-    };
+  const handleValueChange = (field: 'year' | 'month' | 'day', value: string) => {
+    const cleanValue = value.replace(/[^0-9]/g, '');
+    setForm((prev) => ({ ...prev, [field]: cleanValue }));
+  };
+
+  const handleHourSelect = (hour: string) => {
+    setForm((prev) => ({ ...prev, hour }));
+    setShowHourPicker(false);
+  };
 
   const handleSubmit = () => {
     const payload = {
@@ -28,6 +38,8 @@ export default function SajuPage() {
     router.push('/result');
   };
 
+  const selectedHourLabel = HOURS.find(h => h.value === form.hour)?.label || '태어난 시간 모름';
+
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-6">
       <h1 className="text-2xl font-bold mb-2">생년월일 입력</h1>
@@ -37,44 +49,63 @@ export default function SajuPage() {
           type="text"
           inputMode="numeric"
           placeholder="출생 연도 (예: 1995)"
-          className="w-full p-4 border-2 border-gray-200 rounded-xl"
+          className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-orange-400 focus:outline-none"
           value={form.year}
-          onChange={handleValueChange('year')}
+          onChange={(e) => handleValueChange('year', e.target.value)}
         />
         <div className="flex gap-3">
           <input
             type="text"
             inputMode="numeric"
             placeholder="월"
-            className="w-full p-4 border-2 border-gray-200 rounded-xl"
+            maxLength={2}
+            className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-orange-400 focus:outline-none"
             value={form.month}
-            onChange={handleValueChange('month')}
+            onChange={(e) => handleValueChange('month', e.target.value)}
           />
           <input
             type="text"
             inputMode="numeric"
             placeholder="일"
-            className="w-full p-4 border-2 border-gray-200 rounded-xl"
+            maxLength={2}
+            className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-orange-400 focus:outline-none"
             value={form.day}
-            onChange={handleValueChange('day')}
+            onChange={(e) => handleValueChange('day', e.target.value)}
           />
         </div>
-        <select
-          className="w-full p-4 border-2 border-gray-200 rounded-xl"
-          value={form.hour}
-          onChange={(e) => setForm({ ...form, hour: e.target.value })}
-        >
-          <option value="12">태어난 시간 모름</option>
-          {Array.from({ length: 24 }, (_, i) => (
-            <option key={i} value={String(i)}>
-              {i}시
-            </option>
-          ))}
-        </select>
+        
+        {/* 커스텀 시간 선택 */}
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setShowHourPicker(!showHourPicker)}
+            className="w-full p-4 border-2 border-gray-200 rounded-xl text-left bg-white focus:border-orange-400 focus:outline-none"
+          >
+            {selectedHourLabel}
+          </button>
+          
+          {showHourPicker && (
+            <div className="absolute top-full left-0 right-0 mt-2 max-h-60 overflow-y-auto bg-white border-2 border-gray-200 rounded-xl shadow-lg z-50">
+              {HOURS.map((h) => (
+                <button
+                  key={h.value}
+                  type="button"
+                  onClick={() => handleHourSelect(h.value)}
+                  className={`w-full p-4 text-left hover:bg-orange-50 transition-colors ${
+                    form.hour === h.value ? 'bg-orange-100 text-orange-600 font-medium' : ''
+                  }`}
+                >
+                  {h.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
         <button
           onClick={handleSubmit}
           disabled={!form.year || !form.month || !form.day}
-          className="w-full p-4 bg-orange-400 text-white rounded-xl font-bold disabled:opacity-50"
+          className="w-full p-4 bg-orange-400 text-white rounded-xl font-bold disabled:opacity-50 hover:bg-orange-500 transition-colors"
         >
           내 고양이 찾기 🐱
         </button>
