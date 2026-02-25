@@ -1,0 +1,28 @@
+id: fire
+core_direction: "감정 과열 확산"
+energy_movement:
+  - 위로 터짐
+  - 감정과 의지가 빠르게 외부로 발산
+  - 주목과 반응에 민감
+
+acceleration_trigger:
+  - 인정
+  - 박수/피드백
+  - 강한 감정 자극
+
+collapse_trigger:
+  - 반응 없음
+  - 관심 단절
+  - 과도한 감정 소모
+
+conflict_axis: "강도 vs 지속력"
+
+energy_loop: "점화→과열→소진→냉각→재점화"
+
+external_impression:
+  - 카리스마
+  - 존재감 강함
+
+internal_experience:
+  - 꺼지면 급격히 공허
+  - 에너지 진폭이 큼

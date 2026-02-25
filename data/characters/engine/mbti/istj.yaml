@@ -1,0 +1,44 @@
+id: ISTJ
+stack: Si-Te-Fi-Ne
+
+dominant:
+  function: Si
+  question: "세상을 어떻게 인식하는가?"
+  core: "축적된 경험 기준"
+  cognition:
+    - 과거 데이터 비교
+    - 안정성 우선
+    - 변화 신중
+  risk:
+    - 경직성
+    - 새로운 시도 회피
+
+auxiliary:
+  function: Te
+  question: "판단을 어떻게 내리는가?"
+  core: "논리와 체계"
+  behavior:
+    - 규칙 기반 판단
+    - 기준 유지
+  conflict_seed: "안정 vs 변화 요구"
+
+tertiary:
+  function: Fi
+  unstable_when:
+    - 가치 무시될 때
+  reaction:
+    - 조용한 반감
+
+inferior:
+  function: Ne
+  stress_response:
+    - 최악 시나리오 상상
+    - 불안 확장
+
+base_conflict: "안정 유지 vs 변화 압력"
+external_result:
+  - 신뢰감
+  - 책임감 강함
+base_loop: "경험비교→판단→저항→불안확장"
+timing_hint:
+  - 작은 변화도 크게 느껴지면 과부하 시작

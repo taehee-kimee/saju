@@ -1,0 +1,45 @@
+id: ISTP
+stack: Ti-Se-Ni-Fe
+
+dominant:
+  function: Ti
+  question: "세상을 어떻게 인식하는가?"
+  core: "원리를 분해해 이해한다"
+  cognition:
+    - 구조를 분석해 작동 원리 파악
+    - 감정보다 메커니즘에 집중
+    - 문제를 논리적으로 해체
+  risk:
+    - 감정 단절
+    - 설명 생략
+
+auxiliary:
+  function: Se
+  question: "판단을 어떻게 내리는가?"
+  core: "현재 상황 반응"
+  behavior:
+    - 즉각적 대응
+    - 실전 감각 뛰어남
+  conflict_seed: "논리 정확성 vs 즉각 반응"
+
+tertiary:
+  function: Ni
+  unstable_when:
+    - 장기 계획 요구
+  reaction:
+    - 미래 예측 부담
+    - 방향성 회피
+
+inferior:
+  function: Fe
+  stress_response:
+    - 갑작스러운 감정 과잉
+    - 관계 어색함 증가
+
+base_conflict: "논리 자율성 vs 관계 요구"
+external_result:
+  - 차분하고 독립적
+  - 문제 해결 능력 뛰어남
+base_loop: "분석→즉각대응→거리유지→Fe과부하"
+timing_hint:
+  - 혼자 있는 시간이 줄면 에너지 급감

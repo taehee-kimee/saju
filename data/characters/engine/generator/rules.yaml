@@ -1,0 +1,74 @@
+version: 1.0
+
+generation_order:
+  - diagnosis
+  - ohaengMap
+  - combination
+  - pattern
+  - timingSense
+
+rules:
+
+  diagnosis:
+    source:
+      - mbti.stack
+      - mbti.dominant
+      - mbti.auxiliary
+      - mbti.tertiary
+      - mbti.inferior
+      - mbti.base_conflict
+    logic:
+      - 기능 스택 명시
+      - 4기능 질문 형식 유지
+      - 내부 갈등 1회 명시
+      - 외부 인상 1~2줄 추가
+    length: "800~1200"
+
+  ohaengMap:
+    source:
+      - ohaeng.core_direction
+      - ohaeng.energy_movement
+      - ohaeng.acceleration_trigger
+      - ohaeng.collapse_trigger
+      - ohaeng.energy_loop
+    logic:
+      - 에너지 이동 설명
+      - 가속 조건
+      - 붕괴 조건
+      - 체감 묘사 1개 이상
+    length: "800~1000"
+
+  combination:
+    source:
+      - mbti.base_conflict
+      - conflict-map[MBTI][ohaeng]
+      - collapse-loop[MBTI].base
+      - collapse-loop[MBTI][ohaeng]
+    logic:
+      - 기본 갈등 제시
+      - 오행으로 이동된 갈등 설명
+      - 붕괴 루프 단계화
+      - 외부 모습 vs 내부 체감 대비
+      - 장점이 독이 되는 순간 명시
+    length: "1000~1200"
+
+  pattern:
+    source:
+      - collapse-loop[MBTI][ohaeng]
+      - mbti.base_loop
+    logic:
+      - 행동 흐름 화살표 구조
+      - 관계 패턴 포함
+      - 자기 의심 문장 1개 포함
+    length: "800~1000"
+
+  timingSense:
+    source:
+      - ohaeng.collapse_trigger
+      - collapse-loop[MBTI][ohaeng]
+      - mbti.timing_hint
+    logic:
+      - 과열 신호 3개 이상
+      - 붕괴 직전 신호
+      - 조절 전략 (예언 금지)
+    length: "800~1000"

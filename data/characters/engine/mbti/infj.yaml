@@ -1,0 +1,50 @@
+id: INFJ
+stack: Ni-Fe-Ti-Se
+
+dominant:
+  function: Ni
+  question: "세상을 어떻게 인식하는가?"
+  core: "단일 방향의 의미를 깊게 본다"
+  cognition:
+    - 겉으로 보이는 사건보다 그 이면의 흐름을 읽는다
+    - 여러 가능성을 넓히기보다 하나의 가능성을 깊게 파고든다
+    - 사람의 말보다 '의도'를 감지하려 한다
+  risk:
+    - 과도한 해석
+    - 아직 일어나지 않은 미래를 미리 걱정
+
+auxiliary:
+  function: Fe
+  question: "판단을 어떻게 내리는가?"
+  core: "관계 조화를 기준으로 결정"
+  behavior:
+    - 타인의 감정 변화를 민감하게 감지
+    - 집단 분위기 균형을 맞추려 함
+  conflict_seed: "내 직관 vs 타인의 기대"
+
+tertiary:
+  function: Ti
+  unstable_when:
+    - 자신의 해석이 의심받을 때
+    - 논리 검증을 요구받을 때
+  reaction:
+    - 갑자기 분석 모드로 전환
+    - 스스로의 판단을 과하게 검열
+
+inferior:
+  function: Se
+  stress_response:
+    - 갑작스러운 충동 소비
+    - 감각 자극에 과도하게 몰입
+    - 현실 도피적 행동
+
+base_conflict: "내면 확신 vs 관계 조화"
+external_result:
+  - 조용하지만 영향력 있는 사람으로 보임
+  - 감정적으로 안정적인 이미지
+  - 그러나 혼자 있을 때 피로 누적
+
+base_loop: "직관 형성 → 관계 고려 → 자기검열 → 혼자 정리"
+timing_hint:
+  - 혼자만의 시간이 줄어들 때 직관이 흐려짐
+  - 설명하기 어려운 불안이 길어지면 이미 과부하 상태

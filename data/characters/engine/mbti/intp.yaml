@@ -1,0 +1,45 @@
+id: INTP
+stack: Ti-Ne-Si-Fe
+
+dominant:
+  function: Ti
+  question: "세상을 어떻게 인식하는가?"
+  core: "논리적 구조로 해석"
+  cognition:
+    - 개념 분석
+    - 체계적 정합성 추구
+    - 모순 탐지
+  risk:
+    - 과도한 분석
+    - 실행 지연
+
+auxiliary:
+  function: Ne
+  question: "판단을 어떻게 내리는가?"
+  core: "여러 가능성 탐색"
+  behavior:
+    - 아이디어 실험
+    - 가설 생성
+  conflict_seed: "완벽한 이해 vs 실제 실행"
+
+tertiary:
+  function: Si
+  unstable_when:
+    - 반복 실패 경험
+  reaction:
+    - 자기 의심
+    - 안전 지향
+
+inferior:
+  function: Fe
+  stress_response:
+    - 관계 회피
+    - 갑작스러운 감정 폭발
+
+base_conflict: "논리 완성 vs 현실 참여"
+external_result:
+  - 차분하고 분석적
+  - 감정 표현 적음
+base_loop: "분석→가설확장→지연→관계거리→Fe폭발"
+timing_hint:
+  - 결론 미루기가 길어지면 과부하 신호

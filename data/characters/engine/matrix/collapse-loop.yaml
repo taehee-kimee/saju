@@ -1,0 +1,217 @@
+ENFP:
+  base: "흥미→확장→분산→자기의심"
+  wood:
+    loop: "과확장→일정폭증→집중붕괴→급정지"
+    visible: "갑자기 멈춤"
+    internal: "왜 이렇게 벌였지?"
+  fire:
+    loop: "감정과열→몰입폭증→탈진→냉각"
+    visible: "에너지 급락"
+    internal: "아무도 날 이해 못해"
+  earth:
+    loop: "책임수용→부담누적→압박→회피"
+    visible: "조용한 지연"
+    internal: "이건 나답지 않아"
+  metal:
+    loop: "기준형성→실망→관계절단→후회"
+    visible: "갑작스러운 거리두기"
+    internal: "잘라야 했나?"
+  water:
+    loop: "몰입→피로→잠수→단절"
+    visible: "연락 감소"
+    internal: "조금만 혼자 있고 싶어"
+
+INFJ:
+  base: "직관형성→관계고려→자기검열→고립"
+  wood:
+    loop: "확신가속→설득강화→저항→철수"
+  fire:
+    loop: "이상과열→기대상승→실망→탈진"
+  earth:
+    loop: "책임수용→고립심화→피로축적"
+  metal:
+    loop: "실망→관계정리→침묵"
+  water:
+    loop: "내면침잠→거리확대→단절"
+
+INTJ:
+  base: "전략수립→압박→감정누락→Se폭발"
+  wood:
+    loop: "목표확장→과속→통제강화→붕괴"
+  fire:
+    loop: "통제과열→충돌→분리"
+  earth:
+    loop: "구조고착→유연성상실→마찰"
+  metal:
+    loop: "기준강화→절단→고립"
+  water:
+    loop: "내부고립→감정차단"
+
+ENFJ:
+  base: "조율→헌신→과부하→차가운분리"
+  wood:
+    loop: "영향력확장→과열→탈진"
+  fire:
+    loop: "리더십과열→기대폭증→붕괴"
+  earth:
+    loop: "헌신과부하→자기소모→고립"
+  metal:
+    loop: "실망→관계정리→침묵"
+  water:
+    loop: "감정침잠→거리확대"
+
+INFP:
+  base: "감정확신→가능성탐색→회피→압박폭발"
+  wood:
+    loop: "가치확장→에너지분산→정지"
+  fire:
+    loop: "감정폭증→상처심화→차단"
+  earth:
+    loop: "책임압박→회피→자기비판"
+  metal:
+    loop: "가치절단→고립"
+  water:
+    loop: "침잠→연락단절"
+
+ENTJ:
+  base: "목표설정→밀어붙임→저항→Fi붕괴"
+  wood:
+    loop: "목표확장→과속→마찰"
+  fire:
+    loop: "성과과열→압박강화→충돌"
+  earth:
+    loop: "통제고착→팀고립"
+  metal:
+    loop: "절단→고립"
+  water:
+    loop: "감정분리→내부공허"
+
+ISTJ:
+  base: "경험비교→판단→저항→불안확대"
+  wood:
+    loop: "변화압박→통제강화→피로"
+  fire:
+    loop: "통제과열→충돌"
+  earth:
+    loop: "과책임→고립"
+  metal:
+    loop: "기준강화→단절"
+  water:
+    loop: "불안침잠→회피"
+
+ISFJ:
+  base: "책임수행→억제→피로→불안확대"
+  wood:
+    loop: "책임확장→과부하"
+  fire:
+    loop: "헌신과열→탈진"
+  earth:
+    loop: "자기소모→침묵"
+  metal:
+    loop: "조용한절단"
+  water:
+    loop: "감정침잠→거리"
+
+ESTJ:
+  base: "기준설정→통제→저항→Fi폭발"
+  wood:
+    loop: "조직확장→통제강화"
+  fire:
+    loop: "통제과열→충돌"
+  earth:
+    loop: "책임과부하"
+  metal:
+    loop: "강경절단"
+  water:
+    loop: "내부불만축적"
+
+ESFJ:
+  base: "돌봄→인정기대→피로→거리두기"
+  wood:
+    loop: "관계확장→과부하"
+  fire:
+    loop: "감정과열→탈진"
+  earth:
+    loop: "돌봄과부하"
+  metal:
+    loop: "관계정리"
+  water:
+    loop: "감정잠수"
+
+ENTP:
+  base: "아이디어→토론→확장→Si불안"
+  wood:
+    loop: "아이디어폭증→분산"
+  fire:
+    loop: "논쟁과열→마찰"
+  earth:
+    loop: "실행압박→지연"
+  metal:
+    loop: "개념절단→관계마찰"
+  water:
+    loop: "내부불안→회피"
+
+INTP:
+  base: "분석→확장→지연→Fe폭발"
+  wood:
+    loop: "가설확장→완성지연"
+  fire:
+    loop: "논리과열→고립"
+  earth:
+    loop: "분석고착"
+  metal:
+    loop: "사고절단→관계단절"
+  water:
+    loop: "관계회피"
+
+ISTP:
+  base: "분석→즉각대응→거리→Fe과부하"
+  wood:
+    loop: "실험확장→분산"
+  fire:
+    loop: "즉각과열"
+  earth:
+    loop: "책임압박→회피"
+  metal:
+    loop: "관계절단"
+  water:
+    loop: "내면분리"
+
+ISFP:
+  base: "감정→경험몰입→억제→Te폭발"
+  wood:
+    loop: "감정확장→분산"
+  fire:
+    loop: "감정과열→탈진"
+  earth:
+    loop: "책임부담→침묵"
+  metal:
+    loop: "관계절단"
+  water:
+    loop: "감정침잠"
+
+ESTP:
+  base: "행동→과속→Ni불안"
+  wood:
+    loop: "행동확장→과속"
+  fire:
+    loop: "속도과열→충돌"
+  earth:
+    loop: "통제압박"
+  metal:
+    loop: "관계정리"
+  water:
+    loop: "미래불안"
+
+ESFP:
+  base: "경험→과몰입→Ni불안"
+  wood:
+    loop: "경험확장→피로"
+  fire:
+    loop: "감정과열→탈진"
+  earth:
+    loop: "현실압박→회피"
+  metal:
+    loop: "관계절단"
+  water:
+    loop: "의미침잠"

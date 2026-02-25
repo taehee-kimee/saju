@@ -1,0 +1,111 @@
+ENFP:
+  wood: "과확장"
+  fire: "감정과열"
+  earth: "책임과부하"
+  metal: "관계선긋기"
+  water: "감정침잠"
+
+INFJ:
+  wood: "직관확신가속"
+  fire: "이상과열"
+  earth: "책임고립"
+  metal: "관계차단"
+  water: "내면침잠"
+
+INTJ:
+  wood: "전략확장"
+  fire: "통제과열"
+  earth: "구조고착"
+  metal: "과감한절단"
+  water: "내부고립"
+
+ENFJ:
+  wood: "영향력확장"
+  fire: "리더십과열"
+  earth: "헌신과부하"
+  metal: "관계정리"
+  water: "감정잠수"
+
+INFP:
+  wood: "가치확장"
+  fire: "감정폭증"
+  earth: "책임회피압박"
+  metal: "가치절단"
+  water: "침잠고립"
+
+ENTJ:
+  wood: "목표확장"
+  fire: "성과과열"
+  earth: "통제고착"
+  metal: "강한절단"
+  water: "감정분리"
+
+ISTJ:
+  wood: "변화압박"
+  fire: "통제강화"
+  earth: "과책임"
+  metal: "기준강화"
+  water: "불안침잠"
+
+ISFJ:
+  wood: "책임확장"
+  fire: "헌신과열"
+  earth: "자기소모"
+  metal: "조용한거리두기"
+  water: "감정침잠"
+
+ESTJ:
+  wood: "조직확장"
+  fire: "통제과열"
+  earth: "책임과부하"
+  metal: "강경선긋기"
+  water: "내부불만"
+
+ESFJ:
+  wood: "관계확장"
+  fire: "감정과열"
+  earth: "돌봄과부하"
+  metal: "관계정리"
+  water: "감정잠수"
+
+ENTP:
+  wood: "아이디어폭증"
+  fire: "논쟁과열"
+  earth: "실행지연압박"
+  metal: "개념절단"
+  water: "내부불안"
+
+INTP:
+  wood: "가설확장"
+  fire: "논리과열"
+  earth: "분석고착"
+  metal: "사고절단"
+  water: "관계단절"
+
+ISTP:
+  wood: "실험확장"
+  fire: "즉각과열"
+  earth: "책임압박"
+  metal: "관계선긋기"
+  water: "내면분리"
+
+ISFP:
+  wood: "감정확장"
+  fire: "감정과열"
+  earth: "책임부담"
+  metal: "관계절단"
+  water: "감정침잠"
+
+ESTP:
+  wood: "행동확장"
+  fire: "속도과열"
+  earth: "통제압박"
+  metal: "관계정리"
+  water: "미래불안"
+
+ESFP:
+  wood: "경험확장"
+  fire: "감정과열"
+  earth: "현실압박"
+  metal: "관계선긋기"
+  water: "의미침잠"

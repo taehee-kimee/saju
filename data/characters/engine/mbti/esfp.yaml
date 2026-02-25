@@ -1,0 +1,44 @@
+id: ESFP
+stack: Se-Fi-Te-Ni
+
+dominant:
+  function: Se
+  question: "세상을 어떻게 인식하는가?"
+  core: "경험과 감각 중심"
+  cognition:
+    - 현실 자극에 즉각 반응
+    - 즐거움과 생동감 중시
+    - 분위기 민감
+  risk:
+    - 과소비
+    - 과몰입
+
+auxiliary:
+  function: Fi
+  question: "판단을 어떻게 내리는가?"
+  core: "내 감정 기준"
+  behavior:
+    - 개인적 만족 우선
+    - 진정성 중시
+  conflict_seed: "즐거움 vs 장기 계획"
+
+tertiary:
+  function: Te
+  unstable_when:
+    - 성과 요구
+  reaction:
+    - 갑작스러운 효율 모드
+
+inferior:
+  function: Ni
+  stress_response:
+    - 미래 불안 확대
+    - 의미 고민 과잉
+
+base_conflict: "현재 만족 vs 미래 방향"
+external_result:
+  - 밝고 사교적
+  - 현장 에너지 강함
+base_loop: "경험몰입→과속→피로→Ni불안"
+timing_hint:
+  - 의미 고민이 깊어지면 이미 에너지 고갈 상태

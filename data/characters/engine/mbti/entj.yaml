@@ -1,0 +1,45 @@
+id: ENTJ
+stack: Te-Ni-Se-Fi
+
+dominant:
+  function: Te
+  question: "세상을 어떻게 인식하는가?"
+  core: "구조와 효율로 본다"
+  cognition:
+    - 비효율을 빠르게 감지
+    - 목표 중심 사고
+    - 시스템 재정비 본능
+  risk:
+    - 속도 과열
+    - 감정 변수 무시
+
+auxiliary:
+  function: Ni
+  question: "판단을 어떻게 내리는가?"
+  core: "장기 전략 설계"
+  behavior:
+    - 미래 역산
+    - 방향성 확정 후 밀어붙임
+  conflict_seed: "전략 확신 vs 현실 변수"
+
+tertiary:
+  function: Se
+  unstable_when:
+    - 결과 지연
+  reaction:
+    - 즉각 실행
+    - 강한 압박
+
+inferior:
+  function: Fi
+  stress_response:
+    - 내부 가치 충돌
+    - 갑작스러운 감정 붕괴
+
+base_conflict: "성과 달성 vs 개인 감정"
+external_result:
+  - 강한 추진력
+  - 리더 이미지
+base_loop: "목표설정→밀어붙임→저항→압박→Fi붕괴"
+timing_hint:
+  - 짜증이 늘면 이미 감정 누락 신호

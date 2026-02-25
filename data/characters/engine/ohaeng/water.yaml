@@ -1,0 +1,28 @@
+id: water
+core_direction: "침잠 수렴"
+energy_movement:
+  - 외부보다 내부로 흐름
+  - 감정/생각을 깊게 축적
+  - 표면 반응은 적음
+
+acceleration_trigger:
+  - 감정 몰입
+  - 혼자 있는 시간
+  - 깊은 관계 형성
+
+collapse_trigger:
+  - 감정 과부하
+  - 이해받지 못함
+  - 반복적 소모
+
+conflict_axis: "내면 유지 vs 외부 연결"
+
+energy_loop: "몰입→침잠→단절→회복"
+
+external_impression:
+  - 차분함
+  - 조용함
+
+internal_experience:
+  - 깊은 파동
+  - 갑작스러운 거리두기

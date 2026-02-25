@@ -1,0 +1,45 @@
+id: ISFJ
+stack: Si-Fe-Ti-Ne
+
+dominant:
+  function: Si
+  question: "세상을 어떻게 인식하는가?"
+  core: "경험과 책임 기준"
+  cognition:
+    - 익숙한 역할 인식
+    - 책임감 우선
+    - 안정적 관계 유지
+  risk:
+    - 자기 욕구 억제
+    - 과도한 책임
+
+auxiliary:
+  function: Fe
+  question: "판단을 어떻게 내리는가?"
+  core: "관계 조화"
+  behavior:
+    - 타인 배려
+    - 갈등 회피
+  conflict_seed: "책임 vs 자기 감정"
+
+tertiary:
+  function: Ti
+  unstable_when:
+    - 억울함 누적
+  reaction:
+    - 내부 분석
+    - 조용한 거리두기
+
+inferior:
+  function: Ne
+  stress_response:
+    - 불안 상상
+    - 미래 걱정 확대
+
+base_conflict: "책임 수행 vs 자기 소모"
+external_result:
+  - 따뜻하고 성실함
+  - 조용한 헌신
+base_loop: "책임수행→억제→피로→불안확대"
+timing_hint:
+  - '나만 참고 있다'는 생각이 들면 과부하 신호

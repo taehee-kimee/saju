@@ -1,0 +1,44 @@
+id: ISFP
+stack: Fi-Se-Ni-Te
+
+dominant:
+  function: Fi
+  question: "세상을 어떻게 인식하는가?"
+  core: "감정 진정성 기준"
+  cognition:
+    - 감정의 진실 여부 판단
+    - 개인적 가치 중심 해석
+    - 타인의 말보다 분위기 체감
+  risk:
+    - 상처 축적
+    - 표현 지연
+
+auxiliary:
+  function: Se
+  question: "판단을 어떻게 내리는가?"
+  core: "현재 감각 중심"
+  behavior:
+    - 즉흥적 경험 중시
+    - 감각 몰입
+  conflict_seed: "내 감정 보호 vs 외부 요구"
+
+tertiary:
+  function: Ni
+  unstable_when:
+    - 미래 방향 압박
+  reaction:
+    - 불확실성 회피
+
+inferior:
+  function: Te
+  stress_response:
+    - 갑작스러운 단호함
+    - 감정 억제 후 폭발
+
+base_conflict: "내 가치 유지 vs 현실 구조"
+external_result:
+  - 조용하고 부드러움
+  - 예술적 감각
+base_loop: "감정확인→경험몰입→억제→Te폭발"
+timing_hint:
+  - 감정을 오래 말하지 않으면 과부하 신호

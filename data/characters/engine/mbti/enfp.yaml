@@ -1,0 +1,49 @@
+id: ENFP
+stack: Ne-Fi-Te-Si
+
+dominant:
+  function: Ne
+  question: "세상을 어떻게 인식하는가?"
+  core: "가능성을 확장한다"
+  cognition:
+    - 하나의 상황에서 여러 방향을 본다
+    - 대화 중에도 연결고리를 만든다
+    - 현재보다 잠재 가능성에 끌린다
+  risk:
+    - 과확장
+    - 집중 분산
+
+auxiliary:
+  function: Fi
+  question: "판단을 어떻게 내리는가?"
+  core: "감정 일치 기준"
+  behavior:
+    - 외부 기준보다 내부 납득 우선
+    - 진정성이 없으면 지속 불가
+  conflict_seed: "확장 vs 진정성"
+
+tertiary:
+  function: Te
+  unstable_when:
+    - 결과 압박
+    - 마감
+    - 구조 정리 요구
+  reaction:
+    - 갑작스러운 효율 집착
+    - 단호한 태도
+
+inferior:
+  function: Si
+  stress_response:
+    - 과거 복기
+    - 사소한 실수 집착
+    - 후회 반복
+
+base_conflict: "확장 vs 일관성"
+external_result:
+  - 에너지 넘침
+  - 아이디어 풍부
+  - 마무리 기복
+base_loop: "흥미→확장→감정확인→분산→급정지"
+timing_hint:
+  - 동시에 여러 시작이 늘어날 때 과부하 신호

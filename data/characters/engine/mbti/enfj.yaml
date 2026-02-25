@@ -1,0 +1,50 @@
+id: ENFJ
+stack: Fe-Ni-Se-Ti
+
+dominant:
+  function: Fe
+  question: "세상을 어떻게 인식하는가?"
+  core: "사람 사이의 감정 흐름을 먼저 본다"
+  cognition:
+    - 대화의 내용보다 분위기 변화를 빠르게 감지
+    - 집단의 긴장, 소외, 기대를 읽으려 함
+    - 관계의 온도를 기준으로 상황을 해석
+  risk:
+    - 타인의 감정에 과도하게 동조
+    - 자신의 피로 신호를 늦게 인식
+
+auxiliary:
+  function: Ni
+  question: "판단을 어떻게 내리는가?"
+  core: "관계의 미래 방향을 설계한다"
+  behavior:
+    - 지금의 선택이 장기적으로 어떤 흐름을 만들지 계산
+    - 집단의 방향성을 그리며 설득
+  conflict_seed: "타인 기대 vs 내 직관 확신"
+
+tertiary:
+  function: Se
+  unstable_when:
+    - 빠른 성과를 요구받을 때
+    - 영향력을 즉시 보여줘야 할 때
+  reaction:
+    - 실행 속도 과열
+    - 강한 카리스마 모드로 전환
+
+inferior:
+  function: Ti
+  stress_response:
+    - 갑작스러운 차가운 분석
+    - 관계를 논리적으로 재단
+    - '내가 왜 이렇게까지 해야 하지?'라는 내부 분리
+
+base_conflict: "타인 조율 욕구 vs 자기 소모"
+external_result:
+  - 리더십 있고 따뜻한 사람으로 보임
+  - 집단을 자연스럽게 이끎
+  - 그러나 혼자 있을 때 에너지 고갈이 큼
+
+base_loop: "관계 조율 → 헌신 → 과부하 → 차가운 거리두기 → 다시 조율"
+timing_hint:
+  - 설득하려는 충동이 강해질수록 이미 피로가 쌓였을 가능성
+  - 혼자 있는 시간이 줄어들면 판단 정확도 저하

@@ -1,0 +1,44 @@
+id: ESFJ
+stack: Fe-Si-Ne-Ti
+
+dominant:
+  function: Fe
+  question: "세상을 어떻게 인식하는가?"
+  core: "관계 안정과 조화를 본다"
+  cognition:
+    - 타인의 감정 변화에 민감
+    - 집단 내 역할과 책임을 인식
+    - 관계 균형 유지 본능
+  risk:
+    - 과도한 자기 희생
+    - 인정 의존
+
+auxiliary:
+  function: Si
+  question: "판단을 어떻게 내리는가?"
+  core: "경험 기반 안전 판단"
+  behavior:
+    - 익숙한 관계 구조 선호
+    - 책임 반복 수행
+  conflict_seed: "관계 유지 vs 개인 욕구"
+
+tertiary:
+  function: Ne
+  unstable_when:
+    - 관계 변화 신호 감지
+  reaction:
+    - 불안 상상 확대
+
+inferior:
+  function: Ti
+  stress_response:
+    - 갑작스러운 논리적 거리두기
+    - 감정과 분리된 판단
+
+base_conflict: "타인 돌봄 vs 자기 소모"
+external_result:
+  - 따뜻하고 사교적
+  - 책임감 있는 이미지
+base_loop: "돌봄→인정기대→피로→거리두기"
+timing_hint:
+  - '나만 더 노력한다'는 생각이 들면 과부하

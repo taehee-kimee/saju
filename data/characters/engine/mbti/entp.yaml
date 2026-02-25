@@ -1,0 +1,45 @@
+id: ENTP
+stack: Ne-Ti-Fe-Si
+
+dominant:
+  function: Ne
+  question: "세상을 어떻게 인식하는가?"
+  core: "아이디어 확장과 변형"
+  cognition:
+    - 기존 개념을 뒤집음
+    - 가능성 실험
+    - 논쟁과 토론을 통해 사고 확장
+  risk:
+    - 산만함
+    - 마무리 부족
+
+auxiliary:
+  function: Ti
+  question: "판단을 어떻게 내리는가?"
+  core: "논리 구조 검증"
+  behavior:
+    - 개념 정밀 분석
+    - 허점 찾기
+  conflict_seed: "아이디어 확장 vs 구조 완성"
+
+tertiary:
+  function: Fe
+  unstable_when:
+    - 관계 충돌 발생
+  reaction:
+    - 분위기 수습 시도
+    - 농담으로 회피
+
+inferior:
+  function: Si
+  stress_response:
+    - 과거 실패 집착
+    - 사소한 디테일 걱정
+
+base_conflict: "창의 확장 vs 일관성 유지"
+external_result:
+  - 재치 있음
+  - 빠른 사고 전환
+base_loop: "아이디어폭발→토론→확장→분산→Si불안"
+timing_hint:
+  - 동시에 여러 논쟁이 벌어지면 에너지 분산 신호

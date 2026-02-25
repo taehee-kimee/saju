@@ -1,0 +1,28 @@
+id: metal
+core_direction: "절단 선택"
+energy_movement:
+  - 불필요한 것 제거
+  - 명확한 선 긋기
+  - 관계/일 정리
+
+acceleration_trigger:
+  - 실망
+  - 기준 미달
+  - 가치 충돌
+
+collapse_trigger:
+  - 과도한 고립
+  - 후회
+  - 감정 단절
+
+conflict_axis: "선명함 vs 관계 유지"
+
+energy_loop: "판단→절단→정리→고립→재접속"
+
+external_impression:
+  - 단호함
+  - 결단력
+
+internal_experience:
+  - 냉정한 선택 이후의 고요함
+  - 뒤늦은 감정 흔들림

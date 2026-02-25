@@ -1,0 +1,28 @@
+id: earth
+core_direction: "축적 안정"
+energy_movement:
+  - 느리지만 꾸준함
+  - 확장보다 유지와 축적
+  - 안정 영역 강화
+
+acceleration_trigger:
+  - 책임 부여
+  - 장기적 신뢰 형성
+  - 반복 구조 형성
+
+collapse_trigger:
+  - 과도한 책임 누적
+  - 변화 압박
+  - 인정 부족
+
+conflict_axis: "안정 유지 vs 변화 요구"
+
+energy_loop: "축적→과부하→고립→회복"
+
+external_impression:
+  - 안정적
+  - 믿음직함
+
+internal_experience:
+  - 나만 버티는 느낌
+  - 변화에 대한 부담

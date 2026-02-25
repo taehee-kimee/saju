@@ -1,0 +1,28 @@
+id: wood
+core_direction: "확장 가속"
+energy_movement:
+  - 시작을 두려워하지 않음
+  - 영역을 넓히는 방향으로 에너지 이동
+  - 멈춤보다 전진이 기본값
+
+acceleration_trigger:
+  - 새로운 기회 발견
+  - 외부 반응/인정
+  - 가능성 신호 감지
+
+collapse_trigger:
+  - 일정 과포화
+  - 집중 분산
+  - 체력 저하
+
+conflict_axis: "속도 vs 에너지 총량"
+
+energy_loop: "가속→과확장→분산→급정지"
+
+external_impression:
+  - 추진력 있음
+  - 확장 지향적
+
+internal_experience:
+  - 아직 충분하지 않다는 감각
+  - 멈추면 뒤처질 것 같은 압박

@@ -1,0 +1,45 @@
+id: ESTP
+stack: Se-Ti-Fe-Ni
+
+dominant:
+  function: Se
+  question: "세상을 어떻게 인식하는가?"
+  core: "현재 자극 중심"
+  cognition:
+    - 즉각적 기회 포착
+    - 상황 반응 빠름
+    - 현실 감각 뛰어남
+  risk:
+    - 장기 계획 무시
+    - 충동성
+
+auxiliary:
+  function: Ti
+  question: "판단을 어떻게 내리는가?"
+  core: "논리 기반 즉각 판단"
+  behavior:
+    - 빠른 문제 해결
+    - 계산된 리스크 감수
+  conflict_seed: "즉각 행동 vs 장기 안정"
+
+tertiary:
+  function: Fe
+  unstable_when:
+    - 관계 충돌
+  reaction:
+    - 분위기 조정
+    - 매력 활용
+
+inferior:
+  function: Ni
+  stress_response:
+    - 미래 불안 확대
+    - 갑작스러운 방향 혼란
+
+base_conflict: "현재 기회 vs 미래 안정"
+external_result:
+  - 활동적
+  - 대담함
+base_loop: "행동→성과→과속→Ni불안"
+timing_hint:
+  - 지루함이 강해지면 무리한 선택 가능성

@@ -1,0 +1,46 @@
+id: INFP
+stack: Fi-Ne-Si-Te
+
+dominant:
+  function: Fi
+  question: "세상을 어떻게 인식하는가?"
+  core: "내면 감정 기준으로 해석한다"
+  cognition:
+    - 사건을 개인적 의미로 받아들임
+    - 감정의 진위 여부에 민감
+    - 타인의 말보다 '느낌의 진실성'을 본다
+  risk:
+    - 과도한 자기 기준
+    - 상처 축적
+
+auxiliary:
+  function: Ne
+  question: "판단을 어떻게 내리는가?"
+  core: "여러 가능성을 열어둔다"
+  behavior:
+    - 단정 짓지 않음
+    - 다양한 관점 탐색
+  conflict_seed: "내 감정 확신 vs 외부 현실"
+
+tertiary:
+  function: Si
+  unstable_when:
+    - 익숙한 기준이 깨질 때
+  reaction:
+    - 과거 경험 회귀
+    - 안전지대 찾기
+
+inferior:
+  function: Te
+  stress_response:
+    - 갑작스러운 단호함
+    - 효율 집착
+    - 감정 억제 후 폭발
+
+base_conflict: "내면 진실성 vs 현실 실행력"
+external_result:
+  - 조용하지만 깊이 있음
+  - 공감 능력 강함
+base_loop: "감정확신→가능성탐색→회피→압박→Te폭발"
+timing_hint:
+  - 감정이 오래 눌려 있을 때 과부하 신호

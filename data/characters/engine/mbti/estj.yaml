@@ -1,0 +1,45 @@
+id: ESTJ
+stack: Te-Si-Ne-Fi
+
+dominant:
+  function: Te
+  question: "세상을 어떻게 인식하는가?"
+  core: "질서와 효율의 관점으로 본다"
+  cognition:
+    - 비효율과 혼란을 빠르게 감지
+    - 명확한 기준과 역할 분담을 선호
+    - 해야 할 일을 우선순위로 구조화
+  risk:
+    - 융통성 부족
+    - 감정 변수 과소평가
+
+auxiliary:
+  function: Si
+  question: "판단을 어떻게 내리는가?"
+  core: "검증된 경험 기반 판단"
+  behavior:
+    - 과거 성공 방식 반복
+    - 안정적 시스템 유지
+  conflict_seed: "효율 기준 vs 새로운 방식"
+
+tertiary:
+  function: Ne
+  unstable_when:
+    - 예측 불가 변수 등장
+  reaction:
+    - 불필요한 가능성 확대
+    - 최악 시나리오 상상
+
+inferior:
+  function: Fi
+  stress_response:
+    - 갑작스러운 감정 폭발
+    - '내가 왜 이렇게까지 해야 하지?' 내부 반발
+
+base_conflict: "질서 유지 vs 감정 수용"
+external_result:
+  - 책임감 강함
+  - 조직 운영 능력 뛰어남
+base_loop: "기준설정→통제→저항발생→압박→Fi붕괴"
+timing_hint:
+  - 짜증이 늘고 통제 욕구가 강해지면 이미 과부하
