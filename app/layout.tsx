@@ -8,9 +8,12 @@ const adClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
 export const metadata: Metadata = {
   title: '냥세(猫世) - MBTI × 사주 고양이 운세',
   description:
-    'MBTI와 사주팔자로 알아보는 나의 운명 고양이. 20종 고양이 캐릭터 중 나는 누구?',
+    'MBTI와 사주팔자로 알아보는 나의 운세 고양이. 20종 고양이 캐릭터 중 나는 누구?',
+  other: {
+    'google-adsense-account': 'ca-pub-7453204635551596',
+  },
   openGraph: {
-    title: '냥세(猫世) - 나의 운명 고양이는?',
+    title: '냥세(猫世) - 나의 운세 고양이는?',
     description: 'MBTI × 사주 기반 고양이 캐릭터 운세 서비스',
     type: 'website',
   },
