@@ -6,11 +6,11 @@ export default function Home() {
       <div className="text-center max-w-sm">
         <div className="text-8xl mb-4">🐱</div>
         <h1 className="text-4xl font-bold mb-2">냥세</h1>
-        <p className="text-gray-500 mb-2">猫世 · 고양이 운명 분석</p>
+        <p className="text-gray-500 mb-2">猫世 · 고양이 운세 분석</p>
         <p className="text-gray-600 mt-4 mb-8 leading-relaxed">
           MBTI와 사주팔자로 알아보는
           <br />
-          나의 운명 고양이
+          나의 운세 고양이
         </p>
         <div className="flex gap-3 text-sm text-gray-400 justify-center mb-8">
           <span>🌿 오행 분석</span>
@@ -26,7 +26,7 @@ export default function Home() {
           내 고양이 찾기 →
         </Link>
         <p className="text-xs text-gray-400 mt-4">
-          기본 결과 무료 · 상세 리포트 990원
+          기본 결과 물료 · 풀 리포트 1,900원
         </p>
       </div>
     </main>
