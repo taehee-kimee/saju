@@ -1,6 +1,5 @@
 'use client';
 import { Suspense, useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { CatCharacter } from '@/types';
 import { CATS } from '@/data/cats';
 import { getMbtiGroup } from '@/lib/mbti';
@@ -17,11 +16,6 @@ export default function ReportPage() {
 }
 
 function ReportContent() {
-  const searchParams = useSearchParams();
-  const debugMode =
-    searchParams.get('debug') === 'true' ||
-    process.env.NEXT_PUBLIC_REPORT_DEBUG === 'true';
-  const [paid, setPaid] = useState(false);
   const [cat, setCat] = useState<CatCharacter | null>(null);
   const [currentMonth] = useState(() => String(new Date().getMonth() + 1));
 
@@ -40,125 +34,81 @@ function ReportContent() {
       const catId = `${group}_${saju.dominantOhaeng}`;
       setCat(CATS[catId]);
     }
+  }, []);
 
-    if (debugMode) {
-      setPaid(true);
-      return;
-    }
-
-    // 결제 성공 후 리다이렉트 처리
-    const paymentKey = searchParams.get('paymentKey');
-    const orderId = searchParams.get('orderId');
-    if (paymentKey && orderId) {
-      fetch('/api/confirm-payment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ paymentKey, orderId, amount: 990 }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success) setPaid(true);
-        });
-    }
-  }, [searchParams, debugMode]);
-
-  const handlePayment = async () => {
-    const { loadTossPayments } = await import(
-      '@tosspayments/tosspayments-sdk'
-    );
-    const toss = await loadTossPayments(
-      process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY!
-    );
-    await (toss as any).requestPayment({
-      method: 'CARD',
-      amount: { currency: 'KRW', value: 990 },
-      orderId: `order_${Date.now()}`,
-      orderName: '냥세 상세 리포트',
-      successUrl: `${window.location.origin}/report?success=true`,
-      failUrl: `${window.location.origin}/report?fail=true`,
-    });
-  };
-
-  if (paid && cat) {
+  if (!cat) {
     return (
-      <main className="min-h-screen p-6 pt-12 max-w-md mx-auto space-y-6">
-        <div className="text-center mb-4">
-          <div className="text-6xl mb-3">{cat.emoji}</div>
-          <h1 className="text-2xl font-bold">{cat.name} 상세 리포트</h1>
+      <main className="min-h-screen flex items-center justify-center p-6">
+        <div className="text-center">
+          <div className="text-6xl mb-4 animate-spin">🔮</div>
+          <p className="text-gray-500">정보를 불러오는 중...</p>
         </div>
-
-        <AdSlot className="w-full" placeholderHeight={100} />
-
-        <section className="mb-4">
-          <h2 className="text-lg font-bold text-orange-500 mb-3">
-            📖 상세 성격 분석
-          </h2>
-          <div className="bg-orange-50 rounded-2xl p-5">
-            <p className="text-gray-700 leading-relaxed">{cat.fullDesc}</p>
-          </div>
-        </section>
-
-        <AdSlot className="w-full" placeholderHeight={100} />
-
-        <section className="mb-4">
-          <h2 className="text-lg font-bold text-orange-500 mb-3">
-            🔮 2026년 운세
-          </h2>
-          <div className="bg-purple-50 rounded-2xl p-5">
-            <p className="text-gray-700 leading-relaxed">{cat.yearFortune}</p>
-          </div>
-        </section>
-
-        <section className="mb-4">
-          <h2 className="text-lg font-bold text-orange-500 mb-3">
-            📅 이달의 운세 ({currentMonth}월)
-          </h2>
-          <div className="bg-blue-50 rounded-2xl p-5">
-            <p className="text-gray-700 leading-relaxed">
-              {cat.monthFortune[currentMonth]}
-            </p>
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-lg font-bold text-orange-500 mb-3">
-            🗓️ 월별 운세
-          </h2>
-          <div className="space-y-2">
-            {Object.entries(cat.monthFortune).map(([month, fortune]) => (
-              <div
-                key={month}
-                className="bg-gray-50 rounded-xl p-4"
-              >
-                <span className="font-bold text-orange-400">{month}월</span>
-                <p className="text-gray-600 text-sm mt-1">{fortune}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <AdSlot className="w-full" placeholderHeight={120} />
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-6">
-      <div className="text-center max-w-sm w-full space-y-4">
-        <div className="text-6xl mb-2">🐱</div>
-        <h1 className="text-2xl font-bold">상세 리포트</h1>
-        <p className="text-gray-500">
-          상세 성격 분석 + 올해 운세 + 월별 운세를 확인하세요
-        </p>
-        <AdSlot className="w-full" placeholderHeight={100} />
-        <button
-          onClick={handlePayment}
-          className="w-full p-4 bg-orange-400 text-white rounded-xl font-bold text-lg"
-        >
-          990원으로 전체 보기 🔓
-        </button>
-        <AdSlot className="w-full" placeholderHeight={100} />
+    <main className="min-h-screen p-6 pt-12 max-w-md mx-auto space-y-6">
+      <div className="text-center mb-4">
+        <div className="text-6xl mb-3">{cat.emoji}</div>
+        <h1 className="text-2xl font-bold">{cat.name} 상세 리포트</h1>
       </div>
+
+      <AdSlot className="w-full" placeholderHeight={100} />
+
+      <section className="mb-4">
+        <h2 className="text-lg font-bold text-orange-500 mb-3">
+          📖 상세 성격 분석
+        </h2>
+        <div className="bg-orange-50 rounded-2xl p-5">
+          <p className="text-gray-700 leading-relaxed">{cat.fullDesc}</p>
+        </div>
+      </section>
+
+      <AdSlot className="w-full" placeholderHeight={100} />
+
+      <section className="mb-4">
+        <h2 className="text-lg font-bold text-orange-500 mb-3">
+          🔮 2026년 운세
+        </h2>
+        <div className="bg-purple-50 rounded-2xl p-5">
+          <p className="text-gray-700 leading-relaxed">{cat.yearFortune}</p>
+        </div>
+      </section>
+
+      <AdSlot className="w-full" placeholderHeight={100} />
+
+      <section className="mb-4">
+        <h2 className="text-lg font-bold text-orange-500 mb-3">
+          📅 이달의 운세 ({currentMonth}월)
+        </h2>
+        <div className="bg-blue-50 rounded-2xl p-5">
+          <p className="text-gray-700 leading-relaxed">
+            {cat.monthFortune[currentMonth]}
+          </p>
+        </div>
+      </section>
+
+      <AdSlot className="w-full" placeholderHeight={100} />
+
+      <section>
+        <h2 className="text-lg font-bold text-orange-500 mb-3">
+          🗓️ 월별 운세
+        </h2>
+        <div className="space-y-2">
+          {Object.entries(cat.monthFortune).map(([month, fortune]) => (
+            <div
+              key={month}
+              className="bg-gray-50 rounded-xl p-4"
+            >
+              <span className="font-bold text-orange-400">{month}월</span>
+              <p className="text-gray-600 text-sm mt-1">{fortune}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <AdSlot className="w-full" placeholderHeight={120} />
     </main>
   );
 }

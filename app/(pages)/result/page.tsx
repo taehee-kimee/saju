@@ -118,11 +118,21 @@ export default function ResultPage() {
             onClick={() => router.push('/report')}
             className="w-full p-4 bg-orange-400 text-white rounded-xl font-bold"
           >
-            상세 분석 보기 · 990원 🐱
+            상세 분석 보기 🐱
           </button>
           <div className="mt-4">
             <ShareCard cat={cat} saju={saju} mbti={mbti!} />
           </div>
+          <button
+            onClick={() => {
+              sessionStorage.removeItem('mbti');
+              sessionStorage.removeItem('birthInfo');
+              router.push('/test');
+            }}
+            className="w-full p-3 border-2 border-gray-200 text-gray-600 rounded-xl text-sm font-medium hover:border-orange-300 hover:text-orange-500 transition-colors"
+          >
+            다시 테스트하기 🔄
+          </button>
         </div>
 
         <div className="w-full max-w-sm mt-8">
