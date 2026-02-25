@@ -1,0 +1,63 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
+
+const TossPayment = dynamic(() => import('@/components/TossPayment'), {
+  ssr: false,
+});
+
+export default function PaymentPage() {
+  const router = useRouter();
+
+  const handleSuccess = (paymentKey: string, orderId: string) => {
+    // Will be handled by redirect URL
+    console.log('Payment success:', paymentKey, orderId);
+  };
+
+  const handleFail = (error: any) => {
+    console.error('Payment failed:', error);
+    alert('결제에 실패했습니다. 다시 시도해주세요.');
+  };
+
+  return (
+    <main className="min-h-screen p-6 max-w-md mx-auto">
+      <h1 className="text-2xl font-bold mb-2">풀리포트 구매</h1>
+      <p className="text-gray-500 mb-6">냥세 풀리포트를 확인핵보세요!</p>
+      
+      <div className="bg-orange-50 rounded-2xl p-5 mb-6">
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-gray-600">상품명</span>
+          <span className="font-medium">냥세 풀리포트</span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-gray-600">금액</span>
+          <span className="text-xl font-bold text-orange-500">1,900원</span>
+        </div>
+      </div>
+
+      <div className="bg-gray-50 rounded-2xl p-4 mb-6">
+        <h3 className="font-bold text-gray-700 mb-3">포함 내용</h3>
+        <ul className="space-y-2 text-sm text-gray-600">
+          <li>✅ 냥세 한 줄 진단</li>
+          <li>✅ 오행 밸런스 지도</li>
+          <li>✅ MBTI 행동 엔진</li>
+          <li>✅ 사주×MBTI 결합 해석</li>
+          <li>✅ 7일 실행 플랜 (7개)</li>
+          <li>🔓 연애 운세</li>
+          <li>🔓 재물 운세</li>
+          <li>🔓 커리어 운세</li>
+          <li>🔓 건강 운세</li>
+          <li>🔓 인간관계 운세</li>
+        </ul>
+      </div>
+
+      <TossPayment
+        amount={1900}
+        orderName="냥세 풀리포트"
+        onSuccess={handleSuccess}
+        onFail={handleFail}
+      />
+    </main>
+  );
+}

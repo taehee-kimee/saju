@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 const HOURS = [
-  { value: '12', label: '태어난 시간 모름' },
+  { value: 'unknown', label: '태어난 시간 모름' },
   ...Array.from({ length: 24 }, (_, i) => ({ value: String(i), label: `${i}시` }))
 ];
 
@@ -13,7 +13,7 @@ export default function SajuPage() {
     year: '',
     month: '',
     day: '',
-    hour: '12',
+    hour: 'unknown',
   });
   const [showHourPicker, setShowHourPicker] = useState(false);
 
