@@ -6,6 +6,7 @@ import { getMbtiGroup } from '@/lib/mbti';
 import { getCatCharacter } from '@/lib/catMapper';
 import OhaengBar from '@/components/OhaengBar';
 import ShareCard from '@/components/ShareCard';
+import AdSlot from '@/components/AdSlot';
 import { CatCharacter, MbtiType, SajuResult } from '@/types';
 
 export default function ResultPage() {
@@ -103,9 +104,13 @@ export default function ResultPage() {
           <p className="text-gray-700 leading-relaxed">{cat.shortDesc}</p>
         </div>
 
-        <div className="w-full max-w-sm mb-8">
+        <div className="w-full max-w-sm mb-6">
           <h3 className="font-bold mb-3 text-gray-700">나의 오행 에너지</h3>
           <OhaengBar ohaeng={saju.ohaeng} dominant={saju.dominantOhaeng} />
+        </div>
+
+        <div className="w-full max-w-sm mb-6">
+          <AdSlot className="w-full" placeholderHeight={140} />
         </div>
 
         <div className="space-y-3 w-full max-w-sm">
@@ -118,6 +123,10 @@ export default function ResultPage() {
           <div className="mt-4">
             <ShareCard cat={cat} saju={saju} mbti={mbti!} />
           </div>
+        </div>
+
+        <div className="w-full max-w-sm mt-8">
+          <AdSlot className="w-full" placeholderHeight={140} />
         </div>
       </div>
     </main>

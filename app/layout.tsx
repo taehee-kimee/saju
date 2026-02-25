@@ -1,5 +1,9 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import './globals.css';
+
+const enableAds = process.env.NEXT_PUBLIC_ENABLE_ADS === 'true';
+const adClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
 
 export const metadata: Metadata = {
   title: '냥세(猫世) - MBTI × 사주 고양이 운세',
@@ -19,7 +23,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className="bg-white text-gray-900 antialiased">{children}</body>
+      <body className="bg-white text-gray-900 antialiased">
+        {enableAds && adClient && (
+          <Script
+            id="adsense-script"
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adClient}`}
+            strategy="lazyOnload"
+            crossOrigin="anonymous"
+          />
+        )}
+        {children}
+      </body>
     </html>
   );
 }

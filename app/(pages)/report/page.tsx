@@ -5,6 +5,7 @@ import { CatCharacter } from '@/types';
 import { CATS } from '@/data/cats';
 import { getMbtiGroup } from '@/lib/mbti';
 import { calculateSaju } from '@/lib/saju';
+import AdSlot from '@/components/AdSlot';
 import type { MbtiType } from '@/types';
 
 export default function ReportPage() {
@@ -80,13 +81,15 @@ function ReportContent() {
 
   if (paid && cat) {
     return (
-      <main className="min-h-screen p-6 pt-12 max-w-md mx-auto">
-        <div className="text-center mb-8">
+      <main className="min-h-screen p-6 pt-12 max-w-md mx-auto space-y-6">
+        <div className="text-center mb-4">
           <div className="text-6xl mb-3">{cat.emoji}</div>
           <h1 className="text-2xl font-bold">{cat.name} 상세 리포트</h1>
         </div>
 
-        <section className="mb-8">
+        <AdSlot className="w-full" placeholderHeight={100} />
+
+        <section className="mb-4">
           <h2 className="text-lg font-bold text-orange-500 mb-3">
             📖 상세 성격 분석
           </h2>
@@ -95,7 +98,9 @@ function ReportContent() {
           </div>
         </section>
 
-        <section className="mb-8">
+        <AdSlot className="w-full" placeholderHeight={100} />
+
+        <section className="mb-4">
           <h2 className="text-lg font-bold text-orange-500 mb-3">
             🔮 2026년 운세
           </h2>
@@ -104,7 +109,7 @@ function ReportContent() {
           </div>
         </section>
 
-        <section className="mb-8">
+        <section className="mb-4">
           <h2 className="text-lg font-bold text-orange-500 mb-3">
             📅 이달의 운세 ({currentMonth}월)
           </h2>
@@ -131,24 +136,28 @@ function ReportContent() {
             ))}
           </div>
         </section>
+
+        <AdSlot className="w-full" placeholderHeight={120} />
       </main>
     );
   }
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-6">
-      <div className="text-center max-w-sm">
-        <div className="text-6xl mb-4">🐱</div>
-        <h1 className="text-2xl font-bold mb-2">상세 리포트</h1>
-        <p className="text-gray-500 mb-8">
+      <div className="text-center max-w-sm w-full space-y-4">
+        <div className="text-6xl mb-2">🐱</div>
+        <h1 className="text-2xl font-bold">상세 리포트</h1>
+        <p className="text-gray-500">
           상세 성격 분석 + 올해 운세 + 월별 운세를 확인하세요
         </p>
+        <AdSlot className="w-full" placeholderHeight={100} />
         <button
           onClick={handlePayment}
           className="w-full p-4 bg-orange-400 text-white rounded-xl font-bold text-lg"
         >
           990원으로 전체 보기 🔓
         </button>
+        <AdSlot className="w-full" placeholderHeight={100} />
       </div>
     </main>
   );
