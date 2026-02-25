@@ -32,7 +32,18 @@ export default function RootLayout({
             crossOrigin="anonymous"
           />
         )}
-        {children}
+        <div className="min-h-screen flex flex-col">
+          <div className="flex-1">{children}</div>
+          <footer className="border-t border-gray-100 bg-white/80 backdrop-blur px-4 py-6 text-xs text-gray-500 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-center">
+            <span className="text-gray-400">© 2026 냥세</span>
+            <span className="hidden sm:inline">·</span>
+            <a href="/legal/privacy" className="hover:text-gray-700">개인정보처리방침</a>
+            <span className="hidden sm:inline">·</span>
+            <a href="/legal/terms" className="hover:text-gray-700">이용약관</a>
+            <span className="hidden sm:inline">·</span>
+            <span className="text-gray-400">문의: hello@nyangsae.app</span>
+          </footer>
+        </div>
       </body>
     </html>
   );
