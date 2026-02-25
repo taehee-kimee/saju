@@ -582,7 +582,7 @@ export const CAT_CONTENTS: Record<string, CatContent> = {
   },
 
 // 모든 캐릭터 목록
-export const CAT_IDS = [
+export const CAT_IDS: string[] = [
   "NT_木", "NT_火", "NT_土", "NT_金", "NT_水",
   "NF_木", "NF_火", "NF_土", "NF_金", "NF_水",
   "ST_木", "ST_火", "ST_土", "ST_金", "ST_水",
