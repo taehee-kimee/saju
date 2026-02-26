@@ -9,24 +9,12 @@ interface TossPaymentProps {
   onFail: (error: Error) => void;
 }
 
-interface PaymentWidgets {
-  setAmount(params: { currency: 'KRW'; value: number }): Promise<void>;
-  renderPaymentMethods(params: {
-    selector: string;
-    variantKey: string;
-  }): Promise<void>;
-  renderAgreement(params: { selector: string; variantKey: string }): Promise<void>;
-  requestPayment(params: {
-    orderId: string;
-    orderName: string;
-    successUrl: string;
-    failUrl: string;
-  }): Promise<void>;
-}
+type TossPaymentsInstance = Awaited<ReturnType<typeof loadTossPayments>>;
+type TossWidgets = ReturnType<TossPaymentsInstance['widgets']>;
 
 export default function TossPayment({ amount, orderName, onFail }: TossPaymentProps) {
   const [ready, setReady] = useState(false);
-  const [widgets, setWidgets] = useState<PaymentWidgets | null>(null);
+  const [widgets, setWidgets] = useState<TossWidgets | null>(null);
 
   useEffect(() => {
     async function initPayment() {
@@ -39,7 +27,7 @@ export default function TossPayment({ amount, orderName, onFail }: TossPaymentPr
         const tossPayments = await loadTossPayments(clientKey);
         const widgetsInstance = tossPayments.widgets({
           customerKey: ANONYMOUS,
-        }) as PaymentWidgets;
+        });
         
         await widgetsInstance.setAmount({
           currency: 'KRW',
