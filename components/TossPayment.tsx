@@ -6,21 +6,40 @@ import { loadTossPayments, ANONYMOUS } from '@tosspayments/tosspayments-sdk';
 interface TossPaymentProps {
   amount: number;
   orderName: string;
-  onSuccess: (paymentKey: string, orderId: string) => void;
-  onFail: (error: any) => void;
+  onFail: (error: Error) => void;
 }
 
-export default function TossPayment({ amount, orderName, onSuccess, onFail }: TossPaymentProps) {
+interface PaymentWidgets {
+  setAmount(params: { currency: 'KRW'; value: number }): Promise<void>;
+  renderPaymentMethods(params: {
+    selector: string;
+    variantKey: string;
+  }): Promise<void>;
+  renderAgreement(params: { selector: string; variantKey: string }): Promise<void>;
+  requestPayment(params: {
+    orderId: string;
+    orderName: string;
+    successUrl: string;
+    failUrl: string;
+  }): Promise<void>;
+}
+
+export default function TossPayment({ amount, orderName, onFail }: TossPaymentProps) {
   const [ready, setReady] = useState(false);
-  const [widgets, setWidgets] = useState<any>(null);
+  const [widgets, setWidgets] = useState<PaymentWidgets | null>(null);
 
   useEffect(() => {
     async function initPayment() {
       try {
-        const tossPayments = await loadTossPayments(process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY!);
+        const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY;
+        if (!clientKey) {
+          throw new Error('NEXT_PUBLIC_TOSS_CLIENT_KEY is not configured');
+        }
+
+        const tossPayments = await loadTossPayments(clientKey);
         const widgetsInstance = tossPayments.widgets({
           customerKey: ANONYMOUS,
-        });
+        }) as PaymentWidgets;
         
         await widgetsInstance.setAmount({
           currency: 'KRW',
@@ -40,27 +59,35 @@ export default function TossPayment({ amount, orderName, onSuccess, onFail }: To
         setWidgets(widgetsInstance);
         setReady(true);
       } catch (error) {
+        const normalizedError =
+          error instanceof Error
+            ? error
+            : new Error('결제 초기화에 실패했습니다.');
         console.error('Payment init failed:', error);
-        onFail(error);
+        onFail(normalizedError);
       }
     }
 
-    initPayment();
+    void initPayment();
   }, [amount, onFail]);
 
   const handlePayment = async () => {
     if (!widgets) return;
     
     try {
-      const orderId = `nyangsae-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      const orderId = `nyangsae-${Date.now()}-${Math.random()
+        .toString(36)
+        .slice(2, 11)}`;
       await widgets.requestPayment({
         orderId,
         orderName,
-        successUrl: `${window.location.origin}/report?payment=success&orderId=${orderId}`,
+        successUrl: `${window.location.origin}/report?payment=success`,
         failUrl: `${window.location.origin}/payment?payment=fail`,
       });
     } catch (error) {
-      onFail(error);
+      const normalizedError =
+        error instanceof Error ? error : new Error('결제 요청에 실패했습니다.');
+      onFail(normalizedError);
     }
   };
 
