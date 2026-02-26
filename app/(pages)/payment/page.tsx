@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
 const TossPayment = dynamic(() => import('@/components/TossPayment'), {
@@ -8,14 +7,7 @@ const TossPayment = dynamic(() => import('@/components/TossPayment'), {
 });
 
 export default function PaymentPage() {
-  const router = useRouter();
-
-  const handleSuccess = (paymentKey: string, orderId: string) => {
-    // Will be handled by redirect URL
-    console.log('Payment success:', paymentKey, orderId);
-  };
-
-  const handleFail = (error: any) => {
+  const handleFail = (error: Error) => {
     console.error('Payment failed:', error);
     alert('결제에 실패했습니다. 다시 시도해주세요.');
   };
@@ -23,7 +15,7 @@ export default function PaymentPage() {
   return (
     <main className="min-h-screen p-6 max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-2">풀리포트 구매</h1>
-      <p className="text-gray-500 mb-6">냥세 풀리포트를 확인핵보세요!</p>
+      <p className="text-gray-500 mb-6">냥세 풀리포트를 확인해보세요!</p>
       
       <div className="bg-orange-50 rounded-2xl p-5 mb-6">
         <div className="flex justify-between items-center mb-2">
@@ -41,9 +33,9 @@ export default function PaymentPage() {
         <ul className="space-y-2 text-sm text-gray-600">
           <li>✅ 냥세 한 줄 진단</li>
           <li>✅ 오행 밸런스 지도</li>
-          <li>✅ MBTI 행동 엔진</li>
           <li>✅ 사주×MBTI 결합 해석</li>
-          <li>✅ 7일 실행 플랜 (7개)</li>
+          <li>✅ 반복 패턴 분석</li>
+          <li>✅ 과부하 신호 가이드</li>
           <li>🔓 연애 운세</li>
           <li>🔓 재물 운세</li>
           <li>🔓 커리어 운세</li>
@@ -55,7 +47,6 @@ export default function PaymentPage() {
       <TossPayment
         amount={1900}
         orderName="냥세 풀리포트"
-        onSuccess={handleSuccess}
         onFail={handleFail}
       />
     </main>

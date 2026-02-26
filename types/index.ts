@@ -26,22 +26,21 @@ export interface Character {
   subtitles: {
     diagnosis: string;
     ohaengMap: string;
-    mbtiEngine: string;
     combination: string;
     pattern: string;
+    timingSense: string;
   };
   sections: {
     diagnosis: string;
     ohaengMap: string;
-    mbtiEngine: string;
     combination: string;
     pattern: string;
+    timingSense: string;
     love: string;
     money: string;
     career: string;
     health: string;
     relationship: string;
-    mission7: string[];
   };
 }
 
