@@ -171,8 +171,22 @@ export default function ResultPage() {
     };
   }, []);
 
+  const [tvLoading, setTvLoading] = useState(false);
+
   const handleUnlock = () => {
     router.push('/payment');
+  };
+
+  const handleTvMode = async () => {
+    setTvLoading(true);
+    try {
+      const res = await fetch('/api/remote/room', { method: 'POST' });
+      if (!res.ok) throw new Error('failed');
+      const data = (await res.json()) as { roomId: string };
+      router.push(`/display/${data.roomId}`);
+    } catch {
+      setTvLoading(false);
+    }
   };
 
   if (loading) {
@@ -264,6 +278,13 @@ export default function ResultPage() {
           <div className="mt-4">
             <ShareCard character={character} saju={saju} mbti={mbti} />
           </div>
+          <button
+            onClick={() => void handleTvMode()}
+            disabled={tvLoading}
+            className="w-full p-3 border-2 border-gray-800 bg-gray-900 text-white rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors disabled:opacity-50"
+          >
+            {tvLoading ? '연결 중...' : '📺 TV 모드로 보기'}
+          </button>
           <button
             onClick={() => {
               sessionStorage.removeItem('mbti');
