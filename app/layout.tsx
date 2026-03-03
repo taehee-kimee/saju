@@ -25,8 +25,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko">
-      <body className="bg-white text-gray-900 antialiased">
+    <html lang="ko" className="font-sans">
+      <body className="bg-white text-gray-900 antialiased font-sans">
         {enableAds && adClient && (
           <Script
             id="adsense-script"
