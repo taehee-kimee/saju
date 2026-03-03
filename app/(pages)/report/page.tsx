@@ -75,6 +75,39 @@ const PAID_SECTION_CONFIG: ReadonlyArray<{
   { key: 'relationship', title: '🤝 인간관계 운세', shortTitle: '관계', emoji: '🤝' },
 ];
 
+const OHAENG_STRATEGY = {
+  '木': {
+    env: { color: '초록·갈색·나무 소재', space: '창가·식물이 있는 공간', time: '이른 아침 (5–9시)' },
+    actions: ['새 프로젝트·계획을 직접 시작하기', '성장 목표를 세우고 기록하기', '산책·자연과 접촉하는 시간', '아이디어를 즉시 행동으로 옮기기'],
+    positiveRelation: '함께 성장할 수 있고 도전을 즐기는 사람',
+    avoidRelation: '현상 유지에 머물며 새 시도를 막는 에너지',
+  },
+  '火': {
+    env: { color: '빨강·주황·밝은 노랑', space: '밝고 활기찬 공간·남향', time: '정오 전후 (10–14시)' },
+    actions: ['규칙적인 유산소 운동', '발표·발언·표현 활동 늘리기', '햇빛 아래 야외 활동', '준비 후 즉각 실행하는 패턴 반복'],
+    positiveRelation: '활동적이고 표현력이 강한 사람·실행을 자극하는 관계',
+    avoidRelation: '지나치게 통제적이거나 억압적인 에너지',
+  },
+  '土': {
+    env: { color: '황토·베이지·노랑', space: '정돈되고 안정적인 공간', time: '늦은 오후 (15–18시)' },
+    actions: ['일상 루틴 만들고 지키기', '공간 정리정돈', '음식·요리로 몸 챙기기', '한 가지씩 차근차근 마무리'],
+    positiveRelation: '신뢰할 수 있고 꾸준함이 있는 사람',
+    avoidRelation: '변화가 지나치게 잦거나 중심이 흔들리는 에너지',
+  },
+  '金': {
+    env: { color: '흰색·실버·회색', space: '깔끔하게 정리된 공간', time: '오후 (13–17시)' },
+    actions: ['완성된 결과물 만들기', '전문성·자격증 쌓기', '계획을 구조화·체계화하기', '불필요한 것 정리하고 버리기'],
+    positiveRelation: '체계적이고 완성도를 중시하는 사람',
+    avoidRelation: '산만하고 마무리가 없는 에너지',
+  },
+  '水': {
+    env: { color: '검정·진청·네이비', space: '조용하고 아늑한 공간', time: '밤·새벽 (21–3시)' },
+    actions: ['독서·학습·사색의 시간 확보', '글쓰기·일기 쓰기', '명상·마음챙김 훈련', '유연성 훈련·요가·스트레칭'],
+    positiveRelation: '지적 자극을 주고 깊은 대화가 가능한 사람',
+    avoidRelation: '감정적으로 과열되거나 충동적인 에너지',
+  },
+} as const satisfies Record<string, { env: { color: string; space: string; time: string }; actions: string[]; positiveRelation: string; avoidRelation: string }>;
+
 async function fetchCharacter(characterId: string): Promise<Character> {
   const response = await fetch(
     `/api/character-content?id=${encodeURIComponent(characterId)}`
@@ -660,6 +693,123 @@ function ReportContent() {
           </p>
         </div>
       </section>
+
+      {/* ── 개운 전략 ── */}
+      {p?.favorableElement && (() => {
+        const yongsin = p.favorableElement.yongsin;
+        const gisin = p.favorableElement.unfavorable;
+        const strategy = OHAENG_STRATEGY[yongsin as keyof typeof OHAENG_STRATEGY];
+        if (!strategy) return null;
+
+        const isStrong = p.dayMasterStrength?.isStrong;
+        const dominantGroup = p.tenGodChart?.dominantGroups?.[0];
+        const excessOhaeng = p.ohaengBehaviors?.find(b => b.type === 'excess');
+        const deficitOhaeng = p.ohaengBehaviors?.find(b => b.type === 'deficit');
+
+        return (
+          <section className="mb-6">
+            <h2 className="text-base font-bold text-gray-800 mb-1">✦ 당신 사주에 맞는 에너지 균형 전략</h2>
+            <p className="text-xs text-gray-400 mb-4">
+              미신이 아닌, 용신·십신·오행 불균형 데이터를 바탕으로 도출한 에너지 방향 보완 전략이에요.
+            </p>
+
+            {/* 근거 블록 */}
+            <div className="bg-slate-800 text-slate-100 rounded-2xl p-4 mb-4 space-y-2">
+              <p className="text-xs text-slate-400 mb-2 font-medium">왜 이 전략이 필요한가</p>
+              <div className="space-y-1.5 text-sm">
+                {isStrong !== undefined && (
+                  <div className="flex items-start gap-2">
+                    <span className="text-slate-400 shrink-0">→</span>
+                    <span>
+                      {isStrong
+                        ? '신강(身强) 구조 — 에너지가 넘쳐 분산되기 쉬운 상태예요.'
+                        : '신약(身弱) 구조 — 주변 환경과 기운에 영향받기 쉬운 상태예요.'}
+                    </span>
+                  </div>
+                )}
+                {excessOhaeng && (
+                  <div className="flex items-start gap-2">
+                    <span className="text-slate-400 shrink-0">→</span>
+                    <span><span className="text-orange-300 font-bold">{excessOhaeng.element}(○) 과다</span> — {excessOhaeng.behavior}</span>
+                  </div>
+                )}
+                {deficitOhaeng && (
+                  <div className="flex items-start gap-2">
+                    <span className="text-slate-400 shrink-0">→</span>
+                    <span><span className="text-blue-300 font-bold">{deficitOhaeng.element}(○) 부족</span> — {deficitOhaeng.behavior}</span>
+                  </div>
+                )}
+                {dominantGroup && (
+                  <div className="flex items-start gap-2">
+                    <span className="text-slate-400 shrink-0">→</span>
+                    <span><span className="text-violet-300 font-bold">{dominantGroup.group} 우세</span> — {dominantGroup.behavior}</span>
+                  </div>
+                )}
+                <div className="flex items-start gap-2 pt-1 border-t border-slate-700 mt-1">
+                  <span className="text-green-400 shrink-0">✦</span>
+                  <span className="text-green-300">
+                    용신 방향인 <span className="font-bold">{yongsin}(○)</span> 에너지를 보완하면 흐름이 자연스러워져요.
+                    기신인 <span className="font-bold">{gisin}(○)</span> 방향은 에너지를 소모시킬 수 있으니 조율이 필요합니다.
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* 3단계 */}
+            <div className="space-y-3">
+              {/* 환경 개운 */}
+              <div className="bg-amber-50 rounded-2xl p-4 border border-amber-100">
+                <p className="font-bold text-amber-700 mb-2 text-sm">🏠 환경 개운</p>
+                <p className="text-xs text-gray-500 mb-3">공간·색·시간대를 바꾸면 에너지 방향이 자연스럽게 조율돼요.</p>
+                <div className="space-y-2">
+                  <div className="flex gap-2 items-center">
+                    <span className="text-xs text-amber-600 w-12 shrink-0">색상</span>
+                    <span className="text-sm text-gray-700">{strategy.env.color}</span>
+                  </div>
+                  <div className="flex gap-2 items-center">
+                    <span className="text-xs text-amber-600 w-12 shrink-0">공간</span>
+                    <span className="text-sm text-gray-700">{strategy.env.space}</span>
+                  </div>
+                  <div className="flex gap-2 items-center">
+                    <span className="text-xs text-amber-600 w-12 shrink-0">시간대</span>
+                    <span className="text-sm text-gray-700">집중 작업에 유리한 {strategy.env.time}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 행동 개운 */}
+              <div className="bg-emerald-50 rounded-2xl p-4 border border-emerald-100">
+                <p className="font-bold text-emerald-700 mb-2 text-sm">🎯 행동 개운</p>
+                <p className="text-xs text-gray-500 mb-3">루틴에 이 행동을 넣으면 에너지 균형이 잡혀요.</p>
+                <div className="space-y-1.5">
+                  {strategy.actions.map((action, i) => (
+                    <div key={i} className="flex items-start gap-2">
+                      <span className="text-emerald-400 text-xs shrink-0 mt-0.5">✓</span>
+                      <span className="text-sm text-gray-700">{action}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* 관계 개운 */}
+              <div className="bg-violet-50 rounded-2xl p-4 border border-violet-100">
+                <p className="font-bold text-violet-700 mb-2 text-sm">🤝 관계 개운</p>
+                <p className="text-xs text-gray-500 mb-3">어떤 에너지의 사람과 함께하느냐가 운의 방향을 바꿔요.</p>
+                <div className="space-y-2">
+                  <div className="flex gap-2 items-start">
+                    <span className="text-xs bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded shrink-0">시너지</span>
+                    <span className="text-sm text-gray-700">{strategy.positiveRelation}</span>
+                  </div>
+                  <div className="flex gap-2 items-start">
+                    <span className="text-xs bg-red-100 text-red-600 px-1.5 py-0.5 rounded shrink-0">소모</span>
+                    <span className="text-sm text-gray-500">{strategy.avoidRelation}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      })()}
 
       {/* ── 하단 버튼 ── */}
       <div className="mt-8 space-y-3">
