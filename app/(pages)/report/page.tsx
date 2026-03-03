@@ -555,7 +555,7 @@ function ReportContent() {
 
       {/* ── 십신 분석 ── */}
       {p?.tenGodChart && (
-        <section id="sec-tengod" className="mb-0 pb-8 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
+        <section id="sec-tengod" className="py-10 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
           <div className="flex items-center gap-3 mb-3">
             <span className="flex-shrink-0 w-7 h-7 rounded-full bg-blue-100 text-blue-600 text-xs font-bold flex items-center justify-center">01</span>
             <div>
@@ -605,7 +605,7 @@ function ReportContent() {
 
       {/* ── 신강/신약 + 용신 ── */}
       {p?.dayMasterStrength && p?.favorableElement && (
-        <section id="sec-strength" className="mb-0 pb-8 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
+        <section id="sec-strength" className="py-10 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
           <div className="flex items-center gap-3 mb-3">
             <span className="flex-shrink-0 w-7 h-7 rounded-full bg-green-100 text-green-600 text-xs font-bold flex items-center justify-center">02</span>
             <div>
@@ -649,7 +649,7 @@ function ReportContent() {
 
       {/* ── 합충형 ── */}
       {p?.branchInteractions && p.branchInteractions.interactions.length > 0 && (
-        <section id="sec-clash" className="mb-0 pb-8 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
+        <section id="sec-clash" className="py-10 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
           <div className="flex items-center gap-3 mb-3">
             <span className="flex-shrink-0 w-7 h-7 rounded-full bg-red-100 text-red-500 text-xs font-bold flex items-center justify-center">03</span>
             <div>
@@ -699,7 +699,7 @@ function ReportContent() {
         const isLateHalf = remainingYears !== null && remainingYears <= 5;
 
         return (
-          <section id="sec-decade" className="mb-0 pb-8 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
+          <section id="sec-decade" className="py-10 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
             <div className="flex items-center gap-3 mb-3">
               <span className="flex-shrink-0 w-7 h-7 rounded-full bg-violet-100 text-violet-600 text-xs font-bold flex items-center justify-center">04</span>
               <div>
@@ -769,7 +769,7 @@ function ReportContent() {
 
       {/* ── 반복 패턴 ── */}
       {p?.repeatPatterns && p.repeatPatterns.length > 0 && (
-        <section id="sec-pattern" className="mb-0 pb-8 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
+        <section id="sec-pattern" className="py-10 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
           <div className="flex items-center gap-3 mb-3">
             <span className="flex-shrink-0 w-7 h-7 rounded-full bg-amber-100 text-amber-600 text-xs font-bold flex items-center justify-center">05</span>
             <div>
@@ -796,7 +796,7 @@ function ReportContent() {
 
       {/* ── 2026 운세 탭 ── */}
       {fortunes && (
-        <section id="sec-fortune" className="mb-0 pb-8 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
+        <section id="sec-fortune" className="py-10 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
           <div className="flex items-center gap-3 mb-4">
             <span className="flex-shrink-0 w-7 h-7 rounded-full bg-orange-100 text-orange-600 text-xs font-bold flex items-center justify-center">06</span>
             <div>
@@ -868,7 +868,7 @@ function ReportContent() {
         const deficitOhaeng = p.ohaengBehaviors?.find(b => b.type === 'deficit');
 
         return (
-          <section id="sec-strategy" className="mb-0 pb-8 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
+          <section id="sec-strategy" className="py-10 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
             <div className="flex items-center gap-3 mb-3">
               <span className="flex-shrink-0 w-7 h-7 rounded-full bg-emerald-100 text-emerald-600 text-xs font-bold flex items-center justify-center">07</span>
               <div>
@@ -986,7 +986,7 @@ function ReportContent() {
           2028: { bg: 'bg-purple-50 border-purple-200', badge: 'bg-purple-100 text-purple-700', dot: 'bg-purple-400' },
         };
         return (
-          <section id="sec-outlook" className="mb-0 pb-8 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
+          <section id="sec-outlook" className="py-10 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
             <div className="flex items-center gap-3 mb-3">
               <span className="flex-shrink-0 w-7 h-7 rounded-full bg-purple-100 text-purple-600 text-xs font-bold flex items-center justify-center">08</span>
               <div>
