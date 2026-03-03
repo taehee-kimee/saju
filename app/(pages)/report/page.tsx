@@ -212,7 +212,18 @@ function ReportContent() {
       if (!paymentSuccess && !debugMode) {
         if (savedReport) {
           setCharacter(savedReport.character);
-          setSaju(savedReport.saju);
+          // sessionStorage에 최신 sajuData가 있으면 그걸 우선 사용 (payload 신규 필드 대응)
+          const freshSajuRaw = sessionStorage.getItem('sajuData');
+          const sajuToUse: SajuResult = (() => {
+            if (freshSajuRaw) {
+              try {
+                const fresh = JSON.parse(freshSajuRaw) as SajuResult;
+                if (fresh?.payload?.threeYearOutlook) return fresh;
+              } catch { /* fall through */ }
+            }
+            return savedReport.saju;
+          })();
+          setSaju(sajuToUse);
           setMbti(savedReport.mbti);
           setFortunes(savedReport.fortunes);
           if (savedReport.birthYear) setBirthYear(savedReport.birthYear);
