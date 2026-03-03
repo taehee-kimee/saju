@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useEffect, useState, useCallback } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import OhaengBar from '@/components/OhaengBar';
 import { isValidMbti } from '@/lib/mbti';
@@ -158,6 +158,7 @@ function ReportContent() {
   const [error, setError] = useState<string | null>(null);
   const [activeFortuneTab, setActiveFortuneTab] = useState<keyof FortuneData>('love');
   const [saved, setSaved] = useState(false);
+  const [freeCollapsed, setFreeCollapsed] = useState(true);
 
   const paymentSuccess = searchParams.get('payment') === 'success';
   const debugMode =
@@ -327,8 +328,11 @@ function ReportContent() {
     );
   }
 
+  const p = saju.payload;
+
   return (
     <main className="min-h-screen p-6 pb-32 max-w-md mx-auto">
+      {/* ── 헤더 ── */}
       <div className="text-center mb-6">
         <div className="text-8xl mb-4">{character.emoji}</div>
         <h1 className="text-3xl font-bold">{character.name}</h1>
@@ -337,62 +341,183 @@ function ReportContent() {
         </p>
         {debugMode ? (
           <div className="mt-3 inline-flex items-center gap-1 bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm">
-            <span>🐛</span>
-            <span>디버그 모드</span>
+            <span>🐛</span><span>디버그 모드</span>
           </div>
         ) : (
-          <div className="mt-3 flex justify-center gap-2">
+          <div className="mt-3 flex justify-center gap-2 flex-wrap">
             <div className="inline-flex items-center gap-1 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
-              <span>✓</span>
-              <span>AI 풀리포트 생성 완료</span>
+              <span>✓</span><span>AI 풀리포트</span>
             </div>
             {saved && (
               <div className="inline-flex items-center gap-1 bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm">
-                <span>💾</span>
-                <span>저장됨</span>
+                <span>💾</span><span>저장됨</span>
               </div>
             )}
           </div>
         )}
       </div>
 
+      {/* ── 오행 바 + MBTI ── */}
       <div className="mb-6">
         <h3 className="font-bold mb-3 text-gray-700">나의 오행 에너지</h3>
         <OhaengBar ohaeng={saju.ohaeng} dominant={saju.dominantOhaeng} />
-        <div className="mt-4 p-4 bg-white rounded-xl border-2 border-orange-100">
-          <div className="text-sm text-gray-500 mb-1">당신의 MBTI</div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-orange-600">{mbti}</span>
-            <span className="text-gray-400">|</span>
-            <span className="text-sm text-gray-600">
-              {mbti.startsWith('I') ? '내향' : '외향'} ·
-              {mbti.includes('N') ? ' 직관' : ' 감각'} ·
-              {mbti.includes('T') ? ' 사고' : ' 감정'} ·
-              {mbti.endsWith('J') ? ' 판단' : ' 인식'}
-            </span>
-          </div>
+        <div className="mt-3 p-3 bg-white rounded-xl border border-orange-100 flex items-center gap-3">
+          <span className="text-2xl font-bold text-orange-600">{mbti}</span>
+          <span className="text-gray-300">|</span>
+          <span className="text-sm text-gray-500">
+            {mbti.startsWith('I') ? '내향' : '외향'} ·
+            {mbti.includes('N') ? ' 직관' : ' 감각'} ·
+            {mbti.includes('T') ? ' 사고' : ' 감정'} ·
+            {mbti.endsWith('J') ? ' 판단' : ' 인식'}
+          </span>
         </div>
       </div>
 
-      {FREE_SECTION_CONFIG.map((section) => (
-        <section key={section.key} className="mb-6">
-          <h2 className="text-lg font-bold text-orange-500 mb-3">
-            {section.title}
-          </h2>
-          <div className="bg-orange-50 rounded-2xl p-5">
-            <p className="text-orange-600 font-bold text-lg mb-2">
-              {character.subtitles[section.key]}
-            </p>
-            <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-              {character.sections[section.key]}
-            </p>
+      {/* ── 무료 리포트 (접기/펼치기) ── */}
+      <div className="mb-6 border border-orange-200 rounded-2xl overflow-hidden">
+        <button
+          onClick={() => setFreeCollapsed(!freeCollapsed)}
+          className="w-full flex items-center justify-between p-4 bg-orange-50 hover:bg-orange-100 transition-colors"
+        >
+          <span className="font-bold text-orange-600">🐾 냥세 진단 리포트</span>
+          <span className="text-orange-400 text-lg">{freeCollapsed ? '▼' : '▲'}</span>
+        </button>
+        {!freeCollapsed && (
+          <div className="p-4 space-y-5 bg-white">
+            {FREE_SECTION_CONFIG.map((section) => (
+              <div key={section.key}>
+                <p className="font-bold text-orange-500 mb-1 text-sm">{section.title}</p>
+                <p className="text-orange-700 font-medium text-sm mb-1">{character.subtitles[section.key]}</p>
+                <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-line">
+                  {character.sections[section.key]}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ══════ 풀리포트 영역 ══════ */}
+      <div className="flex items-center gap-3 mb-6">
+        <div className="flex-1 h-px bg-gray-200" />
+        <span className="text-xs text-gray-400 font-medium whitespace-nowrap">✦ 풀리포트 ✦</span>
+        <div className="flex-1 h-px bg-gray-200" />
+      </div>
+
+      {/* ── 십신 분석 ── */}
+      {p?.tenGodChart && (
+        <section className="mb-6">
+          <h2 className="text-base font-bold text-gray-800 mb-3">🧬 내 에너지, 어디로 흐르고 있냥?</h2>
+          <div className="bg-slate-50 rounded-2xl p-4 space-y-3">
+            <div className="flex gap-2 flex-wrap">
+              {(['비겁','식상','재성','관성','인성'] as const).map((g) => (
+                <div key={g} className="flex flex-col items-center bg-white rounded-xl px-3 py-2 border border-slate-200 min-w-[52px]">
+                  <span className="text-xs text-gray-400">{g}</span>
+                  <span className="text-lg font-bold text-slate-700">{p.tenGodChart.groupSummary[g]}</span>
+                </div>
+              ))}
+            </div>
+            {p.tenGodChart.dominantGroups.length > 0 && (
+              <div className="space-y-2">
+                {p.tenGodChart.dominantGroups.map((d) => (
+                  <div key={d.group} className="bg-orange-50 rounded-xl p-3">
+                    <span className="text-orange-600 font-bold text-sm">{d.group} 우세</span>
+                    <p className="text-gray-600 text-sm mt-0.5">{d.behavior}</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </section>
-      ))}
+      )}
 
+      {/* ── 신강/신약 + 용신 ── */}
+      {p?.dayMasterStrength && p?.favorableElement && (
+        <section className="mb-6">
+          <h2 className="text-base font-bold text-gray-800 mb-3">⚖️ 나 강한 냥이야, 약한 냥이야?</h2>
+          <div className="bg-slate-50 rounded-2xl p-4 space-y-3">
+            <div className="flex items-center gap-3">
+              <span className={`px-3 py-1.5 rounded-full text-sm font-bold ${p.dayMasterStrength.isStrong ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>
+                {p.dayMasterStrength.isStrong ? '🔥 신강' : '💧 신약'}
+              </span>
+              <span className="text-sm text-gray-500">강도 점수 {p.dayMasterStrength.score}</span>
+            </div>
+            <p className="text-gray-700 text-sm leading-relaxed">{p.dayMasterStrength.analysis}</p>
+            <div className="border-t border-slate-200 pt-3">
+              <p className="text-xs text-gray-400 mb-2">용신 (내 편 오행)</p>
+              <div className="flex gap-2">
+                <span className="bg-green-100 text-green-700 text-sm font-bold px-3 py-1 rounded-full">용신 {p.favorableElement.yongsin}</span>
+                <span className="bg-yellow-100 text-yellow-700 text-sm px-3 py-1 rounded-full">희신 {p.favorableElement.secondary}</span>
+                <span className="bg-red-100 text-red-600 text-sm px-3 py-1 rounded-full">기신 {p.favorableElement.unfavorable}</span>
+              </div>
+              <p className="text-gray-500 text-xs mt-2 leading-relaxed">{p.favorableElement.reasoning}</p>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── 합충형 ── */}
+      {p?.branchInteractions && p.branchInteractions.interactions.length > 0 && (
+        <section className="mb-6">
+          <h2 className="text-base font-bold text-gray-800 mb-3">💥 기운끼리 부딪히진 않냥?</h2>
+          <div className="bg-slate-50 rounded-2xl p-4 space-y-2">
+            {p.branchInteractions.interactions.map((item, i) => (
+              <div key={i} className="flex gap-2 items-start">
+                <span className={`text-xs px-2 py-0.5 rounded-full font-bold shrink-0 mt-0.5 ${
+                  item.type === '충' ? 'bg-red-100 text-red-600' :
+                  item.type === '형' ? 'bg-orange-100 text-orange-600' :
+                  'bg-blue-100 text-blue-600'
+                }`}>{item.type}</span>
+                <p className="text-gray-700 text-sm leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+            {!p.branchInteractions.hasClash && !p.branchInteractions.hasPunishment && (
+              <p className="text-gray-400 text-sm">✓ 큰 충돌 없이 기운이 잘 흐르고 있냥!</p>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* ── 대운 ── */}
+      {p?.decadeLuck && p.decadeLuck.length > 0 && (
+        <section className="mb-6">
+          <h2 className="text-base font-bold text-gray-800 mb-3">🌊 큰 흐름이 날 어디로 데려갈까냥?</h2>
+          <div className="bg-slate-50 rounded-2xl p-4 space-y-2">
+            {p.decadeLuck.slice(0, 4).map((d, i) => (
+              <div key={i} className="flex gap-3 items-start bg-white rounded-xl p-3 border border-slate-200">
+                <div className="text-center shrink-0">
+                  <div className="text-lg font-bold text-slate-700">{d.stem}{d.branch}</div>
+                  <div className="text-xs text-gray-400">{d.startAge}~{d.endAge}세</div>
+                </div>
+                <div>
+                  <span className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">{d.tenGod}</span>
+                  <p className="text-gray-700 text-sm mt-1 leading-relaxed">{d.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ── 반복 패턴 ── */}
+      {p?.repeatPatterns && p.repeatPatterns.length > 0 && (
+        <section className="mb-6">
+          <h2 className="text-base font-bold text-gray-800 mb-3">🔁 왜 나는 항상 같은 패턴일까냥?</h2>
+          <div className="bg-slate-50 rounded-2xl p-4 space-y-3">
+            {p.repeatPatterns.map((rp, i) => (
+              <div key={i} className="bg-white rounded-xl p-3 border border-slate-200">
+                <p className="text-xs text-gray-400 mb-1">{rp.condition}</p>
+                <p className="text-gray-800 font-medium text-sm">&ldquo;{rp.pattern}&rdquo;</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ── 2026 운세 탭 ── */}
       <section className="mb-6">
-        <h2 className="text-lg font-bold text-gray-700 mb-3 text-center">🔮 2026년 운세</h2>
-        <div className="flex gap-1 mb-4 overflow-x-auto pb-1">
+        <h2 className="text-base font-bold text-gray-800 mb-3">🔮 2026년엔 어떨까냥?</h2>
+        <div className="flex gap-1 mb-4">
           {PAID_SECTION_CONFIG.map((section) => (
             <button
               key={section.key}
@@ -418,6 +543,7 @@ function ReportContent() {
         </div>
       </section>
 
+      {/* ── 하단 버튼 ── */}
       <div className="mt-8 space-y-3">
         <button
           onClick={() => {
