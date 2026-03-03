@@ -21,6 +21,7 @@ interface SavedReport {
   mbti: MbtiType;
   fortunes: FortuneData;
   savedAt: string;
+  birthYear?: number;
 }
 
 const REPORT_STORAGE_KEY = 'nyangsae_saved_report';
@@ -159,6 +160,7 @@ function ReportContent() {
   const [activeFortuneTab, setActiveFortuneTab] = useState<keyof FortuneData>('love');
   const [saved, setSaved] = useState(false);
   const [freeCollapsed, setFreeCollapsed] = useState(true);
+  const [birthYear, setBirthYear] = useState<number | null>(null);
 
   const paymentSuccess = searchParams.get('payment') === 'success';
   const debugMode =
@@ -180,6 +182,7 @@ function ReportContent() {
           setSaju(savedReport.saju);
           setMbti(savedReport.mbti);
           setFortunes(savedReport.fortunes);
+          if (savedReport.birthYear) setBirthYear(savedReport.birthYear);
           setSaved(true);
           setLoading(false);
           return;
@@ -196,12 +199,24 @@ function ReportContent() {
         ? normalizeCharacterId(rawCharacterId)
         : null;
 
+      // birthYear 읽기 (sessionStorage)
+      let sessionBirthYear: number | null = null;
+      try {
+        const rawBirth = sessionStorage.getItem('birthInfo');
+        if (rawBirth) {
+          const parsed = JSON.parse(rawBirth) as { year?: string };
+          const y = Number(parsed.year);
+          if (Number.isFinite(y) && y > 1900) sessionBirthYear = y;
+        }
+      } catch { /* ignore */ }
+
       if (!characterId || !rawSaju || !rawMbti || !isValidMbti(rawMbti)) {
         if (savedReport) {
           setCharacter(savedReport.character);
           setSaju(savedReport.saju);
           setMbti(savedReport.mbti);
           setFortunes(savedReport.fortunes);
+          if (savedReport.birthYear) setBirthYear(savedReport.birthYear);
           setSaved(true);
           setLoading(false);
           return;
@@ -260,12 +275,14 @@ function ReportContent() {
           mbti: rawMbti,
           fortunes: resolvedFortunes,
           savedAt: new Date().toISOString(),
+          birthYear: sessionBirthYear ?? undefined,
         });
 
         setCharacter(characterData);
         setSaju(parsedSaju);
         setMbti(rawMbti);
         setFortunes(resolvedFortunes);
+        if (sessionBirthYear) setBirthYear(sessionBirthYear);
         setSaved(true);
         setGeneratingFortunes(false);
         setLoading(false);
@@ -478,26 +495,80 @@ function ReportContent() {
         </section>
       )}
 
-      {/* ── 대운 ── */}
-      {p?.decadeLuck && p.decadeLuck.length > 0 && (
-        <section className="mb-6">
-          <h2 className="text-base font-bold text-gray-800 mb-3">🌊 큰 흐름이 날 어디로 데려갈까냥?</h2>
-          <div className="bg-slate-50 rounded-2xl p-4 space-y-2">
-            {p.decadeLuck.slice(0, 4).map((d, i) => (
-              <div key={i} className="flex gap-3 items-start bg-white rounded-xl p-3 border border-slate-200">
-                <div className="text-center shrink-0">
-                  <div className="text-lg font-bold text-slate-700">{d.stem}{d.branch}</div>
-                  <div className="text-xs text-gray-400">{d.startAge}~{d.endAge}세</div>
+      {/* ── 대운 전환 포인트 ── */}
+      {p?.decadeLuck && p.decadeLuck.length > 0 && (() => {
+        const currentAge = birthYear ? 2026 - birthYear : null;
+        const currentIdx = currentAge !== null
+          ? p.decadeLuck.findIndex(d => currentAge >= d.startAge && currentAge <= d.endAge)
+          : -1;
+        const curr = currentIdx >= 0 ? p.decadeLuck[currentIdx] : p.decadeLuck[0];
+        const next = currentIdx >= 0 && currentIdx + 1 < p.decadeLuck.length
+          ? p.decadeLuck[currentIdx + 1]
+          : p.decadeLuck[1];
+        const remainingYears = curr && currentAge !== null ? curr.endAge - currentAge : null;
+        const isLateHalf = remainingYears !== null && remainingYears <= 5;
+
+        return (
+          <section className="mb-6">
+            <h2 className="text-base font-bold text-gray-800 mb-3">🌊 나는 지금 어느 흐름 위에 있냥?</h2>
+            <div className="space-y-3">
+              {/* 현재 대운 */}
+              {curr && (
+                <div className="bg-slate-50 rounded-2xl p-4 border-l-4 border-slate-400">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl font-bold text-slate-700">{curr.stem}{curr.branch}</span>
+                      <span className="text-xs bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full">{curr.tenGod} 대운</span>
+                    </div>
+                    <span className="text-xs text-gray-400">{curr.startAge}~{curr.endAge}세</span>
+                  </div>
+                  <p className="text-sm text-gray-700 leading-relaxed mb-2">{curr.theme}</p>
+                  {remainingYears !== null && (
+                    <div className={`text-xs px-3 py-1.5 rounded-full inline-block font-medium ${isLateHalf ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-600'}`}>
+                      {isLateHalf
+                        ? `⏳ 이 시절 후반부 — 약 ${remainingYears}년 후 전환`
+                        : `✦ 현재 진행 중 — 약 ${remainingYears}년 더 지속`}
+                    </div>
+                  )}
                 </div>
-                <div>
-                  <span className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">{d.tenGod}</span>
-                  <p className="text-gray-700 text-sm mt-1 leading-relaxed">{d.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
+              )}
+
+              {/* 전환 화살표 */}
+              {next && (
+                <>
+                  <div className="flex items-center gap-2 px-2">
+                    <div className="flex-1 h-px bg-gradient-to-r from-slate-300 to-violet-300" />
+                    <span className="text-xs text-violet-500 font-bold whitespace-nowrap">⬇ 성향 전환 예고</span>
+                    <div className="flex-1 h-px bg-gradient-to-l from-slate-300 to-violet-300" />
+                  </div>
+
+                  {/* 다음 대운 */}
+                  <div className="bg-violet-50 rounded-2xl p-4 border-l-4 border-violet-400">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl font-bold text-violet-700">{next.stem}{next.branch}</span>
+                        <span className="text-xs bg-violet-200 text-violet-700 px-2 py-0.5 rounded-full">{next.tenGod} 대운</span>
+                      </div>
+                      <span className="text-xs text-gray-400">{next.startAge}~{next.endAge}세</span>
+                    </div>
+                    <p className="text-sm text-violet-800 leading-relaxed mb-2">{next.theme}</p>
+                    {curr && (
+                      <div className="bg-white rounded-xl p-3 text-xs text-gray-600 leading-relaxed">
+                        <span className="font-bold text-gray-700">성향 변화 포인트 ✦</span><br />
+                        지금의 <span className="text-slate-600 font-bold">{curr.tenGod}</span> 에너지 중심에서,
+                        <span className="text-violet-600 font-bold"> {next.tenGod}</span> 에너지 중심으로 삶의 무게중심이 이동할 거냥.
+                        {curr.tenGod !== next.tenGod && (
+                          <> 지금과는 다른 새로운 방식으로 세상과 마주하게 되는 시기예요.</>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+          </section>
+        );
+      })()}
 
       {/* ── 반복 패턴 ── */}
       {p?.repeatPatterns && p.repeatPatterns.length > 0 && (
