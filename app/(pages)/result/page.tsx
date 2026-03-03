@@ -53,6 +53,7 @@ interface BirthInfo {
   month: number;
   day: number;
   hour: number | 'unknown';
+  gender?: 'male' | 'female' | 'unknown';
 }
 
 function parseBirthInfo(raw: string): BirthInfo | null {
@@ -62,6 +63,7 @@ function parseBirthInfo(raw: string): BirthInfo | null {
       month?: string;
       day?: string;
       hour?: string;
+      gender?: string;
     };
 
     const year = Number(parsed.year);
@@ -78,8 +80,10 @@ function parseBirthInfo(raw: string): BirthInfo | null {
       return null;
     }
 
+    const gender = parsed.gender as 'male' | 'female' | 'unknown' | undefined;
+
     if (parsed.hour === 'unknown') {
-      return { year, month, day, hour: 'unknown' };
+      return { year, month, day, hour: 'unknown', gender };
     }
 
     const hour = Number(parsed.hour);
@@ -87,7 +91,7 @@ function parseBirthInfo(raw: string): BirthInfo | null {
       return null;
     }
 
-    return { year, month, day, hour };
+    return { year, month, day, hour, gender };
   } catch {
     return null;
   }
@@ -135,11 +139,14 @@ export default function ResultPage() {
 
       try {
         const hourValue = birth.hour === 'unknown' ? 12 : birth.hour;
+        const genderValue = birth.gender === 'male' || birth.gender === 'female' ? birth.gender : undefined;
         const sajuResult = calculateSaju(
           birth.year,
           birth.month,
           birth.day,
-          hourValue
+          hourValue,
+          genderValue,
+          storedMbtiRaw,
         );
         const characterId = createCharacterId(
           storedMbtiRaw,
@@ -169,6 +176,15 @@ export default function ResultPage() {
     return () => {
       cancelled = true;
     };
+  }, []);
+
+  const [hasSavedReport, setHasSavedReport] = useState(false);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('nyangsae_saved_report');
+      if (saved) setHasSavedReport(true);
+    } catch { /* ignore */ }
   }, []);
 
   const handleUnlock = () => {
@@ -283,7 +299,15 @@ export default function ResultPage() {
       </main>
 
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 shadow-lg z-50">
-        <div className="max-w-md mx-auto">
+        <div className="max-w-md mx-auto space-y-2">
+          {hasSavedReport && (
+            <button
+              onClick={() => router.push('/report')}
+              className="w-full p-3 bg-blue-50 text-blue-600 rounded-xl font-medium border border-blue-200 hover:bg-blue-100 transition-colors"
+            >
+              💾 저장된 풀리포트 다시 보기
+            </button>
+          )}
           <button
             onClick={handleUnlock}
             className="w-full p-4 bg-gradient-to-r from-orange-400 to-orange-500 text-white rounded-xl font-bold shadow-lg hover:shadow-xl transition-all"

@@ -3,9 +3,8 @@ import { SajuPayload, Ohaeng } from '@/types';
 
 export async function POST(req: NextRequest) {
   try {
-    // Dynamically import OpenAI to avoid build-time initialization
     const { default: OpenAI } = await import('openai');
-    
+
     const openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
     });
@@ -20,7 +19,6 @@ export async function POST(req: NextRequest) {
     }
 
     const sajuPayload = payload as SajuPayload;
-
     const prompt = buildFortunePrompt(sajuPayload, mbti, ohaeng, catName, catTagline);
 
     const completion = await openai.chat.completions.create({
@@ -28,32 +26,33 @@ export async function POST(req: NextRequest) {
       messages: [
         {
           role: 'system',
-          content: '당신은 한국 전통 사주명리학과 현대 심리학을 깊이 이해하는 전문 운세 작가입니다. 사용자의 사주 구성과 MBTI 성향을 정교하게 결합하여 개인화된 2026년 운세를 작성합니다.',
+          content: `당신은 "냥세(냥이 세계관)" 운세 앱의 고양이 캐릭터입니다. 사주명리학(지장간·십신·용신·합충형·대운)과 MBTI를 결합해 2026년 운세를 작성합니다.
+
+【말투 규칙 — 반드시 따르세요】
+- 고양이 캐릭터가 집사(사용자)에게 이야기하는 톤
+- "~냥", "~다냥", "~거냥" 같은 고양이 어미를 문단 끝에 자연스럽게 섞기 (매 문장은 아니고, 2~3문장마다 한 번)
+- 기본 어미는 "~해요", "~죠", "~거예요"
+- "집사님", "우리 집사" 같은 호칭 사용
+- 따뜻하고 장난스러운 톤, 진지한 분석도 친근하게 전달
+- 이모지를 섹션당 3~5개 자연스럽게 사용 (🐾🔮✨💕🌿🔥💰 등)
+- 사주 용어는 괄호 안에 쉬운 설명 병기 (예: "편인(偏印, 새로운 배움의 기운)")
+- 일반론 금지 — 이 사람의 사주 데이터에서만 나올 수 있는 맞춤 해석`,
         },
-        {
-          role: 'user',
-          content: prompt,
-        },
+        { role: 'user', content: prompt },
       ],
-      temperature: 0.8,
-      max_tokens: 2000,
+      temperature: 0.85,
+      max_tokens: 4000,
       response_format: { type: 'json_object' },
     });
 
     const content = completion.choices[0]?.message?.content;
-    
-    if (!content) {
-      throw new Error('No content generated');
-    }
+    if (!content) throw new Error('No content generated');
 
     const fortunes = JSON.parse(content);
 
-    // Validate response structure
     const requiredKeys = ['love', 'money', 'career', 'health', 'relationship'];
     for (const key of requiredKeys) {
-      if (!fortunes[key]) {
-        throw new Error(`Missing required field: ${key}`);
-      }
+      if (!fortunes[key]) throw new Error(`Missing required field: ${key}`);
     }
 
     return NextResponse.json(fortunes);
@@ -66,6 +65,19 @@ export async function POST(req: NextRequest) {
   }
 }
 
+const DAY_MASTER_TRAITS: Record<string, string> = {
+  '甲': '큰 나무(甲木) — 리더십, 확장성, 끈기',
+  '乙': '덩굴(乙木) — 유연성, 적응력, 섬세함',
+  '丙': '태양(丙火) — 밝음, 따뜻함, 표현력',
+  '丁': '등불(丁火) — 집중력, 열정, 깊이',
+  '戊': '산(戊土) — 안정성, 포용력, 신뢰',
+  '己': '밭(己土) — 융통성, 돌봄, 섬세함',
+  '庚': '큰 칼(庚金) — 결단력, 정의감, 강함',
+  '辛': '보석(辛金) — 정교함, 완성도, 세련됨',
+  '壬': '큰 강(壬水) — 자유로움, 지혜, 유동성',
+  '癸': '이슬(癸水) — 직관력, 침투성, 섬세함',
+};
+
 function buildFortunePrompt(
   payload: SajuPayload,
   mbti: string,
@@ -73,135 +85,131 @@ function buildFortunePrompt(
   catName: string,
   catTagline: string
 ): string {
-  const { pillars, dayMaster, fiveElementsCount, seasonFactor, balanceSummary, yearContext } = payload;
+  const {
+    pillars, dayMaster, fiveElementsCount, seasonFactor, balanceSummary,
+    hiddenStems, enrichedFiveElements, tenGodChart, dayMasterStrength,
+    favorableElement, branchInteractions, decadeLuck, annualAnalysis,
+    ohaengBehaviors, repeatPatterns, structureSummary, mbtiSajuSynergy,
+  } = payload;
 
-  // 일간 특성 설명
-  const dayMasterTraits: Record<string, string> = {
-    '甲': '큰 나무(甲木) - 리더십과 확장성, 끈기',
-    '乙': '덩굴(乙木) - 유연성과 적응력, 섬세함',
-    '丙': '태양(丙火) - 밝음과 따뜻함, 표현력',
-    '丁': '등불(丁火) - 집중력과 열정, 깊이',
-    '戊': '산(戊土) - 안정성과 포용력, 신뢰',
-    '己': '밭(己土) - 융통성과 돌봄, 섬세함',
-    '庚': '큰 칼(庚金) - 결단력과 정의감, 강함',
-    '辛': '보석(辛金) - 정교함과 완성도, 세련됨',
-    '壬': '큰 강(壬水) - 자유로움과 지혜, 유동성',
-    '癸': '이슬(癸水) - 직관력과 침투성, 섬세함',
-  };
+  // 현재 나이에 해당하는 대운 찾기
+  const currentYear = 2026;
+  const birthYear = currentYear - 30; // 근사치
+  const currentDecade = decadeLuck.find(d => {
+    const age = currentYear - birthYear;
+    return age >= d.startAge && age <= d.endAge;
+  });
+  const nextDecade = currentDecade
+    ? decadeLuck.find(d => d.startAge === currentDecade.endAge + 1)
+    : undefined;
 
-  // 2026년 병오년과의 상호작용
-  const annualStem = yearContext.annualPillar.stem;
-  const annualBranch = yearContext.annualPillar.branch;
-  
-  return `【사용자 프로필】
-- 캐릭터: ${catName} (${catTagline})
+  return `【구조 요약 — 이 사람의 핵심 축】
+- 성격축: ${structureSummary.personalityAxis}
+- 에너지 긴장: ${structureSummary.energyTension}
+- 핵심 갈등: ${structureSummary.mainConflict}
+- 위험 지대: ${structureSummary.riskZone}
+
+【사용자 프로필】
+- 캐릭터: ${catName} ("${catTagline}")
 - MBTI: ${mbti}
+- 일간: ${dayMaster} (${DAY_MASTER_TRAITS[dayMaster] || '특수한 기운'})
+- 신강/신약: ${dayMasterStrength.isStrong ? '신강' : '신약'} (점수: ${dayMasterStrength.score})
 
-【사주 상세 분석】
+【사주 팔자 + 지장간】
+- 연주: ${pillars.year.stem}${pillars.year.branch} (지장간: ${hiddenStems.year.join(',')})
+- 월주: ${pillars.month.stem}${pillars.month.branch} (지장간: ${hiddenStems.month.join(',')}) — ${seasonFactor.notes}
+- 일주: ${pillars.day.stem}${pillars.day.branch} (지장간: ${hiddenStems.day.join(',')})
+- 시주: ${pillars.hour ? `${pillars.hour.stem}${pillars.hour.branch} (지장간: ${hiddenStems.hour.join(',')})` : '미입력'}
 
-▶ 사주 팔자 (四柱八字)
-- 연주(年柱): ${pillars.year.stem}${pillars.year.branch} - 태생적 기반과 가족 영향
-- 월주(月柱): ${pillars.month.stem}${pillars.month.branch} - 성장 환경과 성격 형성 (${seasonFactor.notes})
-- 일주(日柱): ${pillars.day.stem}${pillars.day.branch} - 본질적 성향과 배우자/자아
-- 시주(時柱): ${pillars.hour ? `${pillars.hour.stem}${pillars.hour.branch}` : '미입력'} - 노후와 자식, 잠재력
+【오행 구성 (지장간 가중치 포함)】
+- 木: ${enrichedFiveElements['木']} | 火: ${enrichedFiveElements['火']} | 土: ${enrichedFiveElements['土']} | 金: ${enrichedFiveElements['金']} | 水: ${enrichedFiveElements['水']}
+- 기본 8자 기준: 木${fiveElementsCount['木']} 火${fiveElementsCount['火']} 土${fiveElementsCount['土']} 金${fiveElementsCount['金']} 水${fiveElementsCount['水']}
+- 균형: ${balanceSummary.remarks}
 
-▶ 일간(日間) 분석 - 당신의 핵심 에너지
-- 일간: ${dayMaster} (${dayMasterTraits[dayMaster] || '특수한 기운'})
-- 이는 당신의 근본 성격과 삶의 방향성을 결정합니다.
+【오행 행동 패턴】
+${ohaengBehaviors.map(b => `- ${b.element} ${b.type === 'excess' ? '과다' : '과소'}: ${b.behavior}`).join('\n') || '- 특별한 과다/과소 없음'}
 
-▶ 오행(五行) 구성 분석
-- 목(木): ${fiveElementsCount['木']}개 - 성장, 확장, 계획성
-- 화(火): ${fiveElementsCount['火']}개 - 열정, 표현, 추진력  
-- 토(土): ${fiveElementsCount['土']}개 - 안정, 포용, 신뢰
-- 금(金): ${fiveElementsCount['金']}개 - 완성, 정돈, 결단력
-- 수(水): ${fiveElementsCount['水']}개 - 지혜, 유연성, 적응력
+【십신(十神) 배치】
+- 연간 ${pillars.year.stem}: ${tenGodChart.yearStem}
+- 월간 ${pillars.month.stem}: ${tenGodChart.monthStem}
+- 시간: ${tenGodChart.hourStem ? `${pillars.hour?.stem}: ${tenGodChart.hourStem}` : '미입력'}
+- 연지 본기: ${tenGodChart.yearBranchMain} | 월지 본기: ${tenGodChart.monthBranchMain} | 일지 본기: ${tenGodChart.dayBranchMain}${tenGodChart.hourBranchMain ? ` | 시지 본기: ${tenGodChart.hourBranchMain}` : ''}
+- 그룹 분포: 비겁${tenGodChart.groupSummary['비겁']} 식상${tenGodChart.groupSummary['식상']} 재성${tenGodChart.groupSummary['재성']} 관성${tenGodChart.groupSummary['관성']} 인성${tenGodChart.groupSummary['인성']}
+- ★ 우세 그룹 Top2: ${tenGodChart.dominantGroups.map(d => `${d.group}(${d.count}개) → ${d.behavior}`).join(' / ')}
 
-▶ 오행 균형 진단
-- 강한 오행: ${balanceSummary.strong.join(', ') || '없음'} → 과하면 통제 필요
-- 약한 오행: ${balanceSummary.weak.join(', ') || '없음'} → 보완과 균형 필요
-- 특이사항: ${balanceSummary.remarks}
+【신강/신약 판정】
+${dayMasterStrength.analysis}
+- 계절 지지: ${dayMasterStrength.seasonSupport}
+- 도움 오행: ${dayMasterStrength.helpingElements.join(',')} | 방해 오행: ${dayMasterStrength.hinderingElements.join(',')}
 
-▶ 2026년 병오년(丙午) 대운 분석
-- 2026년 기운: 병(丙火)오(午火) - 불(火)의 기운이 매우 강한 해
-- 당신의 주요 오행 ${dominantOhaeng}과의 관계:
-${getAnnualInteraction(dominantOhaeng, balanceSummary.weak, balanceSummary.strong)}
+【용신(用神) 판정】
+- 용신: ${favorableElement.yongsin} | 희신: ${favorableElement.secondary} | 기신: ${favorableElement.unfavorable}
+- 이유: ${favorableElement.reasoning}
 
-【운세 작성 요청】
+【MBTI × 사주 결합 분석】
+시너지:
+${mbtiSajuSynergy.synergies.map(s => `- ${s}`).join('\n') || '- 특별한 시너지 없음'}
+리스크:
+${mbtiSajuSynergy.risks.map(r => `- ${r}`).join('\n') || '- 특별한 리스크 없음'}
 
-위 사주 정보를 바탕으로 2026년 운세 5가지를 작성해주세요:
+【합충형 분석】
+${branchInteractions.interactions.map(i => `- [${i.type}] ${i.description}`).join('\n') || '- 특별한 합충형 없음'}
 
-1. 연애 운세 (love): 200-250자
-   - 일간 ${dayMaster}의 감정 표현 특성 + 2026년 화(火)의 기운이 연애에 미치는 영향
-   - 구체적인 시기나 상황 제시
-   - MBTI ${mbti} 성향과의 조화
+【반복 패턴 원인】
+${repeatPatterns.map(p => `- ${p.condition} → "${p.pattern}"`).join('\n') || '- 특별한 반복 패턴 없음'}
 
-2. 재물 운세 (money): 200-250자
-   - 오행 균형(${balanceSummary.remarks})이 재물운에 미치는 영향
-   - 2026년 투자/소비 전략
-   - 강한 오행(${balanceSummary.strong.join(',')})을 활용한 수익 창출 방향
+${decadeLuck.length > 0 ? `【대운(大運) 흐름】
+${currentDecade ? `- 현재 대운: ${currentDecade.description}` : '- 현재 대운 정보 없음'}
+${nextDecade ? `- 다음 대운: ${nextDecade.description}` : ''}
+` : ''}
+【2026년 丙午 세운 상세】
+- 세운 십신: ${annualAnalysis.annualTenGod} — ${annualAnalysis.overallTheme}
+- 세운 지장간: ${annualAnalysis.annualHiddenStems.join(',')}
+${annualAnalysis.pillarInteractions.map(pi => `- ${pi.pillarName}: ${pi.significance}`).join('\n')}
+- 좋은 달: ${annualAnalysis.favorableMonths.join(', ') || '없음'}
+- 주의할 달: ${annualAnalysis.cautionMonths.join(', ') || '없음'}
 
-3. 커리어 운세 (career): 200-250자
-   - 일간 ${dayMaster}의 직업 적성과 2026년 기회
-   - 약한 오행(${balanceSummary.weak.join(',')})을 보완하는 직장 전략
-   - MBTI ${mbti} 강점 활용법
+═══════════════════════════════════════
 
-4. 건강 운세 (health): 200-250자
-   - 사주의 오행 불균형(${balanceSummary.remarks})이 건강에 미치는 영향
-   - 2026년 주의할 신체 부위와 관리법
-   - 계절별(${seasonFactor.notes}) 건강 관리 팁
+【운세 작성 요청 — 5개 섹션】
 
-5. 인간관계 운세 (relationship): 200-250자
-   - 일간 ${dayMaster}의 대인관계 스타일
-   - 2026년 인맥운과 주의할 점
-   - 강한/약한 오행이 대인관계에 미치는 영향
+위의 모든 분석 데이터를 근거로 2026년 운세를 작성하세요.
+각 섹션은 반드시 아래 소제목 구조를 따르세요:
 
-【작성 규칙】
-- 친근하고 따뜻한 톤 (~해요, ~죠)
-- 사주 용어(일간, 오행, 사주)를 자연스럽게 녹여내기
-- 구체적인 예시와 상황 제시
-- 긍정적이지만 현실적인 조언
-- 각 섹션마다 이모지 1-2개 적절히 사용
-- 2026년이라는 시점 명시
+1. love (연애): 각 소제목 포함, 총 500자 이상
+   - summary: 한 줄 핵심 요약
+   - tenGodAnalysis: 재성/관성 분포가 연애에 미치는 영향 (십신 데이터 인용)
+   - yongsinAdvice: 용신(${favorableElement.yongsin}) 활용 연애 전략
+   - mbtiSynergy: MBTI ${mbti}와 사주 결합이 연애에 주는 시너지/리스크
+   - interaction: 합충형이 연애에 미치는 영향 (해당 시 인용)
+   - timing: 대운 위치와 2026 세운에서의 연애 타이밍
+   - action: 구체적 행동 조언 1-2개
 
-【출력 형식 - 반드시 JSON으로】
+2. money (재물): 같은 구조, 500자 이상
+3. career (커리어): 같은 구조, 500자 이상
+4. health (건강): 같은 구조, 500자 이상
+   - 오행↔장기 매핑: 木=간/담, 火=심장/소장, 土=비/위, 金=폐/대장, 水=신장/방광
+5. relationship (인간관계): 같은 구조, 500자 이상
+
+【작성 규칙 — 말투가 핵심!】
+- 고양이 캐릭터(${catName})가 집사님에게 이야기하는 톤 유지
+- "~냥", "~다냥", "~거냥" 어미를 2~3문장마다 한 번씩 자연스럽게 섞기
+- 기본 어미는 "~해요", "~죠", "~거예요" (격식체 금지)
+- "집사님", "우리 집사" 호칭 사용
+- 이모지 섹션당 3~5개 (🐾🔮✨💕🌿🔥💰🎯 등)
+- 사주 용어는 괄호 안에 쉬운 설명 병기
+- 반복 패턴 원인을 운세에 자연스럽게 녹이기
+- 구조 요약의 핵심 갈등을 각 섹션에서 다른 각도로 조명
+- 일반론 금지 — 이 사람의 사주 데이터에서만 나올 수 있는 해석
+- 각 소제목 앞에 라벨 붙이지 마세요. 자연스러운 문단으로 연결하되, 내부적으로 위 구조를 따르세요.
+- 예시 말투: "집사님의 정재(正財, 안정적 재물의 기운)가 월주에 딱 자리잡고 있어서, 꾸준히 모으는 스타일이 빛을 볼 해예요! 🐾 특히 봄에는..."
+
+【출력 형식 — 반드시 JSON】
 {
-  "love": "...",
+  "love": "전체 텍스트 (소제목 구조가 자연스럽게 녹아든 하나의 긴 글)",
   "money": "...",
   "career": "...",
   "health": "...",
   "relationship": "..."
 }`;
-}
-
-function getAnnualInteraction(
-  dominant: Ohaeng,
-  weak: Ohaeng[],
-  strong: Ohaeng[]
-): string {
-  const lines: string[] = [];
-  
-  // 2026년은 화(火)의 해
-  lines.push('  - 2026년은 병오(丙午)로 불(火)의 기운이 최고조에 달하는 해입니다.');
-  
-  if (dominant === '火') {
-    lines.push('  - 당신의 주요 오행이 화(火)이므로, 2026년은 에너지가 넘치지만 과열에 주의해야 합니다.');
-  } else if (dominant === '水') {
-    lines.push('  - 당신의 주요 오행 수(水)와 2026년 화(火)가 상극이므로, 변화와 도전이 많은 해가 될 수 있습니다.');
-  } else if (dominant === '金') {
-    lines.push('  - 당신의 금(金)은 2026년 화(火)에 의해 단련되어 완성도가 높아지는 해입니다.');
-  } else if (dominant === '木') {
-    lines.push('  - 당신의 목(木)은 2026년 화(火)로 생(生)되어 성장과 확장의 기운이 강해집니다.');
-  } else if (dominant === '土') {
-    lines.push('  - 당신의 토(土)는 2026년 화(火)로부터 생(生)받아 안정적인 기운을 얻습니다.');
-  }
-  
-  if (weak.includes('水')) {
-    lines.push('  - 수(水)가 약하므로 2026년 화(火)의 과열을 식힐 수 있는 전략이 필요합니다.');
-  }
-  
-  if (strong.includes('火')) {
-    lines.push('  - 화(火)가 이미 강하므로 2026년은 특히 에너지 관리가 중요합니다.');
-  }
-  
-  return lines.join('\n');
 }

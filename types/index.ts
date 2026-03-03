@@ -80,12 +80,12 @@ export interface SajuPayload {
     day: Pillar;
     hour: Pillar | null;
   };
-  dayMaster: string;  // 일간
-  fiveElementsCount: Record<Ohaeng, number>;  // 천간+지지 기준 오행 개수
+  dayMaster: string;
+  fiveElementsCount: Record<Ohaeng, number>;
   seasonFactor: {
-    monthBranch: string;  // 월지
+    monthBranch: string;
     dominantElement: Ohaeng;
-    notes: string;  // 계절 설명
+    notes: string;
   };
   balanceSummary: {
     strong: Ohaeng[];
@@ -98,6 +98,132 @@ export interface SajuPayload {
     annualPillar: Pillar;
     annualElementTheme: Ohaeng[];
   };
+  // 심화 분석 필드
+  hiddenStems: {
+    year: string[];
+    month: string[];
+    day: string[];
+    hour: string[];
+  };
+  enrichedFiveElements: Record<Ohaeng, number>;
+  tenGodChart: TenGodChart;
+  dayMasterStrength: DayMasterStrength;
+  favorableElement: FavorableElement;
+  branchInteractions: BranchInteractions;
+  decadeLuck: DecadeLuckPeriod[];
+  annualAnalysis: AnnualAnalysis;
+  ohaengBehaviors: OhaengBehavior[];
+  repeatPatterns: RepeatPattern[];
+  structureSummary: StructureSummary;
+  mbtiSajuSynergy: MbtiSajuSynergy;
+}
+
+// ── 심화 사주 분석 타입 ──
+
+export type Gender = 'male' | 'female';
+
+export type TenGod =
+  | '비견' | '겁재'   // 비겁
+  | '식신' | '상관'   // 식상
+  | '편재' | '정재'   // 재성
+  | '편관' | '정관'   // 관성
+  | '편인' | '정인';  // 인성
+
+export type TenGodGroup = '비겁' | '식상' | '재성' | '관성' | '인성';
+
+export interface TenGodChart {
+  yearStem: TenGod;
+  monthStem: TenGod;
+  hourStem: TenGod | null;
+  yearBranchMain: TenGod;
+  monthBranchMain: TenGod;
+  dayBranchMain: TenGod;
+  hourBranchMain: TenGod | null;
+  summary: Record<TenGod, number>;
+  groupSummary: Record<TenGodGroup, number>;
+  dominantGroups: { group: TenGodGroup; count: number; behavior: string }[];
+}
+
+export interface DayMasterStrength {
+  isStrong: boolean;
+  score: number;
+  seasonSupport: 'strong' | 'moderate' | 'weak' | 'hostile';
+  helpingElements: Ohaeng[];
+  hinderingElements: Ohaeng[];
+  analysis: string;
+}
+
+export interface FavorableElement {
+  yongsin: Ohaeng;
+  secondary: Ohaeng;
+  unfavorable: Ohaeng;
+  reasoning: string;
+}
+
+export interface BranchInteraction {
+  type: '삼합' | '육합' | '충' | '형' | '천간합';
+  involved: string[];
+  pillars: string[];
+  resultElement?: Ohaeng;
+  description: string;
+}
+
+export interface BranchInteractions {
+  interactions: BranchInteraction[];
+  hasClash: boolean;
+  hasTripleCombination: boolean;
+  hasPunishment: boolean;
+  summary: string;
+}
+
+export interface DecadeLuckPeriod {
+  startAge: number;
+  endAge: number;
+  stem: string;
+  branch: string;
+  element: Ohaeng;
+  tenGod: TenGod;
+  theme: string;       // 성향 변화 방향
+  description: string;
+}
+
+export interface AnnualPillarInteraction {
+  pillarName: string;
+  stemInteraction: string | null;
+  branchInteraction: string | null;
+  significance: string;
+}
+
+export interface AnnualAnalysis {
+  annualTenGod: TenGod;
+  annualHiddenStems: string[];
+  pillarInteractions: AnnualPillarInteraction[];
+  overallTheme: string;
+  favorableMonths: string[];
+  cautionMonths: string[];
+}
+
+export interface OhaengBehavior {
+  element: Ohaeng;
+  type: 'excess' | 'deficit';
+  behavior: string;
+}
+
+export interface RepeatPattern {
+  condition: string;
+  pattern: string;
+}
+
+export interface StructureSummary {
+  personalityAxis: string;
+  energyTension: string;
+  mainConflict: string;
+  riskZone: string;
+}
+
+export interface MbtiSajuSynergy {
+  synergies: string[];
+  risks: string[];
 }
 
 export interface UserInput {
@@ -106,6 +232,7 @@ export interface UserInput {
   birthMonth: number;
   birthDay: number;
   birthHour: number;
+  gender?: Gender;
 }
 
 // 새로운 ResultData

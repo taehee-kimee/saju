@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import OhaengBar from '@/components/OhaengBar';
 import { isValidMbti } from '@/lib/mbti';
@@ -13,6 +13,34 @@ interface FortuneData {
   career: string;
   health: string;
   relationship: string;
+}
+
+interface SavedReport {
+  character: Character;
+  saju: SajuResult;
+  mbti: MbtiType;
+  fortunes: FortuneData;
+  savedAt: string;
+}
+
+const REPORT_STORAGE_KEY = 'nyangsae_saved_report';
+
+function saveReportToStorage(data: SavedReport): void {
+  try {
+    localStorage.setItem(REPORT_STORAGE_KEY, JSON.stringify(data));
+  } catch {
+    // localStorage full or unavailable
+  }
+}
+
+function loadReportFromStorage(): SavedReport | null {
+  try {
+    const raw = localStorage.getItem(REPORT_STORAGE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw) as SavedReport;
+  } catch {
+    return null;
+  }
 }
 
 type FreeSectionKey =
@@ -36,12 +64,14 @@ const FREE_SECTION_CONFIG: ReadonlyArray<{
 const PAID_SECTION_CONFIG: ReadonlyArray<{
   key: keyof FortuneData;
   title: string;
+  shortTitle: string;
+  emoji: string;
 }> = [
-  { key: 'love', title: '💞 연애 운세' },
-  { key: 'money', title: '💰 재물 운세' },
-  { key: 'career', title: '🧑‍💻 커리어 운세' },
-  { key: 'health', title: '🧘‍♀️ 건강 운세' },
-  { key: 'relationship', title: '🤝 인간관계 운세' },
+  { key: 'love', title: '💞 연애 운세', shortTitle: '연애', emoji: '💞' },
+  { key: 'money', title: '💰 재물 운세', shortTitle: '재물', emoji: '💰' },
+  { key: 'career', title: '🧑‍💻 커리어 운세', shortTitle: '커리어', emoji: '🧑‍💻' },
+  { key: 'health', title: '🧘‍♀️ 건강 운세', shortTitle: '건강', emoji: '🧘‍♀️' },
+  { key: 'relationship', title: '🤝 인간관계 운세', shortTitle: '관계', emoji: '🤝' },
 ];
 
 async function fetchCharacter(characterId: string): Promise<Character> {
@@ -126,6 +156,8 @@ function ReportContent() {
   const [loading, setLoading] = useState(true);
   const [generatingFortunes, setGeneratingFortunes] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [activeFortuneTab, setActiveFortuneTab] = useState<keyof FortuneData>('love');
+  const [saved, setSaved] = useState(false);
 
   const paymentSuccess = searchParams.get('payment') === 'success';
   const debugMode =
@@ -139,7 +171,18 @@ function ReportContent() {
     let cancelled = false;
 
     const loadReport = async () => {
+      // 저장된 리포트가 있으면 바로 복원 (세션 만료 후 재방문 시)
+      const savedReport = loadReportFromStorage();
       if (!paymentSuccess && !debugMode) {
+        if (savedReport) {
+          setCharacter(savedReport.character);
+          setSaju(savedReport.saju);
+          setMbti(savedReport.mbti);
+          setFortunes(savedReport.fortunes);
+          setSaved(true);
+          setLoading(false);
+          return;
+        }
         router.replace('/result');
         return;
       }
@@ -153,6 +196,15 @@ function ReportContent() {
         : null;
 
       if (!characterId || !rawSaju || !rawMbti || !isValidMbti(rawMbti)) {
+        if (savedReport) {
+          setCharacter(savedReport.character);
+          setSaju(savedReport.saju);
+          setMbti(savedReport.mbti);
+          setFortunes(savedReport.fortunes);
+          setSaved(true);
+          setLoading(false);
+          return;
+        }
         router.replace('/result');
         return;
       }
@@ -200,10 +252,20 @@ function ReportContent() {
 
         if (cancelled) return;
 
+        // 자동 저장 (결제 완료 시)
+        saveReportToStorage({
+          character: characterData,
+          saju: parsedSaju,
+          mbti: rawMbti,
+          fortunes: resolvedFortunes,
+          savedAt: new Date().toISOString(),
+        });
+
         setCharacter(characterData);
         setSaju(parsedSaju);
         setMbti(rawMbti);
         setFortunes(resolvedFortunes);
+        setSaved(true);
         setGeneratingFortunes(false);
         setLoading(false);
       } catch {
@@ -279,9 +341,17 @@ function ReportContent() {
             <span>디버그 모드</span>
           </div>
         ) : (
-          <div className="mt-3 inline-flex items-center gap-1 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
-            <span>✓</span>
-            <span>AI 풀리포트 생성 완료</span>
+          <div className="mt-3 flex justify-center gap-2">
+            <div className="inline-flex items-center gap-1 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
+              <span>✓</span>
+              <span>AI 풀리포트 생성 완료</span>
+            </div>
+            {saved && (
+              <div className="inline-flex items-center gap-1 bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm">
+                <span>💾</span>
+                <span>저장됨</span>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -320,18 +390,33 @@ function ReportContent() {
         </section>
       ))}
 
-      {PAID_SECTION_CONFIG.map((section) => (
-        <section key={section.key} className="mb-6">
-          <h2 className="text-lg font-bold text-orange-500 mb-3">
-            {section.title}
-          </h2>
-          <div className="bg-orange-50 rounded-2xl p-5">
-            <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-              {fortunes[section.key]}
-            </p>
-          </div>
-        </section>
-      ))}
+      <section className="mb-6">
+        <h2 className="text-lg font-bold text-gray-700 mb-3 text-center">🔮 2026년 운세</h2>
+        <div className="flex gap-1 mb-4 overflow-x-auto pb-1">
+          {PAID_SECTION_CONFIG.map((section) => (
+            <button
+              key={section.key}
+              onClick={() => setActiveFortuneTab(section.key)}
+              className={`flex-1 min-w-0 py-2.5 px-1 rounded-xl text-sm font-medium transition-all ${
+                activeFortuneTab === section.key
+                  ? 'bg-orange-400 text-white shadow-md'
+                  : 'bg-gray-100 text-gray-500 hover:bg-orange-50 hover:text-orange-400'
+              }`}
+            >
+              <div className="text-base">{section.emoji}</div>
+              <div className="text-xs mt-0.5">{section.shortTitle}</div>
+            </button>
+          ))}
+        </div>
+        <div className="bg-orange-50 rounded-2xl p-5">
+          <h3 className="text-orange-600 font-bold text-lg mb-3">
+            {PAID_SECTION_CONFIG.find(s => s.key === activeFortuneTab)?.title}
+          </h3>
+          <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+            {fortunes[activeFortuneTab]}
+          </p>
+        </div>
+      </section>
 
       <div className="mt-8 space-y-3">
         <button

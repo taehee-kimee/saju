@@ -14,6 +14,7 @@ export default function SajuPage() {
     month: '',
     day: '',
     hour: 'unknown',
+    gender: 'unknown',
   });
   const [showHourPicker, setShowHourPicker] = useState(false);
 
@@ -33,6 +34,7 @@ export default function SajuPage() {
       month: form.month.padStart(2, '0'),
       day: form.day.padStart(2, '0'),
       hour: form.hour,
+      gender: form.gender,
     };
     sessionStorage.setItem('birthInfo', JSON.stringify(payload));
     router.push('/result');
@@ -100,6 +102,31 @@ export default function SajuPage() {
               ))}
             </div>
           )}
+        </div>
+
+        {/* 성별 선택 */}
+        <div>
+          <p className="text-sm text-gray-500 mb-2">성별 (대운 분석에 사용)</p>
+          <div className="flex gap-2">
+            {[
+              { value: 'male', label: '남자' },
+              { value: 'female', label: '여자' },
+              { value: 'unknown', label: '선택 안 함' },
+            ].map((opt) => (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => setForm((prev) => ({ ...prev, gender: opt.value }))}
+                className={`flex-1 p-3 rounded-xl border-2 text-sm font-medium transition-colors ${
+                  form.gender === opt.value
+                    ? 'border-orange-400 bg-orange-50 text-orange-600'
+                    : 'border-gray-200 text-gray-500 hover:border-orange-200'
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         <button
