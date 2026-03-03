@@ -6,6 +6,7 @@ import {
   BranchInteraction, BranchInteractions,
   DecadeLuckPeriod, AnnualAnalysis, AnnualPillarInteraction,
   OhaengBehavior, RepeatPattern, StructureSummary, MbtiSajuSynergy,
+  YearBrief,
   MbtiType,
 } from '@/types';
 
@@ -723,6 +724,83 @@ function analyzeBalance(count: Record<Ohaeng, number>): { strong: Ohaeng[]; weak
   return { strong, weak, skewed, remarks };
 }
 
+// ── 3년 흐름 분석 ──
+
+const YEAR_PILLARS: Record<number, Pillar> = {
+  2026: { stem: '丙', branch: '午' },
+  2027: { stem: '丁', branch: '未' },
+  2028: { stem: '戊', branch: '申' },
+};
+
+const YEAR_OUTLOOK_TEMPLATES: Record<TenGodGroup, { active: string; passive: string }> = {
+  '비겁': {
+    active:  '자기 주도력이 살아나는 해예요. 독립·창업·자기 브랜딩에 유리하지만 고집과 충돌 주의.',
+    passive: '경쟁·갈등이 높아지는 해. 협력보다 독단적 결정이 잦아질 수 있어요.',
+  },
+  '식상': {
+    active:  '표현·창작·이직 욕구가 폭발하는 해. 새로운 도전을 시작하기 좋아요.',
+    passive: '말과 행동이 앞서 나가 실수가 생길 수 있어요. 충동적 결정 조심.',
+  },
+  '재성': {
+    active:  '재물·결혼·현실 성과를 거두기 좋은 해. 투자와 계약에 집중하세요.',
+    passive: '재물 욕심이 과해지거나 관계가 이해타산적이 될 수 있어요.',
+  },
+  '관성': {
+    active:  '승진·시험·사회적 인정을 받을 수 있는 해. 책임이 무거워지는 만큼 성과도 커요.',
+    passive: '외부 압박과 스트레스가 강해지는 해. 건강과 멘탈 관리가 필요해요.',
+  },
+  '인성': {
+    active:  '학습·자격증·내면 충전에 좋은 해. 재충전하고 다음 도약을 준비하세요.',
+    passive: '행동보다 생각이 앞서는 해. 결정을 미루지 않도록 주의.',
+  },
+};
+
+function analyzeYearBrief(
+  year: number,
+  dayMaster: string,
+  pillars: { year: Pillar; month: Pillar; day: Pillar; hour: Pillar | null },
+): YearBrief {
+  const annualPillar = YEAR_PILLARS[year];
+  if (!annualPillar) throw new Error(`No pillar data for year ${year}`);
+
+  const pillarStr = annualPillar.stem + annualPillar.branch;
+  const dayMasterElement = CHEONGAN_OHAENG[dayMaster] ?? '土';
+  const dayMasterYY = STEM_YINYANG[dayMaster] ?? 'yang';
+  const annualElement = CHEONGAN_OHAENG[annualPillar.stem] ?? '火';
+  const annualYY = STEM_YINYANG[annualPillar.stem] ?? 'yang';
+
+  const tenGod = determineTenGod(dayMasterElement, dayMasterYY, annualElement, annualYY);
+  const tenGodGroup = tenGodGroupOf(tenGod);
+  const theme = DECADE_LUCK_THEMES[tenGodGroup] ?? '변화의 해';
+
+  // 충 체크: 일지·월지·연지 vs 세운 지지
+  const dayBranches = [pillars.year.branch, pillars.month.branch, pillars.day.branch];
+  if (pillars.hour) dayBranches.push(pillars.hour.branch);
+  let hasClash = false;
+  let clashDetail: string | undefined;
+  outer: for (const b of dayBranches) {
+    for (const [ca, cb] of CHUNG) {
+      if ((b === ca && annualPillar.branch === cb) || (b === cb && annualPillar.branch === ca)) {
+        hasClash = true;
+        clashDetail = `${b}↔${annualPillar.branch} 충`;
+        break outer;
+      }
+    }
+  }
+
+  // 신강 여부에 따라 outlook 선택 (dayMaster element vs annual element)
+  const isStrengthening =
+    GENERATION_CYCLE[annualElement] === dayMasterElement ||  // 생조
+    annualElement === dayMasterElement;                       // 비겁
+  const templates = YEAR_OUTLOOK_TEMPLATES[tenGodGroup];
+  let outlook = isStrengthening ? templates.active : templates.passive;
+  if (hasClash) {
+    outlook += ` ⚡ ${clashDetail} 영향으로 변화·이동·갈등이 생길 수 있어요.`;
+  }
+
+  return { year, pillar: pillarStr, tenGod, tenGodGroup, theme, hasClash, clashDetail, outlook };
+}
+
 // ── 메인 함수 ──
 
 export function calculateSaju(
@@ -803,6 +881,10 @@ export function calculateSaju(
     ? analyzeMbtiSajuSynergy(mbti, tenGodChart, dayMasterStrength)
     : { synergies: [], risks: [] };
 
+  const threeYearOutlook: YearBrief[] = [2026, 2027, 2028].map((y) =>
+    analyzeYearBrief(y, pillars.day.stem, pillars)
+  );
+
   const payload: SajuPayload = {
     pillars: { year: pillars.year, month: pillars.month, day: pillars.day, hour: pillars.hour },
     dayMaster: pillars.day.stem,
@@ -826,6 +908,7 @@ export function calculateSaju(
     repeatPatterns,
     structureSummary,
     mbtiSajuSynergy,
+    threeYearOutlook,
   };
 
   return {

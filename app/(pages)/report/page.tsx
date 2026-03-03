@@ -811,6 +811,44 @@ function ReportContent() {
         );
       })()}
 
+      {/* ── 3년 흐름 포지션 ── */}
+      {saju.payload.threeYearOutlook && saju.payload.threeYearOutlook.length > 0 && (() => {
+        const YEAR_COLOR: Record<number, { bg: string; badge: string; dot: string }> = {
+          2026: { bg: 'bg-orange-50 border-orange-200', badge: 'bg-orange-100 text-orange-700', dot: 'bg-orange-400' },
+          2027: { bg: 'bg-blue-50 border-blue-200',   badge: 'bg-blue-100 text-blue-700',   dot: 'bg-blue-400' },
+          2028: { bg: 'bg-purple-50 border-purple-200', badge: 'bg-purple-100 text-purple-700', dot: 'bg-purple-400' },
+        };
+        return (
+          <section className="mt-6">
+            <div className="mb-4">
+              <h2 className="text-base font-bold text-gray-800 mb-1">⏳ 앞으로 3년 흐름 포지션</h2>
+              <p className="text-xs text-gray-500">세운(歲運, 올해·내년·내후년의 기운) 기준 포지션 요약</p>
+            </div>
+            <div className="space-y-3">
+              {saju.payload.threeYearOutlook.map((brief) => {
+                const colors = YEAR_COLOR[brief.year] ?? { bg: 'bg-gray-50 border-gray-200', badge: 'bg-gray-100 text-gray-700', dot: 'bg-gray-400' };
+                return (
+                  <div key={brief.year} className={`rounded-2xl border p-4 ${colors.bg}`}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className={`w-2 h-2 rounded-full ${colors.dot} shrink-0`} />
+                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${colors.badge}`}>
+                        {brief.year}년 {brief.pillar}
+                      </span>
+                      <span className="text-xs text-gray-500">{brief.tenGodGroup} ({brief.tenGod})</span>
+                      {brief.hasClash && (
+                        <span className="ml-auto text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full font-medium">⚡충</span>
+                      )}
+                    </div>
+                    <p className="text-sm font-semibold text-gray-800 mb-1">{brief.theme}</p>
+                    <p className="text-sm text-gray-600 leading-relaxed">{brief.outlook}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        );
+      })()}
+
       {/* ── 하단 버튼 ── */}
       <div className="mt-8 space-y-3">
         <button

@@ -116,6 +116,7 @@ export interface SajuPayload {
   repeatPatterns: RepeatPattern[];
   structureSummary: StructureSummary;
   mbtiSajuSynergy: MbtiSajuSynergy;
+  threeYearOutlook: YearBrief[];
 }
 
 // ── 심화 사주 분석 타입 ──
@@ -224,6 +225,17 @@ export interface StructureSummary {
 export interface MbtiSajuSynergy {
   synergies: string[];
   risks: string[];
+}
+
+export interface YearBrief {
+  year: number;
+  pillar: string;        // e.g. "丙午"
+  tenGod: TenGod;
+  tenGodGroup: TenGodGroup;
+  theme: string;
+  hasClash: boolean;
+  clashDetail?: string;
+  outlook: string;
 }
 
 export interface UserInput {
