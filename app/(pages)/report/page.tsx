@@ -16,6 +16,7 @@ interface FortuneData {
 }
 
 interface SavedReport {
+  id: string;
   character: Character;
   saju: SajuResult;
   mbti: MbtiType;
@@ -24,23 +25,36 @@ interface SavedReport {
   birthYear?: number;
 }
 
-const REPORT_STORAGE_KEY = 'nyangsae_saved_report';
+const REPORTS_KEY = 'nyangsae_saved_reports';
+const LEGACY_KEY = 'nyangsae_saved_report';
+const MAX_SAVED = 5;
 
-function saveReportToStorage(data: SavedReport): void {
+function listReports(): SavedReport[] {
   try {
-    localStorage.setItem(REPORT_STORAGE_KEY, JSON.stringify(data));
-  } catch {
-    // localStorage full or unavailable
-  }
+    const raw = localStorage.getItem(REPORTS_KEY);
+    if (raw) return JSON.parse(raw) as SavedReport[];
+    // 구버전 단일 저장 마이그레이션
+    const oldRaw = localStorage.getItem(LEGACY_KEY);
+    if (oldRaw) {
+      const old = JSON.parse(oldRaw) as SavedReport & { id?: string };
+      const migrated: SavedReport[] = [{ ...old, id: old.id ?? old.savedAt }];
+      localStorage.setItem(REPORTS_KEY, JSON.stringify(migrated));
+      localStorage.removeItem(LEGACY_KEY);
+      return migrated;
+    }
+  } catch { /* ignore */ }
+  return [];
 }
 
-function loadReportFromStorage(): SavedReport | null {
+function saveReport(data: Omit<SavedReport, 'id'>): SavedReport {
   try {
-    const raw = localStorage.getItem(REPORT_STORAGE_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw) as SavedReport;
+    const reports = listReports();
+    const newReport: SavedReport = { ...data, id: data.savedAt };
+    const updated = [newReport, ...reports].slice(0, MAX_SAVED);
+    localStorage.setItem(REPORTS_KEY, JSON.stringify(updated));
+    return newReport;
   } catch {
-    return null;
+    return { ...data, id: data.savedAt };
   }
 }
 
@@ -192,6 +206,8 @@ function ReportContent() {
   const [error, setError] = useState<string | null>(null);
   const [activeFortuneTab, setActiveFortuneTab] = useState<keyof FortuneData>('love');
   const [saved, setSaved] = useState(false);
+  const [allReports, setAllReports] = useState<SavedReport[]>([]);
+  const [activeReportId, setActiveReportId] = useState<string | null>(null);
   const [freeCollapsed, setFreeCollapsed] = useState(true);
   const [birthYear, setBirthYear] = useState<number | null>(null);
 
@@ -208,25 +224,17 @@ function ReportContent() {
 
     const loadReport = async () => {
       // 저장된 리포트가 있으면 바로 복원 (세션 만료 후 재방문 시)
-      const savedReport = loadReportFromStorage();
+      const reports = listReports();
       if (!paymentSuccess && !debugMode) {
-        if (savedReport) {
-          setCharacter(savedReport.character);
-          // sessionStorage에 최신 sajuData가 있으면 그걸 우선 사용 (payload 신규 필드 대응)
-          const freshSajuRaw = sessionStorage.getItem('sajuData');
-          const sajuToUse: SajuResult = (() => {
-            if (freshSajuRaw) {
-              try {
-                const fresh = JSON.parse(freshSajuRaw) as SajuResult;
-                if (fresh?.payload?.threeYearOutlook) return fresh;
-              } catch { /* fall through */ }
-            }
-            return savedReport.saju;
-          })();
-          setSaju(sajuToUse);
-          setMbti(savedReport.mbti);
-          setFortunes(savedReport.fortunes);
-          if (savedReport.birthYear) setBirthYear(savedReport.birthYear);
+        if (reports.length > 0) {
+          const latest = reports[0];
+          setAllReports(reports);
+          setActiveReportId(latest.id);
+          setCharacter(latest.character);
+          setSaju(latest.saju);
+          setMbti(latest.mbti);
+          setFortunes(latest.fortunes);
+          if (latest.birthYear) setBirthYear(latest.birthYear);
           setSaved(true);
           setLoading(false);
           return;
@@ -255,12 +263,15 @@ function ReportContent() {
       } catch { /* ignore */ }
 
       if (!characterId || !rawSaju || !rawMbti || !isValidMbti(rawMbti)) {
-        if (savedReport) {
-          setCharacter(savedReport.character);
-          setSaju(savedReport.saju);
-          setMbti(savedReport.mbti);
-          setFortunes(savedReport.fortunes);
-          if (savedReport.birthYear) setBirthYear(savedReport.birthYear);
+        if (reports.length > 0) {
+          const latest = reports[0];
+          setAllReports(reports);
+          setActiveReportId(latest.id);
+          setCharacter(latest.character);
+          setSaju(latest.saju);
+          setMbti(latest.mbti);
+          setFortunes(latest.fortunes);
+          if (latest.birthYear) setBirthYear(latest.birthYear);
           setSaved(true);
           setLoading(false);
           return;
@@ -313,7 +324,7 @@ function ReportContent() {
         if (cancelled) return;
 
         // 자동 저장 (결제 완료 시)
-        saveReportToStorage({
+        const newReport = saveReport({
           character: characterData,
           saju: parsedSaju,
           mbti: rawMbti,
@@ -321,6 +332,9 @@ function ReportContent() {
           savedAt: new Date().toISOString(),
           birthYear: sessionBirthYear ?? undefined,
         });
+        const updatedReports = listReports();
+        setAllReports(updatedReports);
+        setActiveReportId(newReport.id);
 
         setCharacter(characterData);
         setSaju(parsedSaju);
@@ -391,8 +405,50 @@ function ReportContent() {
 
   const p = saju.payload;
 
+  // 리포트 전환 핸들러
+  const switchReport = (report: SavedReport) => {
+    setCharacter(report.character);
+    setSaju(report.saju);
+    setMbti(report.mbti as MbtiType);
+    setFortunes(report.fortunes);
+    setBirthYear(report.birthYear ?? null);
+    setActiveReportId(report.id);
+    setActiveFortuneTab('love');
+  };
+
   return (
     <main className="min-h-screen p-6 pb-32 max-w-md mx-auto">
+      {/* ── 저장된 리포트 선택기 (2개 이상일 때) ── */}
+      {allReports.length > 1 && (
+        <div className="mb-5">
+          <p className="text-xs text-gray-400 mb-2">저장된 풀리포트 ({allReports.length}개)</p>
+          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+            {allReports.map((r) => {
+              const isActive = r.id === activeReportId;
+              const date = new Date(r.savedAt);
+              const dateStr = `${date.getMonth() + 1}/${date.getDate()}`;
+              return (
+                <button
+                  key={r.id}
+                  onClick={() => switchReport(r)}
+                  className={`flex-shrink-0 flex flex-col items-center gap-1 px-3 py-2 rounded-xl border-2 transition-all ${
+                    isActive
+                      ? 'border-orange-400 bg-orange-50'
+                      : 'border-gray-200 bg-white hover:border-orange-200'
+                  }`}
+                >
+                  <span className="text-2xl">{r.character.emoji}</span>
+                  <span className={`text-xs font-medium whitespace-nowrap ${isActive ? 'text-orange-600' : 'text-gray-600'}`}>
+                    {r.character.name}
+                  </span>
+                  <span className="text-[10px] text-gray-400">{dateStr}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* ── 헤더 ── */}
       <div className="text-center mb-6">
         <div className="text-8xl mb-4">{character.emoji}</div>

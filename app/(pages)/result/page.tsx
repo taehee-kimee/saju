@@ -178,12 +178,15 @@ export default function ResultPage() {
     };
   }, []);
 
-  const [hasSavedReport, setHasSavedReport] = useState(false);
+  const [savedCount, setSavedCount] = useState(0);
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem('nyangsae_saved_report');
-      if (saved) setHasSavedReport(true);
+      // 새 멀티 저장 키 우선, 구버전 폴백
+      const raw = localStorage.getItem('nyangsae_saved_reports') ?? localStorage.getItem('nyangsae_saved_report');
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      setSavedCount(Array.isArray(parsed) ? parsed.length : 1);
     } catch { /* ignore */ }
   }, []);
 
@@ -300,12 +303,12 @@ export default function ResultPage() {
 
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 shadow-lg z-50">
         <div className="max-w-md mx-auto space-y-2">
-          {hasSavedReport && (
+          {savedCount > 0 && (
             <button
               onClick={() => router.push('/report')}
               className="w-full p-3 bg-blue-50 text-blue-600 rounded-xl font-medium border border-blue-200 hover:bg-blue-100 transition-colors"
             >
-              💾 저장된 풀리포트 다시 보기
+              💾 저장된 풀리포트 보기{savedCount > 1 ? ` (${savedCount}개)` : ''}
             </button>
           )}
           <button
