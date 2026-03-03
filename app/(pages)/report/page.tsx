@@ -7,13 +7,10 @@ import { isValidMbti } from '@/lib/mbti';
 import { normalizeCharacterId } from '@/lib/catMapper';
 import { Character, MbtiType, SajuResult } from '@/types';
 
-interface FortuneData {
-  love: string;
-  money: string;
-  career: string;
-  health: string;
-  relationship: string;
-}
+type FortuneSection = 'love' | 'money' | 'career' | 'health' | 'relationship';
+
+// null = 아직 로딩 중
+type FortuneData = Record<FortuneSection, string | null>;
 
 interface SavedReport {
   id: string;
@@ -157,16 +154,17 @@ async function verifyPayment(
   return payload.success === true;
 }
 
-async function generateFortunes(
+const FORTUNE_SECTIONS: FortuneSection[] = ['love', 'money', 'career', 'health', 'relationship'];
+
+async function fetchOneSection(
+  section: FortuneSection,
   character: Character,
   saju: SajuResult,
-  mbti: MbtiType
-): Promise<FortuneData> {
+  mbti: MbtiType,
+): Promise<string> {
   const response = await fetch('/api/generate-fortune', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       saju,
       payload: saju.payload,
@@ -174,14 +172,13 @@ async function generateFortunes(
       ohaeng: saju.dominantOhaeng,
       catName: character.name,
       catTagline: character.tagline,
+      section,
     }),
   });
-
-  if (!response.ok) {
-    throw new Error('fortune_generation_failed');
-  }
-
-  return (await response.json()) as FortuneData;
+  if (!response.ok) throw new Error(`section_failed:${section}`);
+  const data = (await response.json()) as Record<string, string>;
+  if (!data[section]) throw new Error(`missing_field:${section}`);
+  return data[section];
 }
 
 function getFallbackFortunes(character: Character): FortuneData {
@@ -309,41 +306,53 @@ function ReportContent() {
 
         if (cancelled) return;
 
+        // 초기 상태: 모든 섹션 null (로딩 중)
+        const emptyFortunes: FortuneData = { love: null, money: null, career: null, health: null, relationship: null };
+        setCharacter(characterData);
+        setSaju(parsedSaju);
+        setMbti(rawMbti);
+        setFortunes(emptyFortunes);
         setGeneratingFortunes(true);
-        let resolvedFortunes: FortuneData;
-        try {
-          resolvedFortunes = await generateFortunes(
-            characterData,
-            parsedSaju,
-            rawMbti
-          );
-        } catch {
-          resolvedFortunes = getFallbackFortunes(characterData);
-        }
+        setLoading(false);
+
+        // 5개 섹션 병렬 호출 — 완료된 것부터 실시간 반영
+        const fallback = getFallbackFortunes(characterData);
+        let accumulated: FortuneData = { ...emptyFortunes };
+
+        await Promise.allSettled(
+          FORTUNE_SECTIONS.map(async (section) => {
+            try {
+              const text = await fetchOneSection(section, characterData, parsedSaju, rawMbti);
+              if (cancelled) return;
+              accumulated = { ...accumulated, [section]: text };
+              setFortunes({ ...accumulated });
+            } catch {
+              if (cancelled) return;
+              accumulated = { ...accumulated, [section]: fallback[section] };
+              setFortunes({ ...accumulated });
+            }
+          })
+        );
 
         if (cancelled) return;
 
-        // 자동 저장 (결제 완료 시)
+        setGeneratingFortunes(false);
+
+        // 자동 저장 (모든 섹션 완료 후)
+        const finalFortunes = accumulated;
         const newReport = saveReport({
           character: characterData,
           saju: parsedSaju,
           mbti: rawMbti,
-          fortunes: resolvedFortunes,
+          fortunes: finalFortunes,
           savedAt: new Date().toISOString(),
           birthYear: sessionBirthYear ?? undefined,
         });
         const updatedReports = listReports();
         setAllReports(updatedReports);
         setActiveReportId(newReport.id);
-
-        setCharacter(characterData);
-        setSaju(parsedSaju);
-        setMbti(rawMbti);
-        setFortunes(resolvedFortunes);
         if (sessionBirthYear) setBirthYear(sessionBirthYear);
         setSaved(true);
-        setGeneratingFortunes(false);
-        setLoading(false);
       } catch {
         if (cancelled) return;
         setGeneratingFortunes(false);
@@ -733,43 +742,59 @@ function ReportContent() {
       )}
 
       {/* ── 2026 운세 탭 ── */}
-      <section className="mb-6">
-        <h2 className="text-base font-bold text-gray-800 mb-3">🔮 2026년엔 어떨까냥?</h2>
-        <div className="flex gap-1 mb-4">
-          {PAID_SECTION_CONFIG.map((section) => (
-            <button
-              key={section.key}
-              onClick={() => setActiveFortuneTab(section.key)}
-              className={`flex-1 min-w-0 py-2.5 px-1 rounded-xl text-sm font-medium transition-all ${
-                activeFortuneTab === section.key
-                  ? 'bg-orange-400 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-500 hover:bg-orange-50 hover:text-orange-400'
-              }`}
-            >
-              <div className="text-base">{section.emoji}</div>
-              <div className="text-xs mt-0.5">{section.shortTitle}</div>
-            </button>
-          ))}
-        </div>
-        <div className="bg-orange-50 rounded-2xl p-5">
-          <h3 className="text-orange-600 font-bold text-lg mb-4">
-            {PAID_SECTION_CONFIG.find(s => s.key === activeFortuneTab)?.title}
-          </h3>
-          <div className="space-y-4">
-            {fortunes[activeFortuneTab]
-              .split(/\n{2,}/)
-              .flatMap((block) => block.trim() ? [block.trim()] : [])
-              .map((para, i) => (
-                <p
-                  key={i}
-                  className="text-gray-700 text-[15px] leading-[2] whitespace-pre-line"
+      {fortunes && (
+        <section className="mb-6">
+          <h2 className="text-base font-bold text-gray-800 mb-3">🔮 2026년엔 어떨까냥?</h2>
+          <div className="flex gap-1 mb-4">
+            {PAID_SECTION_CONFIG.map((section) => {
+              const isReady = fortunes[section.key] !== null;
+              const isActive = activeFortuneTab === section.key;
+              return (
+                <button
+                  key={section.key}
+                  onClick={() => setActiveFortuneTab(section.key)}
+                  className={`flex-1 min-w-0 py-2.5 px-1 rounded-xl text-sm font-medium transition-all ${
+                    isActive
+                      ? 'bg-orange-400 text-white shadow-md'
+                      : 'bg-gray-100 text-gray-500 hover:bg-orange-50 hover:text-orange-400'
+                  }`}
                 >
-                  {para}
-                </p>
-              ))}
+                  <div className="text-base">{section.emoji}</div>
+                  <div className="text-xs mt-0.5">{section.shortTitle}</div>
+                  {!isReady && (
+                    <div className={`mt-1 w-3 h-3 mx-auto rounded-full border-2 border-t-transparent animate-spin ${isActive ? 'border-white' : 'border-gray-400'}`} />
+                  )}
+                  {isReady && !isActive && (
+                    <div className="mt-1 text-[10px] text-orange-400">✓</div>
+                  )}
+                </button>
+              );
+            })}
           </div>
-        </div>
-      </section>
+          <div className="bg-orange-50 rounded-2xl p-5">
+            <h3 className="text-orange-600 font-bold text-lg mb-4">
+              {PAID_SECTION_CONFIG.find(s => s.key === activeFortuneTab)?.title}
+            </h3>
+            {fortunes[activeFortuneTab] === null ? (
+              <div className="flex flex-col items-center py-8 text-gray-400">
+                <div className="w-8 h-8 rounded-full border-4 border-orange-200 border-t-orange-400 animate-spin mb-3" />
+                <p className="text-sm">운세를 불러오는 중이냥...</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {(fortunes[activeFortuneTab] as string)
+                  .split(/\n{2,}/)
+                  .flatMap((block) => block.trim() ? [block.trim()] : [])
+                  .map((para, i) => (
+                    <p key={i} className="text-gray-700 text-[15px] leading-[2] whitespace-pre-line">
+                      {para}
+                    </p>
+                  ))}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* ── 개운 전략 ── */}
       {p?.favorableElement && (() => {
