@@ -685,12 +685,22 @@ function ReportContent() {
           ))}
         </div>
         <div className="bg-orange-50 rounded-2xl p-5">
-          <h3 className="text-orange-600 font-bold text-lg mb-3">
+          <h3 className="text-orange-600 font-bold text-lg mb-4">
             {PAID_SECTION_CONFIG.find(s => s.key === activeFortuneTab)?.title}
           </h3>
-          <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-            {fortunes[activeFortuneTab]}
-          </p>
+          <div className="space-y-4">
+            {fortunes[activeFortuneTab]
+              .split(/\n{2,}/)
+              .flatMap((block) => block.trim() ? [block.trim()] : [])
+              .map((para, i) => (
+                <p
+                  key={i}
+                  className="text-gray-700 text-[15px] leading-[2] whitespace-pre-line"
+                >
+                  {para}
+                </p>
+              ))}
+          </div>
         </div>
       </section>
 
