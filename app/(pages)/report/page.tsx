@@ -524,18 +524,47 @@ function ReportContent() {
       </div>
 
       {/* ══════ 풀리포트 영역 ══════ */}
-      <div className="flex items-center gap-3 mb-6">
-        <div className="flex-1 h-px bg-gray-200" />
-        <span className="text-xs text-gray-400 font-medium whitespace-nowrap">✦ 풀리포트 ✦</span>
-        <div className="flex-1 h-px bg-gray-200" />
+      <div className="flex items-center gap-3 mb-5">
+        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-orange-300 to-transparent" />
+        <span className="text-xs text-orange-400 font-bold tracking-widest whitespace-nowrap px-2">✦ 풀리포트 ✦</span>
+        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-orange-300 to-transparent" />
+      </div>
+
+      {/* 목차 */}
+      <div className="flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-hide">
+        {[
+          { id: 'sec-tengod',    emoji: '🧬', label: '에너지' },
+          { id: 'sec-strength',  emoji: '⚖️', label: '강약' },
+          { id: 'sec-clash',     emoji: '💥', label: '충돌' },
+          { id: 'sec-decade',    emoji: '🌊', label: '대운' },
+          { id: 'sec-pattern',   emoji: '🔁', label: '패턴' },
+          { id: 'sec-fortune',   emoji: '🔮', label: '운세' },
+          { id: 'sec-strategy',  emoji: '✦',  label: '전략' },
+          { id: 'sec-outlook',   emoji: '⏳', label: '3년' },
+        ].map(({ id, emoji, label }) => (
+          <button
+            key={id}
+            onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+            className="flex-shrink-0 flex flex-col items-center gap-0.5 px-3 py-2 bg-gray-50 hover:bg-orange-50 border border-gray-200 hover:border-orange-300 rounded-xl transition-all"
+          >
+            <span className="text-base">{emoji}</span>
+            <span className="text-[10px] text-gray-500 font-medium">{label}</span>
+          </button>
+        ))}
       </div>
 
       {/* ── 십신 분석 ── */}
       {p?.tenGodChart && (
-        <section className="mb-6">
-          <h2 className="text-base font-bold text-gray-800 mb-1">🧬 내 에너지, 어디로 흐르고 있냥?</h2>
-          <p className="text-xs text-gray-400 mb-3">십신(十神)은 사주 안에서 나(일간)와 다른 기운의 관계를 5가지로 분류한 것이에요. 어떤 기운이 많은지에 따라 타고난 성향이 달라진답니다냥.</p>
-          <div className="bg-slate-50 rounded-2xl p-4 space-y-3">
+        <section id="sec-tengod" className="mb-0 pb-8 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
+          <div className="flex items-center gap-3 mb-3">
+            <span className="flex-shrink-0 w-7 h-7 rounded-full bg-blue-100 text-blue-600 text-xs font-bold flex items-center justify-center">01</span>
+            <div>
+              <h2 className="text-base font-bold text-gray-900 leading-tight">🧬 내 에너지, 어디로 흐르고 있냥?</h2>
+              <p className="text-[11px] text-gray-400 mt-0.5">십신(十神) 분석</p>
+            </div>
+          </div>
+          <p className="text-xs text-gray-400 mb-3 pl-10">십신은 사주 안에서 나(일간)와 다른 기운의 관계를 5가지로 분류한 것이에요. 어떤 기운이 많은지에 따라 타고난 성향이 달라진답니다냥.</p>
+          <div className="bg-slate-50 rounded-2xl p-4 space-y-3 border-t-4 border-blue-300">
             <div className="grid grid-cols-5 gap-1.5">
               {([
                 { g: '비겁', desc: '자아·경쟁' },
@@ -576,10 +605,16 @@ function ReportContent() {
 
       {/* ── 신강/신약 + 용신 ── */}
       {p?.dayMasterStrength && p?.favorableElement && (
-        <section className="mb-6">
-          <h2 className="text-base font-bold text-gray-800 mb-1">⚖️ 나 강한 냥이야, 약한 냥이야?</h2>
-          <p className="text-xs text-gray-400 mb-3">내 일간(日干, 태어난 날의 기운)이 사주 전체에서 얼마나 힘을 갖고 있는지를 나타내요. 강하면 에너지가 넘치고, 약하면 주변 환경에 더 영향을 받는 타입이랍니다냥.</p>
-          <div className="bg-slate-50 rounded-2xl p-4 space-y-3">
+        <section id="sec-strength" className="mb-0 pb-8 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
+          <div className="flex items-center gap-3 mb-3">
+            <span className="flex-shrink-0 w-7 h-7 rounded-full bg-green-100 text-green-600 text-xs font-bold flex items-center justify-center">02</span>
+            <div>
+              <h2 className="text-base font-bold text-gray-900 leading-tight">⚖️ 나 강한 냥이야, 약한 냥이야?</h2>
+              <p className="text-[11px] text-gray-400 mt-0.5">신강/신약 · 용신(用神) 분석</p>
+            </div>
+          </div>
+          <p className="text-xs text-gray-400 mb-3 pl-10">내 일간(日干, 태어난 날의 기운)이 사주 전체에서 얼마나 힘을 갖고 있는지를 나타내요. 강하면 에너지가 넘치고, 약하면 주변 환경에 더 영향을 받는 타입이랍니다냥.</p>
+          <div className="bg-slate-50 rounded-2xl p-4 space-y-3 border-t-4 border-green-300">
             <div className="flex items-center gap-3 flex-wrap">
               <span className={`px-3 py-1.5 rounded-full text-sm font-bold ${p.dayMasterStrength.isStrong ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>
                 {p.dayMasterStrength.isStrong ? '🔥 신강 (에너지 충만형)' : '💧 신약 (환경 감응형)'}
@@ -614,10 +649,16 @@ function ReportContent() {
 
       {/* ── 합충형 ── */}
       {p?.branchInteractions && p.branchInteractions.interactions.length > 0 && (
-        <section className="mb-6">
-          <h2 className="text-base font-bold text-gray-800 mb-1">💥 기운끼리 부딪히진 않냥?</h2>
-          <p className="text-xs text-gray-400 mb-3">사주 팔자 안의 지지(地支, 땅의 기운)들이 서로 어떤 관계를 맺는지 분석한 것이에요. 합(合)은 기운이 뭉치는 것, 충(衝)은 충돌, 형(刑)은 마찰이랍니다냥.</p>
-          <div className="bg-slate-50 rounded-2xl p-4 space-y-2">
+        <section id="sec-clash" className="mb-0 pb-8 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
+          <div className="flex items-center gap-3 mb-3">
+            <span className="flex-shrink-0 w-7 h-7 rounded-full bg-red-100 text-red-500 text-xs font-bold flex items-center justify-center">03</span>
+            <div>
+              <h2 className="text-base font-bold text-gray-900 leading-tight">💥 기운끼리 부딪히진 않냥?</h2>
+              <p className="text-[11px] text-gray-400 mt-0.5">합충형(合冲刑) 분석</p>
+            </div>
+          </div>
+          <p className="text-xs text-gray-400 mb-3 pl-10">사주 팔자 안의 지지(地支, 땅의 기운)들이 서로 어떤 관계를 맺는지 분석한 것이에요. 합(合)은 기운이 뭉치는 것, 충(衝)은 충돌, 형(刑)은 마찰이랍니다냥.</p>
+          <div className="bg-slate-50 rounded-2xl p-4 space-y-2 border-t-4 border-red-300">
             {p.branchInteractions.interactions.map((item, i) => (
               <div key={i} className="bg-white rounded-xl p-3 border border-slate-200">
                 <div className="flex items-center gap-2 mb-1">
@@ -658,9 +699,15 @@ function ReportContent() {
         const isLateHalf = remainingYears !== null && remainingYears <= 5;
 
         return (
-          <section className="mb-6">
-            <h2 className="text-base font-bold text-gray-800 mb-1">🌊 나는 지금 어느 흐름 위에 있냥?</h2>
-          <p className="text-xs text-gray-400 mb-3">대운(大運)은 10년 단위로 바뀌는 큰 인생 흐름이에요. 사주팔자가 타고난 성격이라면, 대운은 그 성격이 어떤 환경 안에 놓이는지를 보여준답니다냥.</p>
+          <section id="sec-decade" className="mb-0 pb-8 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="flex-shrink-0 w-7 h-7 rounded-full bg-violet-100 text-violet-600 text-xs font-bold flex items-center justify-center">04</span>
+              <div>
+                <h2 className="text-base font-bold text-gray-900 leading-tight">🌊 나는 지금 어느 흐름 위에 있냥?</h2>
+                <p className="text-[11px] text-gray-400 mt-0.5">대운(大運) 전환 포인트</p>
+              </div>
+            </div>
+          <p className="text-xs text-gray-400 mb-3 pl-10">대운(大運)은 10년 단위로 바뀌는 큰 인생 흐름이에요. 사주팔자가 타고난 성격이라면, 대운은 그 성격이 어떤 환경 안에 놓이는지를 보여준답니다냥.</p>
             <div className="space-y-3">
               {/* 현재 대운 */}
               {curr && (
@@ -722,10 +769,16 @@ function ReportContent() {
 
       {/* ── 반복 패턴 ── */}
       {p?.repeatPatterns && p.repeatPatterns.length > 0 && (
-        <section className="mb-6">
-          <h2 className="text-base font-bold text-gray-800 mb-1">🔁 왜 나는 항상 같은 패턴일까냥?</h2>
-          <p className="text-xs text-gray-400 mb-3">사주 구조에서 자동으로 반복되는 삶의 패턴이에요. 이게 보이면 루프를 끊을 수 있답니다냥!</p>
-          <div className="bg-slate-50 rounded-2xl p-4 space-y-3">
+        <section id="sec-pattern" className="mb-0 pb-8 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
+          <div className="flex items-center gap-3 mb-3">
+            <span className="flex-shrink-0 w-7 h-7 rounded-full bg-amber-100 text-amber-600 text-xs font-bold flex items-center justify-center">05</span>
+            <div>
+              <h2 className="text-base font-bold text-gray-900 leading-tight">🔁 왜 나는 항상 같은 패턴일까냥?</h2>
+              <p className="text-[11px] text-gray-400 mt-0.5">반복 패턴 원인 분석</p>
+            </div>
+          </div>
+          <p className="text-xs text-gray-400 mb-3 pl-10">사주 구조에서 자동으로 반복되는 삶의 패턴이에요. 이게 보이면 루프를 끊을 수 있답니다냥!</p>
+          <div className="bg-slate-50 rounded-2xl p-4 space-y-3 border-t-4 border-amber-300">
             {p.repeatPatterns.map((rp, i) => (
               <div key={i} className="bg-white rounded-xl p-3 border border-slate-200">
                 <div className="flex items-start gap-2 mb-2">
@@ -743,8 +796,14 @@ function ReportContent() {
 
       {/* ── 2026 운세 탭 ── */}
       {fortunes && (
-        <section className="mb-6">
-          <h2 className="text-base font-bold text-gray-800 mb-3">🔮 2026년엔 어떨까냥?</h2>
+        <section id="sec-fortune" className="mb-0 pb-8 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="flex-shrink-0 w-7 h-7 rounded-full bg-orange-100 text-orange-600 text-xs font-bold flex items-center justify-center">06</span>
+            <div>
+              <h2 className="text-base font-bold text-gray-900 leading-tight">🔮 2026년엔 어떨까냥?</h2>
+              <p className="text-[11px] text-gray-400 mt-0.5">연애 · 재물 · 커리어 · 건강 · 인간관계</p>
+            </div>
+          </div>
           <div className="flex gap-1 mb-4">
             {PAID_SECTION_CONFIG.map((section) => {
               const isReady = fortunes[section.key] !== null;
@@ -809,9 +868,15 @@ function ReportContent() {
         const deficitOhaeng = p.ohaengBehaviors?.find(b => b.type === 'deficit');
 
         return (
-          <section className="mb-6">
-            <h2 className="text-base font-bold text-gray-800 mb-1">✦ 당신 사주에 맞는 에너지 균형 전략</h2>
-            <p className="text-xs text-gray-400 mb-4">
+          <section id="sec-strategy" className="mb-0 pb-8 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="flex-shrink-0 w-7 h-7 rounded-full bg-emerald-100 text-emerald-600 text-xs font-bold flex items-center justify-center">07</span>
+              <div>
+                <h2 className="text-base font-bold text-gray-900 leading-tight">✦ 당신 사주에 맞는 에너지 균형 전략</h2>
+                <p className="text-[11px] text-gray-400 mt-0.5">용신 기반 개운(開運) 전략</p>
+              </div>
+            </div>
+            <p className="text-xs text-gray-400 mb-4 pl-10">
               미신이 아닌, 용신·십신·오행 불균형 데이터를 바탕으로 도출한 에너지 방향 보완 전략이에요.
             </p>
 
@@ -921,10 +986,13 @@ function ReportContent() {
           2028: { bg: 'bg-purple-50 border-purple-200', badge: 'bg-purple-100 text-purple-700', dot: 'bg-purple-400' },
         };
         return (
-          <section className="mt-6">
-            <div className="mb-4">
-              <h2 className="text-base font-bold text-gray-800 mb-1">⏳ 앞으로 3년 흐름 포지션</h2>
-              <p className="text-xs text-gray-500">세운(歲運, 올해·내년·내후년의 기운) 기준 포지션 요약</p>
+          <section id="sec-outlook" className="mb-0 pb-8 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="flex-shrink-0 w-7 h-7 rounded-full bg-purple-100 text-purple-600 text-xs font-bold flex items-center justify-center">08</span>
+              <div>
+                <h2 className="text-base font-bold text-gray-900 leading-tight">⏳ 앞으로 3년 흐름 포지션</h2>
+                <p className="text-[11px] text-gray-400 mt-0.5">세운(歲運) 기준 2026 · 2027 · 2028 요약</p>
+              </div>
             </div>
             <div className="space-y-3">
               {saju.payload.threeYearOutlook.map((brief) => {
