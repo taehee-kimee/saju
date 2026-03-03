@@ -424,13 +424,21 @@ function ReportContent() {
       {/* ── 십신 분석 ── */}
       {p?.tenGodChart && (
         <section className="mb-6">
-          <h2 className="text-base font-bold text-gray-800 mb-3">🧬 내 에너지, 어디로 흐르고 있냥?</h2>
+          <h2 className="text-base font-bold text-gray-800 mb-1">🧬 내 에너지, 어디로 흐르고 있냥?</h2>
+          <p className="text-xs text-gray-400 mb-3">십신(十神)은 사주 안에서 나(일간)와 다른 기운의 관계를 5가지로 분류한 것이에요. 어떤 기운이 많은지에 따라 타고난 성향이 달라진답니다냥.</p>
           <div className="bg-slate-50 rounded-2xl p-4 space-y-3">
-            <div className="flex gap-2 flex-wrap">
-              {(['비겁','식상','재성','관성','인성'] as const).map((g) => (
-                <div key={g} className="flex flex-col items-center bg-white rounded-xl px-3 py-2 border border-slate-200 min-w-[52px]">
-                  <span className="text-xs text-gray-400">{g}</span>
-                  <span className="text-lg font-bold text-slate-700">{p.tenGodChart.groupSummary[g]}</span>
+            <div className="grid grid-cols-5 gap-1.5">
+              {([
+                { g: '비겁', desc: '자아·경쟁' },
+                { g: '식상', desc: '표현·창의' },
+                { g: '재성', desc: '재물·현실' },
+                { g: '관성', desc: '규율·사회' },
+                { g: '인성', desc: '학습·사고' },
+              ] as const).map(({ g, desc }) => (
+                <div key={g} className="flex flex-col items-center bg-white rounded-xl px-1 py-2 border border-slate-200">
+                  <span className="text-xs font-bold text-slate-600">{g}</span>
+                  <span className="text-xl font-bold text-slate-800 my-0.5">{p.tenGodChart.groupSummary[g]}</span>
+                  <span className="text-[10px] text-gray-400 text-center leading-tight">{desc}</span>
                 </div>
               ))}
             </div>
@@ -438,8 +446,17 @@ function ReportContent() {
               <div className="space-y-2">
                 {p.tenGodChart.dominantGroups.map((d) => (
                   <div key={d.group} className="bg-orange-50 rounded-xl p-3">
-                    <span className="text-orange-600 font-bold text-sm">{d.group} 우세</span>
-                    <p className="text-gray-600 text-sm mt-0.5">{d.behavior}</p>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-orange-600 font-bold text-sm">{d.group} 우세</span>
+                      <span className="text-xs text-gray-400">
+                        {d.group === '비겁' && '→ 나와 같은 기운이 강함'}
+                        {d.group === '식상' && '→ 표현·창작 에너지가 강함'}
+                        {d.group === '재성' && '→ 재물·현실 지향 에너지가 강함'}
+                        {d.group === '관성' && '→ 외부 기준·규율 에너지가 강함'}
+                        {d.group === '인성' && '→ 사고·학습 에너지가 강함'}
+                      </span>
+                    </div>
+                    <p className="text-gray-600 text-sm">{d.behavior}</p>
                   </div>
                 ))}
               </div>
@@ -451,23 +468,36 @@ function ReportContent() {
       {/* ── 신강/신약 + 용신 ── */}
       {p?.dayMasterStrength && p?.favorableElement && (
         <section className="mb-6">
-          <h2 className="text-base font-bold text-gray-800 mb-3">⚖️ 나 강한 냥이야, 약한 냥이야?</h2>
+          <h2 className="text-base font-bold text-gray-800 mb-1">⚖️ 나 강한 냥이야, 약한 냥이야?</h2>
+          <p className="text-xs text-gray-400 mb-3">내 일간(日干, 태어난 날의 기운)이 사주 전체에서 얼마나 힘을 갖고 있는지를 나타내요. 강하면 에너지가 넘치고, 약하면 주변 환경에 더 영향을 받는 타입이랍니다냥.</p>
           <div className="bg-slate-50 rounded-2xl p-4 space-y-3">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
               <span className={`px-3 py-1.5 rounded-full text-sm font-bold ${p.dayMasterStrength.isStrong ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>
-                {p.dayMasterStrength.isStrong ? '🔥 신강' : '💧 신약'}
+                {p.dayMasterStrength.isStrong ? '🔥 신강 (에너지 충만형)' : '💧 신약 (환경 감응형)'}
               </span>
-              <span className="text-sm text-gray-500">강도 점수 {p.dayMasterStrength.score}</span>
+              <span className="text-xs text-gray-400">강도 점수 {p.dayMasterStrength.score}/10</span>
             </div>
             <p className="text-gray-700 text-sm leading-relaxed">{p.dayMasterStrength.analysis}</p>
-            <div className="border-t border-slate-200 pt-3">
-              <p className="text-xs text-gray-400 mb-2">용신 (내 편 오행)</p>
-              <div className="flex gap-2">
-                <span className="bg-green-100 text-green-700 text-sm font-bold px-3 py-1 rounded-full">용신 {p.favorableElement.yongsin}</span>
-                <span className="bg-yellow-100 text-yellow-700 text-sm px-3 py-1 rounded-full">희신 {p.favorableElement.secondary}</span>
-                <span className="bg-red-100 text-red-600 text-sm px-3 py-1 rounded-full">기신 {p.favorableElement.unfavorable}</span>
+            <div className="border-t border-slate-200 pt-3 space-y-2">
+              <p className="text-xs text-gray-400">용신 — 내 사주를 균형 잡아주는 오행</p>
+              <div className="grid grid-cols-3 gap-2">
+                <div className="bg-green-50 rounded-xl p-2 text-center border border-green-200">
+                  <div className="text-xs text-green-500 mb-0.5">용신 (내 편)</div>
+                  <div className="text-lg font-bold text-green-700">{p.favorableElement.yongsin}</div>
+                  <div className="text-[10px] text-green-500">힘을 주는 기운</div>
+                </div>
+                <div className="bg-yellow-50 rounded-xl p-2 text-center border border-yellow-200">
+                  <div className="text-xs text-yellow-600 mb-0.5">희신 (조력자)</div>
+                  <div className="text-lg font-bold text-yellow-700">{p.favorableElement.secondary}</div>
+                  <div className="text-[10px] text-yellow-600">보조 역할</div>
+                </div>
+                <div className="bg-red-50 rounded-xl p-2 text-center border border-red-200">
+                  <div className="text-xs text-red-400 mb-0.5">기신 (부담)</div>
+                  <div className="text-lg font-bold text-red-600">{p.favorableElement.unfavorable}</div>
+                  <div className="text-[10px] text-red-400">소모하는 기운</div>
+                </div>
               </div>
-              <p className="text-gray-500 text-xs mt-2 leading-relaxed">{p.favorableElement.reasoning}</p>
+              <p className="text-gray-500 text-xs leading-relaxed">{p.favorableElement.reasoning}</p>
             </div>
           </div>
         </section>
@@ -476,15 +506,25 @@ function ReportContent() {
       {/* ── 합충형 ── */}
       {p?.branchInteractions && p.branchInteractions.interactions.length > 0 && (
         <section className="mb-6">
-          <h2 className="text-base font-bold text-gray-800 mb-3">💥 기운끼리 부딪히진 않냥?</h2>
+          <h2 className="text-base font-bold text-gray-800 mb-1">💥 기운끼리 부딪히진 않냥?</h2>
+          <p className="text-xs text-gray-400 mb-3">사주 팔자 안의 지지(地支, 땅의 기운)들이 서로 어떤 관계를 맺는지 분석한 것이에요. 합(合)은 기운이 뭉치는 것, 충(衝)은 충돌, 형(刑)은 마찰이랍니다냥.</p>
           <div className="bg-slate-50 rounded-2xl p-4 space-y-2">
             {p.branchInteractions.interactions.map((item, i) => (
-              <div key={i} className="flex gap-2 items-start">
-                <span className={`text-xs px-2 py-0.5 rounded-full font-bold shrink-0 mt-0.5 ${
-                  item.type === '충' ? 'bg-red-100 text-red-600' :
-                  item.type === '형' ? 'bg-orange-100 text-orange-600' :
-                  'bg-blue-100 text-blue-600'
-                }`}>{item.type}</span>
+              <div key={i} className="bg-white rounded-xl p-3 border border-slate-200">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${
+                    item.type === '충' ? 'bg-red-100 text-red-600' :
+                    item.type === '형' ? 'bg-orange-100 text-orange-600' :
+                    'bg-blue-100 text-blue-600'
+                  }`}>{item.type}</span>
+                  <span className="text-xs text-gray-400">
+                    {item.type === '충' && '정반대 기운이 충돌 → 변화·갈등'}
+                    {item.type === '형' && '기운 마찰 → 주의가 필요한 영역'}
+                    {item.type === '삼합' && '세 기운이 합쳐져 시너지 생성'}
+                    {item.type === '육합' && '두 기운이 결합 → 새 기운 탄생'}
+                    {item.type === '천간합' && '천간 기운끼리 결합'}
+                  </span>
+                </div>
                 <p className="text-gray-700 text-sm leading-relaxed">{item.description}</p>
               </div>
             ))}
@@ -510,7 +550,8 @@ function ReportContent() {
 
         return (
           <section className="mb-6">
-            <h2 className="text-base font-bold text-gray-800 mb-3">🌊 나는 지금 어느 흐름 위에 있냥?</h2>
+            <h2 className="text-base font-bold text-gray-800 mb-1">🌊 나는 지금 어느 흐름 위에 있냥?</h2>
+          <p className="text-xs text-gray-400 mb-3">대운(大運)은 10년 단위로 바뀌는 큰 인생 흐름이에요. 사주팔자가 타고난 성격이라면, 대운은 그 성격이 어떤 환경 안에 놓이는지를 보여준답니다냥.</p>
             <div className="space-y-3">
               {/* 현재 대운 */}
               {curr && (
@@ -573,12 +614,18 @@ function ReportContent() {
       {/* ── 반복 패턴 ── */}
       {p?.repeatPatterns && p.repeatPatterns.length > 0 && (
         <section className="mb-6">
-          <h2 className="text-base font-bold text-gray-800 mb-3">🔁 왜 나는 항상 같은 패턴일까냥?</h2>
+          <h2 className="text-base font-bold text-gray-800 mb-1">🔁 왜 나는 항상 같은 패턴일까냥?</h2>
+          <p className="text-xs text-gray-400 mb-3">사주 구조에서 자동으로 반복되는 삶의 패턴이에요. 이게 보이면 루프를 끊을 수 있답니다냥!</p>
           <div className="bg-slate-50 rounded-2xl p-4 space-y-3">
             {p.repeatPatterns.map((rp, i) => (
               <div key={i} className="bg-white rounded-xl p-3 border border-slate-200">
-                <p className="text-xs text-gray-400 mb-1">{rp.condition}</p>
-                <p className="text-gray-800 font-medium text-sm">&ldquo;{rp.pattern}&rdquo;</p>
+                <div className="flex items-start gap-2 mb-2">
+                  <span className="text-lg shrink-0">🔄</span>
+                  <p className="text-gray-800 font-medium text-sm leading-snug">&ldquo;{rp.pattern}&rdquo;</p>
+                </div>
+                <p className="text-xs text-gray-400 leading-relaxed pl-7">
+                  사주 원인: {rp.condition}
+                </p>
               </div>
             ))}
           </div>
