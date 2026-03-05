@@ -17,7 +17,7 @@ function StepBar({ current, total, onBack }: { current: number; total: number; o
         {Array.from({ length: total }, (_, i) => (
           <div
             key={i}
-            className={`h-1.5 flex-1 rounded-full transition-colors ${i < current ? 'bg-orange-400' : 'bg-gray-200'}`}
+            className={`h-1.5 flex-1 rounded-full transition-colors ${i < current ? 'bg-primary' : 'bg-gray-200'}`}
           />
         ))}
       </div>
@@ -90,13 +90,13 @@ export default function TestPage() {
           <div className="space-y-4 w-full max-w-xs">
             <button
               onClick={() => setMbtiMode('direct')}
-              className="w-full p-4 bg-orange-400 text-white rounded-xl font-bold"
+              className="w-full p-4 bg-primary text-white rounded-xl font-bold"
             >
               네, 알아요 (직접 입력)
             </button>
             <button
               onClick={() => setMbtiMode('test')}
-              className="w-full p-4 border-2 border-orange-400 text-orange-400 rounded-xl font-bold"
+              className="w-full p-4 border-2 border-primary text-primary rounded-xl font-bold"
             >
               모르겠어요 (테스트 하기)
             </button>
@@ -129,7 +129,7 @@ export default function TestPage() {
           <button
             onClick={() => handleMbtiComplete(directInput as MbtiType)}
             disabled={!isValid}
-            className="mt-6 px-8 py-4 bg-orange-400 text-white rounded-xl font-bold disabled:opacity-50"
+            className="mt-6 px-8 py-4 bg-primary text-white rounded-xl font-bold disabled:opacity-50"
           >
             다음 →
           </button>
@@ -159,7 +159,7 @@ export default function TestPage() {
           inputMode="numeric"
           placeholder="출생 연도 (예: 1995)"
           maxLength={4}
-          className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-orange-400 focus:outline-none"
+          className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-primary focus:outline-none"
           value={form.year}
           onChange={(e) => handleValueChange('year', e.target.value)}
         />
@@ -169,7 +169,7 @@ export default function TestPage() {
             inputMode="numeric"
             placeholder="월"
             maxLength={2}
-            className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-orange-400 focus:outline-none"
+            className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-primary focus:outline-none"
             value={form.month}
             onChange={(e) => handleValueChange('month', e.target.value)}
           />
@@ -178,7 +178,7 @@ export default function TestPage() {
             inputMode="numeric"
             placeholder="일"
             maxLength={2}
-            className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-orange-400 focus:outline-none"
+            className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-primary focus:outline-none"
             value={form.day}
             onChange={(e) => handleValueChange('day', e.target.value)}
           />
@@ -188,7 +188,7 @@ export default function TestPage() {
           <button
             type="button"
             onClick={() => setShowHourPicker(!showHourPicker)}
-            className="w-full p-4 border-2 border-gray-200 rounded-xl text-left focus:border-orange-400 focus:outline-none"
+            className="w-full p-4 border-2 border-gray-200 rounded-xl text-left focus:border-primary focus:outline-none"
           >
             {selectedHourLabel}
           </button>
@@ -199,8 +199,8 @@ export default function TestPage() {
                   key={h.value}
                   type="button"
                   onClick={() => handleHourSelect(h.value)}
-                  className={`w-full p-4 text-left hover:bg-orange-50 transition-colors ${
-                    form.hour === h.value ? 'bg-orange-100 text-orange-600 font-medium' : ''
+                  className={`w-full p-4 text-left hover:bg-secondary transition-colors ${
+                    form.hour === h.value ? 'bg-primary/10 text-primary font-medium' : ''
                   }`}
                 >
                   {h.label}
@@ -224,8 +224,8 @@ export default function TestPage() {
                 onClick={() => setForm((prev) => ({ ...prev, gender: opt.value }))}
                 className={`flex-1 p-3 rounded-xl border-2 text-sm font-medium transition-colors ${
                   form.gender === opt.value
-                    ? 'border-orange-400 bg-orange-50 text-orange-600'
-                    : 'border-gray-200 text-gray-500 hover:border-orange-200'
+                    ? 'border-primary bg-secondary text-primary'
+                    : 'border-gray-200 text-gray-500 hover:border-primary/30'
                 }`}
               >
                 {opt.label}
@@ -237,7 +237,7 @@ export default function TestPage() {
         <button
           onClick={handleSubmit}
           disabled={!form.year || !form.month || !form.day || !mbti}
-          className="w-full p-4 bg-orange-400 text-white rounded-xl font-bold disabled:opacity-50 hover:bg-orange-500 transition-colors"
+          className="w-full p-4 bg-primary text-white rounded-xl font-bold disabled:opacity-50 hover:bg-secondary0 transition-colors"
         >
           내 고양이 찾기 🐱
         </button>

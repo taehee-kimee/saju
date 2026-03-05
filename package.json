@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tosspayments/tosspayments-sdk": "^2.5.0",
+    "agentation": "^2.2.1",
     "html-to-image": "^1.11.13",
     "lunisolar": "^2.6.0",
     "next": "16.1.6",

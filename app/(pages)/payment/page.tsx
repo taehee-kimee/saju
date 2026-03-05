@@ -18,14 +18,14 @@ export default function PaymentPage() {
       <h1 className="text-2xl font-light mb-2 font-title">풀리포트 구매</h1>
       <p className="text-gray-500 mb-6">냥세 풀리포트를 확인해보세요!</p>
 
-      <div className="bg-orange-50 rounded-2xl p-5 mb-4">
+      <div className="bg-secondary rounded-2xl p-5 mb-4">
         <div className="flex justify-between items-center mb-2">
           <span className="text-gray-600">상품명</span>
           <span className="font-medium">냥세 풀리포트</span>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-gray-600">금액</span>
-          <span className="text-xl font-bold text-orange-500">1,900원</span>
+          <span className="text-xl font-bold text-primary">1,900원</span>
         </div>
       </div>
 

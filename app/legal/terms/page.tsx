@@ -58,7 +58,7 @@ export default function TermsPage() {
       <section className="space-y-2">
         <h2 className="text-xl font-semibold">7. 문의</h2>
         <p className="text-gray-700">
-          문의: <a href="mailto:hello@nyangsae.app" className="text-orange-500">hello@nyangsae.app</a>
+          문의: <a href="mailto:hello@nyangsae.app" className="text-primary">hello@nyangsae.app</a>
         </p>
       </section>
     </main>

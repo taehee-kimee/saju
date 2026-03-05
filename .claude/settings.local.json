@@ -8,7 +8,14 @@
       "Bash(git push origin main)",
       "mcp__ca56939a-81b4-4774-a1aa-511989a1aa9f__list_deployments",
       "Bash(npx vercel --prod --yes)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(npm run:*)",
+      "WebFetch(domain:cdn.jsdelivr.net)",
+      "Bash(node:*)",
+      "WebFetch(domain:www.gbmg.go.kr)",
+      "mcp__claude_ai_Vercel__deploy_to_vercel",
+      "Bash(vercel deploy:*)",
+      "Bash(sed:*)"
     ]
   }
 }

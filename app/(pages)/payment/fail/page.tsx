@@ -18,7 +18,7 @@ export default function PaymentFailPage() {
         <div className="space-y-3">
           <button
             onClick={() => router.push('/payment')}
-            className="w-full p-4 bg-orange-400 text-white rounded-xl font-bold hover:bg-orange-500 transition-colors"
+            className="w-full p-4 bg-primary text-white rounded-xl font-bold hover:bg-primary/90 transition-colors"
           >
             다시 결제하기
           </button>

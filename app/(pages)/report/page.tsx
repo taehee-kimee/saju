@@ -415,7 +415,7 @@ function ReportContent() {
         <p className="text-gray-600 mb-6">{error || '리포트를 찾을 수 없습니다.'}</p>
         <button
           onClick={() => router.replace('/result')}
-          className="px-6 py-3 bg-orange-400 text-white rounded-xl font-bold"
+          className="px-6 py-3 bg-primary text-white rounded-xl font-bold"
         >
           결과 페이지로 이동
         </button>
@@ -453,12 +453,12 @@ function ReportContent() {
                   onClick={() => switchReport(r)}
                   className={`flex-shrink-0 flex flex-col items-center gap-1 px-3 py-2 rounded-xl border-2 transition-all ${
                     isActive
-                      ? 'border-orange-400 bg-orange-50'
-                      : 'border-gray-200 bg-white hover:border-orange-200'
+                      ? 'border-primary bg-secondary'
+                      : 'border-gray-200 bg-white hover:border-primary/30'
                   }`}
                 >
                   <span className="text-2xl">{r.character.emoji}</span>
-                  <span className={`text-xs font-medium whitespace-nowrap ${isActive ? 'text-orange-600' : 'text-gray-600'}`}>
+                  <span className={`text-xs font-medium whitespace-nowrap ${isActive ? 'text-primary' : 'text-gray-600'}`}>
                     {r.character.name}
                   </span>
                   <span className="text-[10px] text-gray-400">{dateStr}</span>
@@ -473,7 +473,7 @@ function ReportContent() {
       <div className="text-center mb-6">
         <div className="text-8xl mb-4">{character.emoji}</div>
         <h1 className="text-3xl font-bold">{character.name}</h1>
-        <p className="text-orange-500 font-medium mt-1">
+        <p className="text-primary font-medium mt-1">
           &ldquo;{character.tagline}&rdquo;
         </p>
         {debugMode ? (
@@ -498,8 +498,8 @@ function ReportContent() {
       <div className="mb-6">
         <h3 className="font-bold mb-3 text-gray-700">나의 오행 에너지</h3>
         <OhaengBar ohaeng={saju.ohaeng} dominant={saju.dominantOhaeng} />
-        <div className="mt-3 p-3 bg-white rounded-xl border border-orange-100 flex items-center gap-3">
-          <span className="text-2xl font-bold text-orange-600">{mbti}</span>
+        <div className="mt-3 p-3 bg-white rounded-xl border border-primary/10 flex items-center gap-3">
+          <span className="text-2xl font-bold text-primary">{mbti}</span>
           <span className="text-gray-300">|</span>
           <span className="text-sm text-gray-500">
             {mbti.startsWith('I') ? '내향' : '외향'} ·
@@ -511,19 +511,19 @@ function ReportContent() {
       </div>
 
       {/* ── 무료 리포트 (접기/펼치기) ── */}
-      <div className="mb-6 border border-orange-200 rounded-2xl overflow-hidden">
+      <div className="mb-6 border border-primary/20 rounded-2xl overflow-hidden">
         <button
           onClick={() => setFreeCollapsed(!freeCollapsed)}
-          className="w-full flex items-center justify-between p-4 bg-orange-50 hover:bg-orange-100 transition-colors"
+          className="w-full flex items-center justify-between p-4 bg-secondary hover:bg-primary/10 transition-colors"
         >
-          <span className="font-bold text-orange-600">🐾 냥세 진단 리포트</span>
-          <span className="text-orange-400 text-lg">{freeCollapsed ? '▼' : '▲'}</span>
+          <span className="font-bold text-primary">🐾 냥세 진단 리포트</span>
+          <span className="text-primary text-lg">{freeCollapsed ? '▼' : '▲'}</span>
         </button>
         {!freeCollapsed && (
           <div className="p-4 space-y-5 bg-white">
             {FREE_SECTION_CONFIG.map((section) => (
               <div key={section.key}>
-                <p className="font-bold text-orange-500 mb-1 text-sm">{section.title}</p>
+                <p className="font-bold text-primary mb-1 text-sm">{section.title}</p>
                 <p className="text-orange-700 font-medium text-sm mb-1">{character.subtitles[section.key]}</p>
                 <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-line">
                   {character.sections[section.key]}
@@ -537,7 +537,7 @@ function ReportContent() {
       {/* ══════ 풀리포트 영역 ══════ */}
       <div className="flex items-center gap-3 mb-5">
         <div className="flex-1 h-px bg-gradient-to-r from-transparent via-orange-300 to-transparent" />
-        <span className="text-xs text-orange-400 font-bold tracking-widest whitespace-nowrap px-2">✦ 풀리포트 ✦</span>
+        <span className="text-xs text-primary font-bold tracking-widest whitespace-nowrap px-2">✦ 풀리포트 ✦</span>
         <div className="flex-1 h-px bg-gradient-to-r from-transparent via-orange-300 to-transparent" />
       </div>
 
@@ -556,7 +556,7 @@ function ReportContent() {
           <button
             key={id}
             onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-            className="flex-shrink-0 flex flex-col items-center gap-0.5 px-3 py-2 bg-gray-50 hover:bg-orange-50 border border-gray-200 hover:border-orange-300 rounded-xl transition-all"
+            className="flex-shrink-0 flex flex-col items-center gap-0.5 px-3 py-2 bg-gray-50 hover:bg-secondary border border-gray-200 hover:border-primary/50 rounded-xl transition-all"
           >
             <span className="text-base">{emoji}</span>
             <span className="text-[10px] text-gray-500 font-medium">{label}</span>
@@ -594,9 +594,9 @@ function ReportContent() {
             {p.tenGodChart.dominantGroups.length > 0 && (
               <div className="space-y-2">
                 {p.tenGodChart.dominantGroups.map((d) => (
-                  <div key={d.group} className="bg-orange-50 rounded-xl p-3">
+                  <div key={d.group} className="bg-secondary rounded-xl p-3">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-orange-600 font-bold text-sm">{d.group} 우세</span>
+                      <span className="text-primary font-bold text-sm">{d.group} 우세</span>
                       <span className="text-xs text-gray-400">
                         {d.group === '비겁' && '→ 나와 같은 기운이 강함'}
                         {d.group === '식상' && '→ 표현·창작 에너지가 강함'}
@@ -675,7 +675,7 @@ function ReportContent() {
                 <div className="flex items-center gap-2 mb-1">
                   <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${
                     item.type === '충' ? 'bg-red-100 text-red-600' :
-                    item.type === '형' ? 'bg-orange-100 text-orange-600' :
+                    item.type === '형' ? 'bg-primary/10 text-primary' :
                     'bg-blue-100 text-blue-600'
                   }`}>{item.type}</span>
                   <span className="text-xs text-gray-400">
@@ -809,7 +809,7 @@ function ReportContent() {
       {fortunes && (
         <section id="sec-fortune" className="py-10 border-b border-dashed border-gray-100 scroll-mt-4 last-of-type:border-0">
           <div className="flex items-center gap-3 mb-4">
-            <span className="flex-shrink-0 w-7 h-7 rounded-full bg-orange-100 text-orange-600 text-xs font-bold flex items-center justify-center">06</span>
+            <span className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center">06</span>
             <div>
               <h2 className="text-base font-bold text-gray-900 leading-tight">🔮 2026년엔 어떨까냥?</h2>
               <p className="text-[11px] text-gray-400 mt-0.5">연애 · 재물 · 커리어 · 건강 · 인간관계</p>
@@ -825,8 +825,8 @@ function ReportContent() {
                   onClick={() => setActiveFortuneTab(section.key)}
                   className={`flex-1 min-w-0 py-2.5 px-1 rounded-xl text-sm font-medium transition-all ${
                     isActive
-                      ? 'bg-orange-400 text-white shadow-md'
-                      : 'bg-gray-100 text-gray-500 hover:bg-orange-50 hover:text-orange-400'
+                      ? 'bg-primary text-white shadow-md'
+                      : 'bg-gray-100 text-gray-500 hover:bg-secondary hover:text-primary'
                   }`}
                 >
                   <div className="text-base">{section.emoji}</div>
@@ -835,19 +835,19 @@ function ReportContent() {
                     <div className={`mt-1 w-3 h-3 mx-auto rounded-full border-2 border-t-transparent animate-spin ${isActive ? 'border-white' : 'border-gray-400'}`} />
                   )}
                   {isReady && !isActive && (
-                    <div className="mt-1 text-[10px] text-orange-400">✓</div>
+                    <div className="mt-1 text-[10px] text-primary">✓</div>
                   )}
                 </button>
               );
             })}
           </div>
-          <div className="bg-orange-50 rounded-2xl p-5">
-            <h3 className="text-orange-600 font-bold text-lg mb-4">
+          <div className="bg-secondary rounded-2xl p-5">
+            <h3 className="text-primary font-bold text-lg mb-4">
               {PAID_SECTION_CONFIG.find(s => s.key === activeFortuneTab)?.title}
             </h3>
             {fortunes[activeFortuneTab] === null ? (
               <div className="flex flex-col items-center py-8 text-gray-400">
-                <div className="w-8 h-8 rounded-full border-4 border-orange-200 border-t-orange-400 animate-spin mb-3" />
+                <div className="w-8 h-8 rounded-full border-4 border-primary/20 border-t-orange-400 animate-spin mb-3" />
                 <p className="text-sm">운세를 불러오는 중이냥...</p>
               </div>
             ) : (
@@ -992,7 +992,7 @@ function ReportContent() {
       {/* ── 3년 흐름 포지션 ── */}
       {saju.payload.threeYearOutlook && saju.payload.threeYearOutlook.length > 0 && (() => {
         const YEAR_COLOR: Record<number, { bg: string; badge: string; dot: string }> = {
-          2026: { bg: 'bg-orange-50 border-orange-200', badge: 'bg-orange-100 text-orange-700', dot: 'bg-orange-400' },
+          2026: { bg: 'bg-secondary border-primary/20', badge: 'bg-primary/10 text-orange-700', dot: 'bg-primary' },
           2027: { bg: 'bg-blue-50 border-blue-200',   badge: 'bg-blue-100 text-blue-700',   dot: 'bg-blue-400' },
           2028: { bg: 'bg-purple-50 border-purple-200', badge: 'bg-purple-100 text-purple-700', dot: 'bg-purple-400' },
         };
@@ -1054,7 +1054,7 @@ function ReportContent() {
             sessionStorage.clear();
             router.push('/test');
           }}
-          className="w-full p-3 text-gray-500 text-sm hover:text-orange-500 transition-colors"
+          className="w-full p-3 text-gray-500 text-sm hover:text-primary transition-colors"
         >
           다시 테스트하기
         </button>

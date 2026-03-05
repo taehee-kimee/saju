@@ -38,7 +38,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
         />
       </head>
-      <body className="bg-background text-gray-900 antialiased font-sans">
+      <body className="text-gray-900 antialiased font-sans">
         {enableAds && (
           <Script
             id="adsense-script"
