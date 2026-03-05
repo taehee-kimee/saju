@@ -3,7 +3,7 @@ import Script from 'next/script';
 import './globals.css';
 
 const enableAds = process.env.NEXT_PUBLIC_ENABLE_ADS === 'true';
-const adClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
+const adClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? 'ca-pub-7453204635551596';
 
 export const metadata: Metadata = {
   title: '냥세(猫世) - MBTI × 사주 고양이 운세',
@@ -26,8 +26,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className="font-sans">
-      <body className="bg-white text-gray-900 antialiased font-sans">
-        {enableAds && adClient && (
+      <head>
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        />
+      </head>
+      <body className="bg-background text-gray-900 antialiased font-sans">
+        {enableAds && (
           <Script
             id="adsense-script"
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adClient}`}

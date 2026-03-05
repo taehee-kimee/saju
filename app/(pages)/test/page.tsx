@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import MbtiTest from '@/components/MbtiTest';
+import { isValidMbti } from '@/lib/mbti';
 import { MbtiType } from '@/types';
 
 export default function TestPage() {
@@ -38,6 +39,9 @@ export default function TestPage() {
   }
 
   if (mode === 'direct') {
+    const isValid = isValidMbti(directInput);
+    const showError = directInput.length === 4 && !isValid;
+
     return (
       <main className="min-h-screen flex flex-col items-center justify-center p-6">
         <h1 className="text-2xl font-bold mb-8">MBTI 입력</h1>
@@ -47,11 +51,16 @@ export default function TestPage() {
           maxLength={4}
           value={directInput}
           onChange={(e) => setDirectInput(e.target.value.toUpperCase())}
-          className="w-full max-w-xs p-4 border-2 border-gray-200 rounded-xl text-center text-2xl font-bold uppercase"
+          className={`w-full max-w-xs p-4 border-2 rounded-xl text-center text-2xl font-bold uppercase transition-colors ${
+            showError ? 'border-red-400 bg-red-50' : 'border-gray-200'
+          }`}
         />
+        {showError && (
+          <p className="mt-2 text-sm text-red-500">올바른 MBTI 유형이 아니에요 (예: INFP, ENTJ)</p>
+        )}
         <button
           onClick={() => handleMbtiComplete(directInput as MbtiType)}
-          disabled={directInput.length !== 4}
+          disabled={!isValid}
           className="mt-6 px-8 py-4 bg-orange-400 text-white rounded-xl font-bold disabled:opacity-50"
         >
           다음 →

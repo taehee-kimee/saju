@@ -3,7 +3,7 @@
 import { CSSProperties, useEffect, useRef, useState } from 'react';
 
 const enableAds = process.env.NEXT_PUBLIC_ENABLE_ADS === 'true';
-const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
+const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? 'ca-pub-7453204635551596';
 const defaultSlotId = process.env.NEXT_PUBLIC_ADSENSE_SLOT;
 
 interface AdSlotProps {
@@ -25,7 +25,7 @@ export default function AdSlot({
   const [isPushed, setIsPushed] = useState(false);
 
   useEffect(() => {
-    if (!enableAds || !clientId || !(slotId || defaultSlotId)) return;
+    if (!enableAds || !(slotId || defaultSlotId)) return;
     if (!adRef.current || isPushed) return;
 
     const target = adRef.current;
@@ -65,7 +65,7 @@ export default function AdSlot({
     };
   }, [isPushed, slotId]);
 
-  if (!enableAds || !clientId || !(slotId || defaultSlotId)) {
+  if (!enableAds || !(slotId || defaultSlotId)) {
     return (
       <div
         className={className}

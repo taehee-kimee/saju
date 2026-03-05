@@ -1,14 +1,15 @@
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #f9f7f6;
   --foreground: #171717;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: #ee7c2b;
+  --color-secondary: #fdf1e6;
   --font-sans: 'PretendardVariable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 }
 
@@ -24,4 +25,21 @@ body {
   color: var(--foreground);
   font-family: 'PretendardVariable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   word-break: keep-all;
+}
+
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.25s ease-out;
+}
+
+.soft-shadow {
+  box-shadow: 0 10px 25px -5px rgba(238, 124, 43, 0.1), 0 8px 10px -6px rgba(238, 124, 43, 0.1);
+}
+
+.fill-icon {
+  font-variation-settings: 'FILL' 1;
 }

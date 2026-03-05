@@ -1,23 +1,24 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-
-const TossPayment = dynamic(() => import('@/components/TossPayment'), {
-  ssr: false,
-});
+import { useRouter } from 'next/navigation';
+import NicepayButton from '@/components/NicepayButton';
 
 export default function PaymentPage() {
-  const handleFail = (error: Error) => {
-    console.error('Payment failed:', error);
-    alert('결제에 실패했습니다. 다시 시도해주세요.');
-  };
+  const router = useRouter();
 
   return (
     <main className="min-h-screen p-6 max-w-md mx-auto">
+      <button
+        onClick={() => router.back()}
+        className="mb-6 text-gray-400 hover:text-gray-600 text-sm flex items-center gap-1"
+      >
+        ← 뒤로
+      </button>
+
       <h1 className="text-2xl font-bold mb-2">풀리포트 구매</h1>
       <p className="text-gray-500 mb-6">냥세 풀리포트를 확인해보세요!</p>
-      
-      <div className="bg-orange-50 rounded-2xl p-5 mb-6">
+
+      <div className="bg-orange-50 rounded-2xl p-5 mb-4">
         <div className="flex justify-between items-center mb-2">
           <span className="text-gray-600">상품명</span>
           <span className="font-medium">냥세 풀리포트</span>
@@ -44,11 +45,11 @@ export default function PaymentPage() {
         </ul>
       </div>
 
-      <TossPayment
-        amount={1900}
-        orderName="냥세 풀리포트"
-        onFail={handleFail}
-      />
+      <NicepayButton />
+
+      <p className="text-center text-xs text-gray-400 mt-4">
+        결제 후 즉시 풀리포트가 열립니다
+      </p>
     </main>
   );
 }

@@ -209,6 +209,7 @@ function ReportContent() {
   const [birthYear, setBirthYear] = useState<number | null>(null);
 
   const paymentSuccess = searchParams.get('payment') === 'success';
+  const nicepayPayment = searchParams.get('payment') === 'nicepay';
   const debugMode =
     searchParams.get('debug') === 'true' ||
     process.env.NEXT_PUBLIC_REPORT_DEBUG === 'true';
@@ -222,7 +223,7 @@ function ReportContent() {
     const loadReport = async () => {
       // 저장된 리포트가 있으면 바로 복원 (세션 만료 후 재방문 시)
       const reports = listReports();
-      if (!paymentSuccess && !debugMode) {
+      if (!paymentSuccess && !nicepayPayment && !debugMode) {
         if (reports.length > 0) {
           const latest = reports[0];
           setAllReports(reports);
@@ -287,6 +288,16 @@ function ReportContent() {
 
       try {
         const characterData = await fetchCharacter(characterId);
+
+        if (nicepayPayment && !debugMode) {
+          const verified = sessionStorage.getItem('nicepayVerified') === 'true';
+          sessionStorage.removeItem('nicepayVerified');
+          if (!verified) {
+            if (cancelled) return;
+            router.replace('/payment/fail');
+            return;
+          }
+        }
 
         if (paymentSuccess && !debugMode) {
           const parsedAmount = Number(amountParam);
