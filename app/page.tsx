@@ -18,16 +18,16 @@ export default function Home() {
       <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto px-6 pb-8 pt-4 flex flex-col items-center gap-4">
         {/* Feature Pills */}
         <div className="flex justify-between w-full px-4">
-          <div className="flex flex-col items-center gap-1">
-            <span className="material-symbols-outlined text-primary text-2xl">flare</span>
+          <div className="flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-primary text-xl">flare</span>
             <span className="text-gray-600 text-xs font-medium">오행 분석</span>
           </div>
-          <div className="flex flex-col items-center gap-1">
-            <span className="material-symbols-outlined text-primary text-2xl">psychology_alt</span>
+          <div className="flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-primary text-xl">psychology_alt</span>
             <span className="text-gray-600 text-xs font-medium">MBTI 매핑</span>
           </div>
-          <div className="flex flex-col items-center gap-1">
-            <span className="material-symbols-outlined text-primary text-2xl">pets</span>
+          <div className="flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-primary text-xl">pets</span>
             <span className="text-gray-600 text-xs font-medium">80종 캐릭터</span>
           </div>
         </div>
