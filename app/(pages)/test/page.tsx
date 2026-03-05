@@ -83,23 +83,25 @@ export default function TestPage() {
   if (step === 'mbti') {
     if (mbtiMode === 'choose') {
       return (
-        <main className="min-h-screen flex flex-col items-center justify-center p-6">
+        <main className="min-h-screen flex flex-col p-6">
           <StepBar current={1} total={2} />
-          <h1 className="text-2xl font-light mb-2 font-title text-orange-950">MBTI 입력</h1>
-          <p className="text-gray-500 mb-8">MBTI를 알고 있나요?</p>
-          <div className="space-y-4 w-full max-w-xs">
-            <button
-              onClick={() => setMbtiMode('direct')}
-              className="w-full p-4 bg-primary text-white rounded-xl font-bold"
-            >
-              네, 알아요 (직접 입력)
-            </button>
-            <button
-              onClick={() => setMbtiMode('test')}
-              className="w-full p-4 border-2 border-primary text-primary rounded-xl font-bold"
-            >
-              모르겠어요 (테스트 하기)
-            </button>
+          <div className="flex-1 flex flex-col items-center justify-center">
+            <h1 className="text-2xl font-light mb-2 font-title text-orange-950">MBTI 입력</h1>
+            <p className="text-gray-500 mb-8">MBTI를 알고 있나요?</p>
+            <div className="space-y-4 w-full max-w-xs">
+              <button
+                onClick={() => setMbtiMode('direct')}
+                className="w-full p-4 bg-primary text-white rounded-xl font-bold"
+              >
+                네, 알아요
+              </button>
+              <button
+                onClick={() => setMbtiMode('test')}
+                className="w-full p-4 border-2 border-primary text-primary rounded-xl font-bold"
+              >
+                모르겠어요
+              </button>
+            </div>
           </div>
         </main>
       );
@@ -110,8 +112,9 @@ export default function TestPage() {
       const showError = directInput.length === 4 && !isValid;
 
       return (
-        <main className="min-h-screen flex flex-col items-center justify-center p-6">
+        <main className="min-h-screen flex flex-col p-6">
           <StepBar current={1} total={2} onBack={() => setMbtiMode('choose')} />
+          <div className="flex-1 flex flex-col items-center justify-center">
           <h1 className="text-2xl font-light mb-8 font-title text-orange-950">MBTI 입력</h1>
           <input
             type="text"
@@ -133,6 +136,7 @@ export default function TestPage() {
           >
             다음 →
           </button>
+          </div>
         </main>
       );
     }
@@ -149,8 +153,9 @@ export default function TestPage() {
   const selectedHourLabel = HOURS.find(h => h.value === form.hour)?.label || '태어난 시간 모름';
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-6">
+    <main className="min-h-screen flex flex-col p-6">
       <StepBar current={2} total={2} onBack={() => setStep('mbti')} />
+      <div className="flex-1 flex flex-col items-center justify-center">
       <h1 className="text-2xl font-light mb-2 font-title text-orange-950">생년월일 입력</h1>
       <p className="text-gray-500 text-sm mb-8">사주 계산에 사용됩니다</p>
       <div className="space-y-4 w-full max-w-xs">
@@ -241,6 +246,7 @@ export default function TestPage() {
         >
           내 고양이 찾기 🐱
         </button>
+      </div>
       </div>
     </main>
   );
