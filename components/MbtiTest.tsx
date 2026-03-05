@@ -42,7 +42,7 @@ export default function MbtiTest({ onComplete }: Props) {
   return (
     <div className="max-w-md mx-auto p-6">
       <div className="mb-6">
-        <div className="text-sm text-orange-600 mb-2">{current + 1} / 12</div>
+        <div className="text-sm text-gray-500 mb-2">{current + 1} / 12</div>
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div
             className="bg-orange-400 h-2 rounded-full transition-all"

@@ -20,7 +20,7 @@ export default function OhaengBar({ ohaeng, dominant }: Props) {
         <div key={key} className="flex items-center gap-3">
           <span
             className={`text-sm font-bold w-4 ${
-              key === dominant ? 'text-orange-500' : 'text-orange-600'
+              key === dominant ? 'text-orange-500' : 'text-gray-500'
             }`}
           >
             {key}
@@ -31,7 +31,7 @@ export default function OhaengBar({ ohaeng, dominant }: Props) {
               style={{ width: `${val}%` }}
             />
           </div>
-          <span className="text-sm text-orange-600 w-8 text-right">{val}%</span>
+          <span className="text-sm text-gray-500 w-8 text-right">{val}%</span>
         </div>
       ))}
     </div>

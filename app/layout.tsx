@@ -38,7 +38,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
         />
       </head>
-      <body className="text-orange-950 antialiased font-sans">
+      <body className="text-gray-900 antialiased font-sans">
         {enableAds && (
           <Script
             id="adsense-script"
@@ -52,14 +52,14 @@ export default function RootLayout({
           {process.env.NODE_ENV === 'development' && <DevTools />}
           {/* SHOW_FOOTER: false → true 로 바꾸면 활성화 */}
           {false && (
-          <footer className="border-t border-gray-100 bg-white/80 backdrop-blur px-4 py-6 text-xs text-orange-600 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-center">
-            <span className="text-orange-400">© 2026 냥세</span>
+          <footer className="border-t border-gray-100 bg-white/80 backdrop-blur px-4 py-6 text-xs text-gray-500 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-center">
+            <span className="text-gray-400">© 2026 냥세</span>
             <span className="hidden sm:inline">·</span>
-            <a href="/legal/privacy" className="hover:text-orange-800">개인정보처리방침</a>
+            <a href="/legal/privacy" className="hover:text-gray-600">개인정보처리방침</a>
             <span className="hidden sm:inline">·</span>
-            <a href="/legal/terms" className="hover:text-orange-800">이용약관</a>
+            <a href="/legal/terms" className="hover:text-gray-600">이용약관</a>
             <span className="hidden sm:inline">·</span>
-            <span className="text-orange-400">문의: hello@nyangsae.app</span>
+            <span className="text-gray-400">문의: hello@nyangsae.app</span>
           </footer>
           )}
         </div>
