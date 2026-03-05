@@ -129,6 +129,7 @@ export default function TestPage() {
           type="text"
           inputMode="numeric"
           placeholder="출생 연도 (예: 1995)"
+          maxLength={4}
           className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-orange-400 focus:outline-none"
           value={form.year}
           onChange={(e) => handleValueChange('year', e.target.value)}
@@ -206,7 +207,7 @@ export default function TestPage() {
 
         <button
           onClick={handleSubmit}
-          disabled={!form.year || !form.month || !form.day}
+          disabled={!form.year || !form.month || !form.day || !mbti}
           className="w-full p-4 bg-orange-400 text-white rounded-xl font-bold disabled:opacity-50 hover:bg-orange-500 transition-colors"
         >
           내 고양이 찾기 🐱
