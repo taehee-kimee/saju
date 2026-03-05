@@ -5,7 +5,6 @@ import { calculateSaju } from '@/lib/saju';
 import { isValidMbti } from '@/lib/mbti';
 import { createCharacterId } from '@/lib/catMapper';
 import OhaengBar from '@/components/OhaengBar';
-import AdSlot from '@/components/AdSlot';
 import ShareModal from '@/components/ShareModal';
 import { Character, MbtiType, SajuResult } from '@/types';
 
@@ -21,11 +20,11 @@ const FREE_SECTION_CONFIG: ReadonlyArray<{
   title: string;
   icon: string;
 }> = [
-  { key: 'diagnosis', title: '🐾 냥세 한 줄 진단', icon: 'pets' },
-  { key: 'ohaengMap', title: '🧭 오행 밸런스 지도', icon: 'flare' },
-  { key: 'combination', title: '🧩 사주×MBTI 결합 해석', icon: 'psychology_alt' },
-  { key: 'pattern', title: '🔄 반복 패턴 분석', icon: 'autorenew' },
-  { key: 'timingSense', title: '🚨 과부하 신호 가이드', icon: 'warning' },
+  { key: 'diagnosis', title: '냥세 한 줄 진단', icon: 'pets' },
+  { key: 'ohaengMap', title: '오행 밸런스 지도', icon: 'flare' },
+  { key: 'combination', title: '사주×MBTI 결합 해석', icon: 'psychology_alt' },
+  { key: 'pattern', title: '반복 패턴 분석', icon: 'autorenew' },
+  { key: 'timingSense', title: '과부하 신호 가이드', icon: 'warning' },
 ];
 
 interface BirthInfo {
@@ -224,7 +223,7 @@ export default function ResultPage() {
 
         <main className="flex flex-col pb-24">
           {/* Profile Overview */}
-          <section className="p-6 flex flex-col items-center gap-4">
+          <section className="px-6 pt-10 pb-6 flex flex-col items-center gap-4">
             <div className="text-8xl">{character.emoji}</div>
             <div className="text-center">
               <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full">
@@ -237,18 +236,11 @@ export default function ResultPage() {
             </div>
           </section>
 
-          {/* Summary Quote */}
-          <section className="px-6 py-2">
-            <p className="text-center text-slate-500 text-sm leading-relaxed">
-              &ldquo;{character.tagline}&rdquo;
-            </p>
-          </section>
-
           {/* Ohaeng Energy */}
           <section className="px-6 py-4">
             <div className="flex items-center gap-2 mb-3">
               <span className="material-symbols-outlined text-primary">flare</span>
-              <h3 className="text-lg font-bold">🧭 나의 오행 에너지</h3>
+              <h3 className="text-lg font-bold">나의 오행 에너지</h3>
             </div>
             <div className="bg-white p-5 rounded-xl border border-slate-100">
               <OhaengBar ohaeng={saju.ohaeng} dominant={saju.dominantOhaeng} />
@@ -265,11 +257,9 @@ export default function ResultPage() {
             </div>
           </section>
 
-          <AdSlot className="w-full px-6" placeholderHeight={120} />
-
           {/* Free Sections */}
           {FREE_SECTION_CONFIG.map((config) => (
-            <section key={config.key} className="px-6 py-4">
+            <section key={config.key} className="px-6 py-6">
               <div className="flex items-center gap-2 mb-3">
                 <span className="material-symbols-outlined text-primary">{config.icon}</span>
                 <h3 className="text-lg font-bold">{config.title}</h3>
@@ -284,8 +274,6 @@ export default function ResultPage() {
               </div>
             </section>
           ))}
-
-          <AdSlot className="w-full px-6" placeholderHeight={100} />
 
           {/* Retry */}
           <section className="px-6 py-4">
@@ -304,7 +292,6 @@ export default function ResultPage() {
             </button>
           </section>
 
-          <AdSlot className="w-full px-6" placeholderHeight={140} />
         </main>
       </div>
 
