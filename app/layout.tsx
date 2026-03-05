@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import './globals.css';
+import DevTools from '@/components/DevTools';
 
 const enableAds = process.env.NEXT_PUBLIC_ENABLE_ADS === 'true';
 const adClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? 'ca-pub-7453204635551596';
@@ -48,6 +49,9 @@ export default function RootLayout({
         )}
         <div className="min-h-screen flex flex-col">
           <div className="flex-1">{children}</div>
+          {process.env.NODE_ENV === 'development' && <DevTools />}
+          {/* SHOW_FOOTER: false → true 로 바꾸면 활성화 */}
+          {false && (
           <footer className="border-t border-gray-100 bg-white/80 backdrop-blur px-4 py-6 text-xs text-gray-500 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-center">
             <span className="text-gray-400">© 2026 냥세</span>
             <span className="hidden sm:inline">·</span>
@@ -57,6 +61,7 @@ export default function RootLayout({
             <span className="hidden sm:inline">·</span>
             <span className="text-gray-400">문의: hello@nyangsae.app</span>
           </footer>
+          )}
         </div>
       </body>
     </html>
