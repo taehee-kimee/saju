@@ -2,9 +2,9 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <main className="max-w-md mx-auto pb-24">
+    <main className="max-w-md mx-auto min-h-screen flex flex-col">
       {/* Hero Section */}
-      <section className="flex flex-col items-center px-6 pt-32 pb-12 text-center gap-6">
+      <section className="flex-1 flex flex-col items-center justify-center px-6 pb-48 text-center gap-6">
         <div className="space-y-2">
           <h1 className="text-slate-900 text-3xl font-light tracking-tight font-title">나는 어떤 고양이일까?</h1>
           <p className="text-slate-600 text-lg font-medium leading-relaxed px-4">
@@ -17,7 +17,7 @@ export default function Home() {
       {/* Bottom CTA */}
       <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto px-6 pb-8 pt-4 flex flex-col items-center gap-4">
         {/* Feature Pills */}
-        <div className="flex justify-center gap-6 w-full">
+        <div className="flex justify-between w-full px-4">
           <div className="flex flex-col items-center gap-1">
             <span className="material-symbols-outlined text-primary text-2xl">flare</span>
             <span className="text-slate-600 text-xs font-medium">오행 분석</span>
