@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main className="max-w-md mx-auto pb-24">
       {/* Hero Section */}
-      <section className="flex flex-col items-center px-6 pt-20 pb-12 text-center gap-6">
+      <section className="flex flex-col items-center px-6 pt-32 pb-12 text-center gap-6">
         <div className="space-y-2">
           <h1 className="text-slate-900 text-3xl font-light tracking-tight font-title">나는 어떤 고양이일까요?</h1>
           <p className="text-slate-600 text-lg font-medium leading-relaxed px-4">
@@ -12,16 +12,6 @@ export default function Home() {
             나의 운세 고양이, <span className="text-primary font-bold">냥세</span>
           </p>
         </div>
-
-        <Link
-          href="/test"
-          className="w-full max-w-xs bg-primary hover:bg-primary/90 text-white font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-2 text-xl transition-all active:scale-95 soft-shadow"
-        >
-          내 고양이 찾기
-          <span className="material-symbols-outlined">arrow_forward</span>
-        </Link>
-
-        <p className="text-slate-400 text-sm">지금까지 124,502명의 집사가 확인했어요</p>
       </section>
 
       {/* Feature Cards */}
@@ -60,6 +50,17 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Bottom CTA */}
+      <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto px-6 pb-8 pt-4 flex flex-col items-center gap-3">
+        <Link
+          href="/test"
+          className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-2 text-xl transition-all active:scale-95 soft-shadow"
+        >
+          내 고양이 찾기
+          <span className="material-symbols-outlined">arrow_forward</span>
+        </Link>
+        <p className="text-slate-400 text-sm">지금까지 124,502명의 집사가 확인했어요</p>
+      </div>
     </main>
   );
 }
