@@ -188,7 +188,7 @@ export default function TestPage() {
           <button
             type="button"
             onClick={() => setShowHourPicker(!showHourPicker)}
-            className="w-full p-4 border-2 border-gray-200 rounded-xl text-left bg-white focus:border-orange-400 focus:outline-none"
+            className="w-full p-4 border-2 border-gray-200 rounded-xl text-left focus:border-orange-400 focus:outline-none"
           >
             {selectedHourLabel}
           </button>
