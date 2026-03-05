@@ -26,7 +26,7 @@ export default function Home() {
 
       {/* Feature Cards */}
       <section className="px-4 py-8">
-        <h3 className="text-slate-800 text-xl font-bold mb-6 px-2">냥세가 특별한 이유 🐾</h3>
+        <h3 className="text-slate-800 text-xl font-bold mb-3 px-2">냥세가 특별한 이유 🐾</h3>
         <div className="grid grid-cols-1 gap-4">
           <div className="flex items-center gap-4 p-5 rounded-xl bg-white border border-primary/10 soft-shadow">
             <div className="bg-primary/10 p-3 rounded-lg text-primary">
@@ -53,19 +53,13 @@ export default function Home() {
               <span className="material-symbols-outlined text-3xl">pets</span>
             </div>
             <div>
-              <h4 className="font-bold text-slate-900 text-lg leading-none mb-1">20종 캐릭터</h4>
+              <h4 className="font-bold text-slate-900 text-lg leading-none mb-1">80종 캐릭터</h4>
               <p className="text-slate-500 text-sm">세상에 단 하나뿐인 당신만의 냥이 캐릭터</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Bottom Badge */}
-      <div className="flex justify-center px-4 pb-4">
-        <div className="bg-slate-900/90 backdrop-blur-sm text-white text-center py-2 px-6 rounded-full text-sm font-medium shadow-xl">
-          기본 결과 무료 · 풀 리포트 1,900원
-        </div>
-      </div>
     </main>
   );
 }
