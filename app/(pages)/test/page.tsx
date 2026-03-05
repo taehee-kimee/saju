@@ -5,6 +5,27 @@ import MbtiTest from '@/components/MbtiTest';
 import { isValidMbti } from '@/lib/mbti';
 import { MbtiType } from '@/types';
 
+function StepBar({ current, total, onBack }: { current: number; total: number; onBack?: () => void }) {
+  return (
+    <div className="flex items-center gap-3 w-full max-w-xs mx-auto mb-8">
+      {onBack ? (
+        <button onClick={onBack} className="text-gray-400 hover:text-gray-600 text-xl leading-none">←</button>
+      ) : (
+        <div className="w-6" />
+      )}
+      <div className="flex-1 flex gap-1.5">
+        {Array.from({ length: total }, (_, i) => (
+          <div
+            key={i}
+            className={`h-1.5 flex-1 rounded-full transition-colors ${i < current ? 'bg-orange-400' : 'bg-gray-200'}`}
+          />
+        ))}
+      </div>
+      <span className="text-xs text-gray-400 w-6 text-right">{current}/{total}</span>
+    </div>
+  );
+}
+
 const HOURS = [
   { value: 'unknown', label: '태어난 시간 모름' },
   ...Array.from({ length: 24 }, (_, i) => ({ value: String(i), label: `${i}시` }))
@@ -63,6 +84,7 @@ export default function TestPage() {
     if (mbtiMode === 'choose') {
       return (
         <main className="min-h-screen flex flex-col items-center justify-center p-6">
+          <StepBar current={1} total={2} />
           <h1 className="text-2xl font-bold mb-2">MBTI 입력</h1>
           <p className="text-gray-500 mb-8">MBTI를 알고 있나요?</p>
           <div className="space-y-4 w-full max-w-xs">
@@ -89,6 +111,7 @@ export default function TestPage() {
 
       return (
         <main className="min-h-screen flex flex-col items-center justify-center p-6">
+          <StepBar current={1} total={2} onBack={() => setMbtiMode('choose')} />
           <h1 className="text-2xl font-bold mb-8">MBTI 입력</h1>
           <input
             type="text"
@@ -114,7 +137,12 @@ export default function TestPage() {
       );
     }
 
-    return <MbtiTest onComplete={handleMbtiComplete} />;
+    return (
+      <main className="min-h-screen flex flex-col p-6">
+        <StepBar current={1} total={2} onBack={() => setMbtiMode('choose')} />
+        <MbtiTest onComplete={handleMbtiComplete} />
+      </main>
+    );
   }
 
   // --- Step 2: Saju ---
@@ -122,6 +150,7 @@ export default function TestPage() {
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-6">
+      <StepBar current={2} total={2} onBack={() => setStep('mbti')} />
       <h1 className="text-2xl font-bold mb-2">생년월일 입력</h1>
       <p className="text-gray-500 text-sm mb-8">사주 계산에 사용됩니다</p>
       <div className="space-y-4 w-full max-w-xs">
