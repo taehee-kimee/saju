@@ -9,7 +9,7 @@ function StepBar({ current, total, onBack }: { current: number; total: number; o
   return (
     <div className="flex items-center gap-3 w-full max-w-xs mx-auto mb-8">
       {onBack ? (
-        <button onClick={onBack} className="text-gray-400 hover:text-gray-600 text-xl leading-none">←</button>
+        <button onClick={onBack} className="text-orange-400 hover:text-orange-800 text-xl leading-none">←</button>
       ) : (
         <div className="w-6" />
       )}
@@ -21,7 +21,7 @@ function StepBar({ current, total, onBack }: { current: number; total: number; o
           />
         ))}
       </div>
-      <span className="text-xs text-gray-400 w-6 text-right">{current}/{total}</span>
+      <span className="text-xs text-orange-400 w-6 text-right">{current}/{total}</span>
     </div>
   );
 }
@@ -86,7 +86,7 @@ export default function TestPage() {
         <main className="min-h-screen flex flex-col items-center justify-center p-6">
           <StepBar current={1} total={2} />
           <h1 className="text-2xl font-light mb-2 font-title">MBTI 입력</h1>
-          <p className="text-gray-500 mb-8">MBTI를 알고 있나요?</p>
+          <p className="text-orange-600 mb-8">MBTI를 알고 있나요?</p>
           <div className="space-y-4 w-full max-w-xs">
             <button
               onClick={() => setMbtiMode('direct')}
@@ -152,7 +152,7 @@ export default function TestPage() {
     <main className="min-h-screen flex flex-col items-center justify-center p-6">
       <StepBar current={2} total={2} onBack={() => setStep('mbti')} />
       <h1 className="text-2xl font-light mb-2 font-title">생년월일 입력</h1>
-      <p className="text-gray-500 text-sm mb-8">사주 계산에 사용됩니다</p>
+      <p className="text-orange-600 text-sm mb-8">사주 계산에 사용됩니다</p>
       <div className="space-y-4 w-full max-w-xs">
         <input
           type="text"
@@ -211,7 +211,7 @@ export default function TestPage() {
         </div>
 
         <div>
-          <p className="text-sm text-gray-500 mb-2">성별 (대운 분석에 사용)</p>
+          <p className="text-sm text-orange-600 mb-2">성별 (대운 분석에 사용)</p>
           <div className="flex gap-2">
             {[
               { value: 'male', label: '남자' },
@@ -225,7 +225,7 @@ export default function TestPage() {
                 className={`flex-1 p-3 rounded-xl border-2 text-sm font-medium transition-colors ${
                   form.gender === opt.value
                     ? 'border-primary bg-secondary text-primary'
-                    : 'border-gray-200 text-gray-500 hover:border-primary/30'
+                    : 'border-gray-200 text-orange-600 hover:border-primary/30'
                 }`}
               >
                 {opt.label}

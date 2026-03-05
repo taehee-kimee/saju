@@ -391,13 +391,13 @@ function ReportContent() {
       <main className="min-h-screen flex items-center justify-center p-6">
         <div className="text-center max-w-md">
           <div className="text-6xl mb-4 animate-bounce">🔮</div>
-          <p className="text-gray-500 mb-2">
+          <p className="text-orange-600 mb-2">
             {generatingFortunes
               ? 'AI가 2026년 운세를 분석 중입니다...'
               : '리포트를 불러오는 중...'}
           </p>
           {generatingFortunes && (
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-orange-400">
               사주 × MBTI × 오행을 결합하여
               <br />
               맞춤형 운세를 생성하고 있습니다
@@ -412,7 +412,7 @@ function ReportContent() {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
         <div className="text-5xl mb-4">🙀</div>
-        <p className="text-gray-600 mb-6">{error || '리포트를 찾을 수 없습니다.'}</p>
+        <p className="text-orange-800 mb-6">{error || '리포트를 찾을 수 없습니다.'}</p>
         <button
           onClick={() => router.replace('/result')}
           className="px-6 py-3 bg-primary text-white rounded-xl font-bold"
@@ -441,7 +441,7 @@ function ReportContent() {
       {/* ── 저장된 리포트 선택기 (2개 이상일 때) ── */}
       {allReports.length > 1 && (
         <div className="mb-5">
-          <p className="text-xs text-gray-400 mb-2">저장된 풀리포트 ({allReports.length}개)</p>
+          <p className="text-xs text-orange-400 mb-2">저장된 풀리포트 ({allReports.length}개)</p>
           <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
             {allReports.map((r) => {
               const isActive = r.id === activeReportId;
@@ -458,10 +458,10 @@ function ReportContent() {
                   }`}
                 >
                   <span className="text-2xl">{r.character.emoji}</span>
-                  <span className={`text-xs font-medium whitespace-nowrap ${isActive ? 'text-primary' : 'text-gray-600'}`}>
+                  <span className={`text-xs font-medium whitespace-nowrap ${isActive ? 'text-primary' : 'text-orange-800'}`}>
                     {r.character.name}
                   </span>
-                  <span className="text-[10px] text-gray-400">{dateStr}</span>
+                  <span className="text-[10px] text-orange-400">{dateStr}</span>
                 </button>
               );
             })}
@@ -496,12 +496,12 @@ function ReportContent() {
 
       {/* ── 오행 바 + MBTI ── */}
       <div className="mb-6">
-        <h3 className="font-bold mb-3 text-gray-700">나의 오행 에너지</h3>
+        <h3 className="font-bold mb-3 text-orange-800">나의 오행 에너지</h3>
         <OhaengBar ohaeng={saju.ohaeng} dominant={saju.dominantOhaeng} />
         <div className="mt-3 p-3 bg-white rounded-xl border border-primary/10 flex items-center gap-3">
           <span className="text-2xl font-bold text-primary">{mbti}</span>
           <span className="text-gray-300">|</span>
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-orange-600">
             {mbti.startsWith('I') ? '내향' : '외향'} ·
             {mbti.includes('N') ? ' 직관' : ' 감각'} ·
             {mbti.includes('T') ? ' 사고' : ' 감정'} ·
@@ -525,7 +525,7 @@ function ReportContent() {
               <div key={section.key}>
                 <p className="font-bold text-primary mb-1 text-sm">{section.title}</p>
                 <p className="text-orange-700 font-medium text-sm mb-1">{character.subtitles[section.key]}</p>
-                <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-line">
+                <p className="text-orange-800 text-sm leading-relaxed whitespace-pre-line">
                   {character.sections[section.key]}
                 </p>
               </div>
@@ -559,7 +559,7 @@ function ReportContent() {
             className="flex-shrink-0 flex flex-col items-center gap-0.5 px-3 py-2 bg-gray-50 hover:bg-secondary border border-gray-200 hover:border-primary/50 rounded-xl transition-all"
           >
             <span className="text-base">{emoji}</span>
-            <span className="text-[10px] text-gray-500 font-medium">{label}</span>
+            <span className="text-[10px] text-orange-600 font-medium">{label}</span>
           </button>
         ))}
       </div>
@@ -570,11 +570,11 @@ function ReportContent() {
           <div className="flex items-center gap-3 mb-3">
             <span className="flex-shrink-0 w-7 h-7 rounded-full bg-blue-100 text-blue-600 text-xs font-bold flex items-center justify-center">01</span>
             <div>
-              <h2 className="text-base font-bold text-gray-900 leading-tight">🧬 내 에너지, 어디로 흐르고 있냥?</h2>
-              <p className="text-[11px] text-gray-400 mt-0.5">십신(十神) 분석</p>
+              <h2 className="text-base font-bold text-orange-950 leading-tight">🧬 내 에너지, 어디로 흐르고 있냥?</h2>
+              <p className="text-[11px] text-orange-400 mt-0.5">십신(十神) 분석</p>
             </div>
           </div>
-          <p className="text-xs text-gray-400 mb-3 pl-10">십신은 사주 안에서 나(일간)와 다른 기운의 관계를 5가지로 분류한 것이에요. 어떤 기운이 많은지에 따라 타고난 성향이 달라진답니다냥.</p>
+          <p className="text-xs text-orange-400 mb-3 pl-10">십신은 사주 안에서 나(일간)와 다른 기운의 관계를 5가지로 분류한 것이에요. 어떤 기운이 많은지에 따라 타고난 성향이 달라진답니다냥.</p>
           <div className="bg-slate-50 rounded-2xl p-4 space-y-3 border-t-4 border-blue-300">
             <div className="grid grid-cols-5 gap-1.5">
               {([
@@ -585,9 +585,9 @@ function ReportContent() {
                 { g: '인성', desc: '학습·사고' },
               ] as const).map(({ g, desc }) => (
                 <div key={g} className="flex flex-col items-center bg-white rounded-xl px-1 py-2 border border-slate-200">
-                  <span className="text-xs font-bold text-slate-600">{g}</span>
-                  <span className="text-xl font-bold text-slate-800 my-0.5">{p.tenGodChart.groupSummary[g]}</span>
-                  <span className="text-[10px] text-gray-400 text-center leading-tight">{desc}</span>
+                  <span className="text-xs font-bold text-orange-800">{g}</span>
+                  <span className="text-xl font-bold text-orange-950 my-0.5">{p.tenGodChart.groupSummary[g]}</span>
+                  <span className="text-[10px] text-orange-400 text-center leading-tight">{desc}</span>
                 </div>
               ))}
             </div>
@@ -597,7 +597,7 @@ function ReportContent() {
                   <div key={d.group} className="bg-secondary rounded-xl p-3">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-primary font-bold text-sm">{d.group} 우세</span>
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-orange-400">
                         {d.group === '비겁' && '→ 나와 같은 기운이 강함'}
                         {d.group === '식상' && '→ 표현·창작 에너지가 강함'}
                         {d.group === '재성' && '→ 재물·현실 지향 에너지가 강함'}
@@ -605,7 +605,7 @@ function ReportContent() {
                         {d.group === '인성' && '→ 사고·학습 에너지가 강함'}
                       </span>
                     </div>
-                    <p className="text-gray-600 text-sm">{d.behavior}</p>
+                    <p className="text-orange-800 text-sm">{d.behavior}</p>
                   </div>
                 ))}
               </div>
@@ -620,21 +620,21 @@ function ReportContent() {
           <div className="flex items-center gap-3 mb-3">
             <span className="flex-shrink-0 w-7 h-7 rounded-full bg-green-100 text-green-600 text-xs font-bold flex items-center justify-center">02</span>
             <div>
-              <h2 className="text-base font-bold text-gray-900 leading-tight">⚖️ 나 강한 냥이야, 약한 냥이야?</h2>
-              <p className="text-[11px] text-gray-400 mt-0.5">신강/신약 · 용신(用神) 분석</p>
+              <h2 className="text-base font-bold text-orange-950 leading-tight">⚖️ 나 강한 냥이야, 약한 냥이야?</h2>
+              <p className="text-[11px] text-orange-400 mt-0.5">신강/신약 · 용신(用神) 분석</p>
             </div>
           </div>
-          <p className="text-xs text-gray-400 mb-3 pl-10">내 일간(日干, 태어난 날의 기운)이 사주 전체에서 얼마나 힘을 갖고 있는지를 나타내요. 강하면 에너지가 넘치고, 약하면 주변 환경에 더 영향을 받는 타입이랍니다냥.</p>
+          <p className="text-xs text-orange-400 mb-3 pl-10">내 일간(日干, 태어난 날의 기운)이 사주 전체에서 얼마나 힘을 갖고 있는지를 나타내요. 강하면 에너지가 넘치고, 약하면 주변 환경에 더 영향을 받는 타입이랍니다냥.</p>
           <div className="bg-slate-50 rounded-2xl p-4 space-y-3 border-t-4 border-green-300">
             <div className="flex items-center gap-3 flex-wrap">
               <span className={`px-3 py-1.5 rounded-full text-sm font-bold ${p.dayMasterStrength.isStrong ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>
                 {p.dayMasterStrength.isStrong ? '🔥 신강 (에너지 충만형)' : '💧 신약 (환경 감응형)'}
               </span>
-              <span className="text-xs text-gray-400">강도 점수 {p.dayMasterStrength.score}/10</span>
+              <span className="text-xs text-orange-400">강도 점수 {p.dayMasterStrength.score}/10</span>
             </div>
-            <p className="text-gray-700 text-sm leading-relaxed">{p.dayMasterStrength.analysis}</p>
+            <p className="text-orange-800 text-sm leading-relaxed">{p.dayMasterStrength.analysis}</p>
             <div className="border-t border-slate-200 pt-3 space-y-2">
-              <p className="text-xs text-gray-400">용신 — 내 사주를 균형 잡아주는 오행</p>
+              <p className="text-xs text-orange-400">용신 — 내 사주를 균형 잡아주는 오행</p>
               <div className="grid grid-cols-3 gap-2">
                 <div className="bg-green-50 rounded-xl p-2 text-center border border-green-200">
                   <div className="text-xs text-green-500 mb-0.5">용신 (내 편)</div>
@@ -652,7 +652,7 @@ function ReportContent() {
                   <div className="text-[10px] text-red-400">소모하는 기운</div>
                 </div>
               </div>
-              <p className="text-gray-500 text-xs leading-relaxed">{p.favorableElement.reasoning}</p>
+              <p className="text-orange-600 text-xs leading-relaxed">{p.favorableElement.reasoning}</p>
             </div>
           </div>
         </section>
@@ -664,11 +664,11 @@ function ReportContent() {
           <div className="flex items-center gap-3 mb-3">
             <span className="flex-shrink-0 w-7 h-7 rounded-full bg-red-100 text-red-500 text-xs font-bold flex items-center justify-center">03</span>
             <div>
-              <h2 className="text-base font-bold text-gray-900 leading-tight">💥 기운끼리 부딪히진 않냥?</h2>
-              <p className="text-[11px] text-gray-400 mt-0.5">합충형(合冲刑) 분석</p>
+              <h2 className="text-base font-bold text-orange-950 leading-tight">💥 기운끼리 부딪히진 않냥?</h2>
+              <p className="text-[11px] text-orange-400 mt-0.5">합충형(合冲刑) 분석</p>
             </div>
           </div>
-          <p className="text-xs text-gray-400 mb-3 pl-10">사주 팔자 안의 지지(地支, 땅의 기운)들이 서로 어떤 관계를 맺는지 분석한 것이에요. 합(合)은 기운이 뭉치는 것, 충(衝)은 충돌, 형(刑)은 마찰이랍니다냥.</p>
+          <p className="text-xs text-orange-400 mb-3 pl-10">사주 팔자 안의 지지(地支, 땅의 기운)들이 서로 어떤 관계를 맺는지 분석한 것이에요. 합(合)은 기운이 뭉치는 것, 충(衝)은 충돌, 형(刑)은 마찰이랍니다냥.</p>
           <div className="bg-slate-50 rounded-2xl p-4 space-y-2 border-t-4 border-red-300">
             {p.branchInteractions.interactions.map((item, i) => (
               <div key={i} className="bg-white rounded-xl p-3 border border-slate-200">
@@ -678,7 +678,7 @@ function ReportContent() {
                     item.type === '형' ? 'bg-primary/10 text-primary' :
                     'bg-blue-100 text-blue-600'
                   }`}>{item.type}</span>
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-orange-400">
                     {item.type === '충' && '정반대 기운이 충돌 → 변화·갈등'}
                     {item.type === '형' && '기운 마찰 → 주의가 필요한 영역'}
                     {item.type === '삼합' && '세 기운이 합쳐져 시너지 생성'}
@@ -686,11 +686,11 @@ function ReportContent() {
                     {item.type === '천간합' && '천간 기운끼리 결합'}
                   </span>
                 </div>
-                <p className="text-gray-700 text-sm leading-relaxed">{item.description}</p>
+                <p className="text-orange-800 text-sm leading-relaxed">{item.description}</p>
               </div>
             ))}
             {!p.branchInteractions.hasClash && !p.branchInteractions.hasPunishment && (
-              <p className="text-gray-400 text-sm">✓ 큰 충돌 없이 기운이 잘 흐르고 있냥!</p>
+              <p className="text-orange-400 text-sm">✓ 큰 충돌 없이 기운이 잘 흐르고 있냥!</p>
             )}
           </div>
         </section>
@@ -714,25 +714,25 @@ function ReportContent() {
             <div className="flex items-center gap-3 mb-3">
               <span className="flex-shrink-0 w-7 h-7 rounded-full bg-violet-100 text-violet-600 text-xs font-bold flex items-center justify-center">04</span>
               <div>
-                <h2 className="text-base font-bold text-gray-900 leading-tight">🌊 나는 지금 어느 흐름 위에 있냥?</h2>
-                <p className="text-[11px] text-gray-400 mt-0.5">대운(大運) 전환 포인트</p>
+                <h2 className="text-base font-bold text-orange-950 leading-tight">🌊 나는 지금 어느 흐름 위에 있냥?</h2>
+                <p className="text-[11px] text-orange-400 mt-0.5">대운(大運) 전환 포인트</p>
               </div>
             </div>
-          <p className="text-xs text-gray-400 mb-3 pl-10">대운(大運)은 10년 단위로 바뀌는 큰 인생 흐름이에요. 사주팔자가 타고난 성격이라면, 대운은 그 성격이 어떤 환경 안에 놓이는지를 보여준답니다냥.</p>
+          <p className="text-xs text-orange-400 mb-3 pl-10">대운(大運)은 10년 단위로 바뀌는 큰 인생 흐름이에요. 사주팔자가 타고난 성격이라면, 대운은 그 성격이 어떤 환경 안에 놓이는지를 보여준답니다냥.</p>
             <div className="space-y-3">
               {/* 현재 대운 */}
               {curr && (
                 <div className="bg-slate-50 rounded-2xl p-4 border-l-4 border-slate-400">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-xl font-bold text-slate-700">{curr.stem}{curr.branch}</span>
-                      <span className="text-xs bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full">{curr.tenGod} 대운</span>
+                      <span className="text-xl font-bold text-orange-800">{curr.stem}{curr.branch}</span>
+                      <span className="text-xs bg-slate-200 text-orange-800 px-2 py-0.5 rounded-full">{curr.tenGod} 대운</span>
                     </div>
-                    <span className="text-xs text-gray-400">{curr.startAge}~{curr.endAge}세</span>
+                    <span className="text-xs text-orange-400">{curr.startAge}~{curr.endAge}세</span>
                   </div>
-                  <p className="text-sm text-gray-700 leading-relaxed mb-2">{curr.theme}</p>
+                  <p className="text-sm text-orange-800 leading-relaxed mb-2">{curr.theme}</p>
                   {remainingYears !== null && (
-                    <div className={`text-xs px-3 py-1.5 rounded-full inline-block font-medium ${isLateHalf ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-600'}`}>
+                    <div className={`text-xs px-3 py-1.5 rounded-full inline-block font-medium ${isLateHalf ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-orange-800'}`}>
                       {isLateHalf
                         ? `⏳ 이 시절 후반부 — 약 ${remainingYears}년 후 전환`
                         : `✦ 현재 진행 중 — 약 ${remainingYears}년 더 지속`}
@@ -757,13 +757,13 @@ function ReportContent() {
                         <span className="text-xl font-bold text-violet-700">{next.stem}{next.branch}</span>
                         <span className="text-xs bg-violet-200 text-violet-700 px-2 py-0.5 rounded-full">{next.tenGod} 대운</span>
                       </div>
-                      <span className="text-xs text-gray-400">{next.startAge}~{next.endAge}세</span>
+                      <span className="text-xs text-orange-400">{next.startAge}~{next.endAge}세</span>
                     </div>
                     <p className="text-sm text-violet-800 leading-relaxed mb-2">{next.theme}</p>
                     {curr && (
-                      <div className="bg-white rounded-xl p-3 text-xs text-gray-600 leading-relaxed">
-                        <span className="font-bold text-gray-700">성향 변화 포인트 ✦</span><br />
-                        지금의 <span className="text-slate-600 font-bold">{curr.tenGod}</span> 에너지 중심에서,
+                      <div className="bg-white rounded-xl p-3 text-xs text-orange-800 leading-relaxed">
+                        <span className="font-bold text-orange-800">성향 변화 포인트 ✦</span><br />
+                        지금의 <span className="text-orange-800 font-bold">{curr.tenGod}</span> 에너지 중심에서,
                         <span className="text-violet-600 font-bold"> {next.tenGod}</span> 에너지 중심으로 삶의 무게중심이 이동할 거냥.
                         {curr.tenGod !== next.tenGod && (
                           <> 지금과는 다른 새로운 방식으로 세상과 마주하게 되는 시기예요.</>
@@ -784,19 +784,19 @@ function ReportContent() {
           <div className="flex items-center gap-3 mb-3">
             <span className="flex-shrink-0 w-7 h-7 rounded-full bg-amber-100 text-amber-600 text-xs font-bold flex items-center justify-center">05</span>
             <div>
-              <h2 className="text-base font-bold text-gray-900 leading-tight">🔁 왜 나는 항상 같은 패턴일까냥?</h2>
-              <p className="text-[11px] text-gray-400 mt-0.5">반복 패턴 원인 분석</p>
+              <h2 className="text-base font-bold text-orange-950 leading-tight">🔁 왜 나는 항상 같은 패턴일까냥?</h2>
+              <p className="text-[11px] text-orange-400 mt-0.5">반복 패턴 원인 분석</p>
             </div>
           </div>
-          <p className="text-xs text-gray-400 mb-3 pl-10">사주 구조에서 자동으로 반복되는 삶의 패턴이에요. 이게 보이면 루프를 끊을 수 있답니다냥!</p>
+          <p className="text-xs text-orange-400 mb-3 pl-10">사주 구조에서 자동으로 반복되는 삶의 패턴이에요. 이게 보이면 루프를 끊을 수 있답니다냥!</p>
           <div className="bg-slate-50 rounded-2xl p-4 space-y-3 border-t-4 border-amber-300">
             {p.repeatPatterns.map((rp, i) => (
               <div key={i} className="bg-white rounded-xl p-3 border border-slate-200">
                 <div className="flex items-start gap-2 mb-2">
                   <span className="text-lg shrink-0">🔄</span>
-                  <p className="text-gray-800 font-medium text-sm leading-snug">&ldquo;{rp.pattern}&rdquo;</p>
+                  <p className="text-orange-950 font-medium text-sm leading-snug">&ldquo;{rp.pattern}&rdquo;</p>
                 </div>
-                <p className="text-xs text-gray-400 leading-relaxed pl-7">
+                <p className="text-xs text-orange-400 leading-relaxed pl-7">
                   사주 원인: {rp.condition}
                 </p>
               </div>
@@ -811,8 +811,8 @@ function ReportContent() {
           <div className="flex items-center gap-3 mb-4">
             <span className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center">06</span>
             <div>
-              <h2 className="text-base font-bold text-gray-900 leading-tight">🔮 2026년엔 어떨까냥?</h2>
-              <p className="text-[11px] text-gray-400 mt-0.5">연애 · 재물 · 커리어 · 건강 · 인간관계</p>
+              <h2 className="text-base font-bold text-orange-950 leading-tight">🔮 2026년엔 어떨까냥?</h2>
+              <p className="text-[11px] text-orange-400 mt-0.5">연애 · 재물 · 커리어 · 건강 · 인간관계</p>
             </div>
           </div>
           <div className="flex gap-1 mb-4">
@@ -826,7 +826,7 @@ function ReportContent() {
                   className={`flex-1 min-w-0 py-2.5 px-1 rounded-xl text-sm font-medium transition-all ${
                     isActive
                       ? 'bg-primary text-white shadow-md'
-                      : 'bg-gray-100 text-gray-500 hover:bg-secondary hover:text-primary'
+                      : 'bg-gray-100 text-orange-600 hover:bg-secondary hover:text-primary'
                   }`}
                 >
                   <div className="text-base">{section.emoji}</div>
@@ -846,7 +846,7 @@ function ReportContent() {
               {PAID_SECTION_CONFIG.find(s => s.key === activeFortuneTab)?.title}
             </h3>
             {fortunes[activeFortuneTab] === null ? (
-              <div className="flex flex-col items-center py-8 text-gray-400">
+              <div className="flex flex-col items-center py-8 text-orange-400">
                 <div className="w-8 h-8 rounded-full border-4 border-primary/20 border-t-orange-400 animate-spin mb-3" />
                 <p className="text-sm">운세를 불러오는 중이냥...</p>
               </div>
@@ -856,7 +856,7 @@ function ReportContent() {
                   .split(/\n{2,}/)
                   .flatMap((block) => block.trim() ? [block.trim()] : [])
                   .map((para, i) => (
-                    <p key={i} className="text-gray-700 text-[15px] leading-[2] whitespace-pre-line">
+                    <p key={i} className="text-orange-800 text-[15px] leading-[2] whitespace-pre-line">
                       {para}
                     </p>
                   ))}
@@ -883,21 +883,21 @@ function ReportContent() {
             <div className="flex items-center gap-3 mb-3">
               <span className="flex-shrink-0 w-7 h-7 rounded-full bg-emerald-100 text-emerald-600 text-xs font-bold flex items-center justify-center">07</span>
               <div>
-                <h2 className="text-base font-bold text-gray-900 leading-tight">✦ 당신 사주에 맞는 에너지 균형 전략</h2>
-                <p className="text-[11px] text-gray-400 mt-0.5">용신 기반 개운(開運) 전략</p>
+                <h2 className="text-base font-bold text-orange-950 leading-tight">✦ 당신 사주에 맞는 에너지 균형 전략</h2>
+                <p className="text-[11px] text-orange-400 mt-0.5">용신 기반 개운(開運) 전략</p>
               </div>
             </div>
-            <p className="text-xs text-gray-400 mb-4 pl-10">
+            <p className="text-xs text-orange-400 mb-4 pl-10">
               미신이 아닌, 용신·십신·오행 불균형 데이터를 바탕으로 도출한 에너지 방향 보완 전략이에요.
             </p>
 
             {/* 근거 블록 */}
             <div className="bg-slate-800 text-slate-100 rounded-2xl p-4 mb-4 space-y-2">
-              <p className="text-xs text-slate-400 mb-2 font-medium">왜 이 전략이 필요한가</p>
+              <p className="text-xs text-orange-400 mb-2 font-medium">왜 이 전략이 필요한가</p>
               <div className="space-y-1.5 text-sm">
                 {isStrong !== undefined && (
                   <div className="flex items-start gap-2">
-                    <span className="text-slate-400 shrink-0">→</span>
+                    <span className="text-orange-400 shrink-0">→</span>
                     <span>
                       {isStrong
                         ? '신강(身强) 구조 — 에너지가 넘쳐 분산되기 쉬운 상태예요.'
@@ -907,19 +907,19 @@ function ReportContent() {
                 )}
                 {excessOhaeng && (
                   <div className="flex items-start gap-2">
-                    <span className="text-slate-400 shrink-0">→</span>
+                    <span className="text-orange-400 shrink-0">→</span>
                     <span><span className="text-orange-300 font-bold">{excessOhaeng.element}(○) 과다</span> — {excessOhaeng.behavior}</span>
                   </div>
                 )}
                 {deficitOhaeng && (
                   <div className="flex items-start gap-2">
-                    <span className="text-slate-400 shrink-0">→</span>
+                    <span className="text-orange-400 shrink-0">→</span>
                     <span><span className="text-blue-300 font-bold">{deficitOhaeng.element}(○) 부족</span> — {deficitOhaeng.behavior}</span>
                   </div>
                 )}
                 {dominantGroup && (
                   <div className="flex items-start gap-2">
-                    <span className="text-slate-400 shrink-0">→</span>
+                    <span className="text-orange-400 shrink-0">→</span>
                     <span><span className="text-violet-300 font-bold">{dominantGroup.group} 우세</span> — {dominantGroup.behavior}</span>
                   </div>
                 )}
@@ -938,19 +938,19 @@ function ReportContent() {
               {/* 환경 개운 */}
               <div className="bg-amber-50 rounded-2xl p-4 border border-amber-100">
                 <p className="font-bold text-amber-700 mb-2 text-sm">🏠 환경 개운</p>
-                <p className="text-xs text-gray-500 mb-3">공간·색·시간대를 바꾸면 에너지 방향이 자연스럽게 조율돼요.</p>
+                <p className="text-xs text-orange-600 mb-3">공간·색·시간대를 바꾸면 에너지 방향이 자연스럽게 조율돼요.</p>
                 <div className="space-y-2">
                   <div className="flex gap-2 items-center">
                     <span className="text-xs text-amber-600 w-12 shrink-0">색상</span>
-                    <span className="text-sm text-gray-700">{strategy.env.color}</span>
+                    <span className="text-sm text-orange-800">{strategy.env.color}</span>
                   </div>
                   <div className="flex gap-2 items-center">
                     <span className="text-xs text-amber-600 w-12 shrink-0">공간</span>
-                    <span className="text-sm text-gray-700">{strategy.env.space}</span>
+                    <span className="text-sm text-orange-800">{strategy.env.space}</span>
                   </div>
                   <div className="flex gap-2 items-center">
                     <span className="text-xs text-amber-600 w-12 shrink-0">시간대</span>
-                    <span className="text-sm text-gray-700">집중 작업에 유리한 {strategy.env.time}</span>
+                    <span className="text-sm text-orange-800">집중 작업에 유리한 {strategy.env.time}</span>
                   </div>
                 </div>
               </div>
@@ -958,12 +958,12 @@ function ReportContent() {
               {/* 행동 개운 */}
               <div className="bg-emerald-50 rounded-2xl p-4 border border-emerald-100">
                 <p className="font-bold text-emerald-700 mb-2 text-sm">🎯 행동 개운</p>
-                <p className="text-xs text-gray-500 mb-3">루틴에 이 행동을 넣으면 에너지 균형이 잡혀요.</p>
+                <p className="text-xs text-orange-600 mb-3">루틴에 이 행동을 넣으면 에너지 균형이 잡혀요.</p>
                 <div className="space-y-1.5">
                   {strategy.actions.map((action, i) => (
                     <div key={i} className="flex items-start gap-2">
                       <span className="text-emerald-400 text-xs shrink-0 mt-0.5">✓</span>
-                      <span className="text-sm text-gray-700">{action}</span>
+                      <span className="text-sm text-orange-800">{action}</span>
                     </div>
                   ))}
                 </div>
@@ -972,15 +972,15 @@ function ReportContent() {
               {/* 관계 개운 */}
               <div className="bg-violet-50 rounded-2xl p-4 border border-violet-100">
                 <p className="font-bold text-violet-700 mb-2 text-sm">🤝 관계 개운</p>
-                <p className="text-xs text-gray-500 mb-3">어떤 에너지의 사람과 함께하느냐가 운의 방향을 바꿔요.</p>
+                <p className="text-xs text-orange-600 mb-3">어떤 에너지의 사람과 함께하느냐가 운의 방향을 바꿔요.</p>
                 <div className="space-y-2">
                   <div className="flex gap-2 items-start">
                     <span className="text-xs bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded shrink-0">시너지</span>
-                    <span className="text-sm text-gray-700">{strategy.positiveRelation}</span>
+                    <span className="text-sm text-orange-800">{strategy.positiveRelation}</span>
                   </div>
                   <div className="flex gap-2 items-start">
                     <span className="text-xs bg-red-100 text-red-600 px-1.5 py-0.5 rounded shrink-0">소모</span>
-                    <span className="text-sm text-gray-500">{strategy.avoidRelation}</span>
+                    <span className="text-sm text-orange-600">{strategy.avoidRelation}</span>
                   </div>
                 </div>
               </div>
@@ -1001,13 +1001,13 @@ function ReportContent() {
             <div className="flex items-center gap-3 mb-3">
               <span className="flex-shrink-0 w-7 h-7 rounded-full bg-purple-100 text-purple-600 text-xs font-bold flex items-center justify-center">08</span>
               <div>
-                <h2 className="text-base font-bold text-gray-900 leading-tight">⏳ 앞으로 3년 흐름 포지션</h2>
-                <p className="text-[11px] text-gray-400 mt-0.5">세운(歲運) 기준 2026 · 2027 · 2028 요약</p>
+                <h2 className="text-base font-bold text-orange-950 leading-tight">⏳ 앞으로 3년 흐름 포지션</h2>
+                <p className="text-[11px] text-orange-400 mt-0.5">세운(歲運) 기준 2026 · 2027 · 2028 요약</p>
               </div>
             </div>
             <div className="space-y-3">
               {saju.payload.threeYearOutlook.map((brief) => {
-                const colors = YEAR_COLOR[brief.year] ?? { bg: 'bg-gray-50 border-gray-200', badge: 'bg-gray-100 text-gray-700', dot: 'bg-gray-400' };
+                const colors = YEAR_COLOR[brief.year] ?? { bg: 'bg-gray-50 border-gray-200', badge: 'bg-gray-100 text-orange-800', dot: 'bg-gray-400' };
                 return (
                   <div key={brief.year} className={`rounded-2xl border p-4 ${colors.bg}`}>
                     <div className="flex items-center gap-2 mb-2">
@@ -1015,13 +1015,13 @@ function ReportContent() {
                       <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${colors.badge}`}>
                         {brief.year}년 {brief.pillar}
                       </span>
-                      <span className="text-xs text-gray-500">{brief.tenGodGroup} ({brief.tenGod})</span>
+                      <span className="text-xs text-orange-600">{brief.tenGodGroup} ({brief.tenGod})</span>
                       {brief.hasClash && (
                         <span className="ml-auto text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full font-medium">⚡충</span>
                       )}
                     </div>
-                    <p className="text-sm font-semibold text-gray-800 mb-1">{brief.theme}</p>
-                    <p className="text-sm text-gray-600 leading-relaxed">{brief.outlook}</p>
+                    <p className="text-sm font-semibold text-orange-950 mb-1">{brief.theme}</p>
+                    <p className="text-sm text-orange-800 leading-relaxed">{brief.outlook}</p>
                   </div>
                 );
               })}
@@ -1045,7 +1045,7 @@ function ReportContent() {
               alert('링크가 복사되었습니다!');
             }
           }}
-          className="w-full p-4 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-colors"
+          className="w-full p-4 bg-gray-100 text-orange-800 rounded-xl font-medium hover:bg-gray-200 transition-colors"
         >
           결과 공유하기
         </button>
@@ -1054,7 +1054,7 @@ function ReportContent() {
             sessionStorage.clear();
             router.push('/test');
           }}
-          className="w-full p-3 text-gray-500 text-sm hover:text-primary transition-colors"
+          className="w-full p-3 text-orange-600 text-sm hover:text-primary transition-colors"
         >
           다시 테스트하기
         </button>
@@ -1070,7 +1070,7 @@ export default function ReportPage() {
         <main className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <div className="text-6xl mb-4 animate-bounce">🔮</div>
-            <p className="text-gray-500">리포트를 불러오는 중...</p>
+            <p className="text-orange-600">리포트를 불러오는 중...</p>
           </div>
         </main>
       }

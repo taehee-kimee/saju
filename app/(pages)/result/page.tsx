@@ -178,7 +178,7 @@ export default function ResultPage() {
       <main className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4 animate-bounce">🔮</div>
-          <p className="text-slate-500">냥세를 계산하는 중...</p>
+          <p className="text-orange-600">냥세를 계산하는 중...</p>
         </div>
       </main>
     );
@@ -188,7 +188,7 @@ export default function ResultPage() {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
         <div className="text-5xl mb-4">🙀</div>
-        <p className="text-slate-600 mb-6">{error || '결과를 찾을 수 없어요.'}</p>
+        <p className="text-orange-800 mb-6">{error || '결과를 찾을 수 없어요.'}</p>
         <button
           onClick={() => router.replace('/test')}
           className="px-6 py-3 bg-primary text-white rounded-xl font-bold"
@@ -210,7 +210,7 @@ export default function ResultPage() {
           >
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
-          <h1 className="text-slate-900 text-lg font-bold leading-tight tracking-tight flex-1 text-center">
+          <h1 className="text-orange-950 text-lg font-bold leading-tight tracking-tight flex-1 text-center">
             🐾 냥이가 전하는 비밀 리포트
           </h1>
           <button
@@ -230,7 +230,7 @@ export default function ResultPage() {
                 ✨ 특별한 냥이의 분석 ✨
               </span>
               <h2 className="text-2xl font-light mt-2 font-title">{character.name}</h2>
-              <p className="text-slate-500 mt-1">
+              <p className="text-orange-600 mt-1">
                 {mbti} · {saju.dominantOhaeng}의 기운
               </p>
             </div>
@@ -245,7 +245,7 @@ export default function ResultPage() {
             <div className="bg-white p-5 rounded-xl border border-slate-100">
               <OhaengBar ohaeng={saju.ohaeng} dominant={saju.dominantOhaeng} />
               <div className="mt-4 bg-primary/5 p-4 rounded-lg">
-                <p className="text-sm text-slate-700">
+                <p className="text-sm text-orange-800">
                   <span className="font-bold text-primary">{saju.dominantOhaeng}의 기운</span>이 가장 강합니다.
                   {saju.dominantOhaeng === '木' && ' 성장과 확장의 에너지가 넘치는 해입니다.'}
                   {saju.dominantOhaeng === '火' && ' 열정과 활력이 넘치는 해입니다.'}
@@ -268,7 +268,7 @@ export default function ResultPage() {
                 <p className="text-primary font-bold text-lg mb-2">
                   {character.subtitles[config.key]}
                 </p>
-                <p className="text-slate-600 leading-relaxed whitespace-pre-line">
+                <p className="text-orange-800 leading-relaxed whitespace-pre-line">
                   {character.sections[config.key]}
                 </p>
               </div>
@@ -286,7 +286,7 @@ export default function ResultPage() {
                 sessionStorage.removeItem('sajuData');
                 router.push('/test');
               }}
-              className="w-full p-3 border-2 border-slate-200 text-slate-600 rounded-xl text-sm font-medium hover:border-primary/30 hover:text-primary transition-colors"
+              className="w-full p-3 border-2 border-slate-200 text-orange-800 rounded-xl text-sm font-medium hover:border-primary/30 hover:text-primary transition-colors"
             >
               다시 테스트하기 🔄
             </button>

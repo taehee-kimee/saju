@@ -72,7 +72,7 @@ export default function AdSlot({
         style={{ display: 'block', width: '100%', ...style }}
       >
         <div
-          className="rounded-xl bg-gray-100 border border-dashed border-gray-200 text-center text-gray-500 text-sm flex items-center justify-center"
+          className="rounded-xl bg-gray-100 border border-dashed border-gray-200 text-center text-orange-600 text-sm flex items-center justify-center"
           style={{ minHeight: placeholderHeight }}
         >
           광고 준비 중

@@ -123,14 +123,14 @@ export default function ShareModal({ character, saju, mbti, onClose }: Props) {
           <p className="text-xs text-orange-400 font-bold mb-2">냥세(猫世)</p>
           <div className="text-7xl mb-2">{character.emoji}</div>
           <h3 className="text-xl font-bold">{character.name}</h3>
-          <p className="text-gray-500 text-xs mt-1">
+          <p className="text-orange-600 text-xs mt-1">
             {mbti} · {saju.dominantOhaeng}기운
           </p>
           <p className="text-orange-500 text-sm font-medium mt-3 px-2 leading-snug">
             &ldquo;{character.tagline}&rdquo;
           </p>
           <div className="mt-4 pt-3 border-t border-orange-100">
-            <p className="text-xs text-gray-400">nyang.bio</p>
+            <p className="text-xs text-orange-400">nyang.bio</p>
           </div>
         </div>
 
@@ -153,7 +153,7 @@ export default function ShareModal({ character, saju, mbti, onClose }: Props) {
 
           <button
             onClick={handleCopyLink}
-            className="w-full p-4 bg-gray-100 text-gray-700 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-gray-200 transition-colors"
+            className="w-full p-4 bg-gray-100 text-orange-800 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-gray-200 transition-colors"
           >
             {copied ? '✅ 복사됐어요!' : '🔗 링크 복사하기'}
           </button>

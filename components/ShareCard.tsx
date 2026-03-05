@@ -67,14 +67,14 @@ export default function ShareCard({ character, saju, mbti }: Props) {
         <p className="text-xs text-orange-400 font-bold mb-3">냥세(猫世)</p>
         <div className="text-7xl mb-3">{character.emoji}</div>
         <h2 className="text-2xl font-bold">{character.name}</h2>
-        <p className="text-gray-500 text-sm mt-1">
+        <p className="text-orange-600 text-sm mt-1">
           {mbti} · {saju.dominantOhaeng}기운
         </p>
         <p className="text-orange-500 text-sm font-medium mt-3 px-2">
           &ldquo;{character.tagline}&rdquo;
         </p>
         <div className="mt-4 pt-4 border-t border-orange-100">
-          <p className="text-xs text-gray-400">nyangsae.com</p>
+          <p className="text-xs text-orange-400">nyangsae.com</p>
         </div>
       </div>
 
