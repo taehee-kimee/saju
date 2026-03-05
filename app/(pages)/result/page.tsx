@@ -229,7 +229,7 @@ export default function ResultPage() {
               <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full">
                 ✨ 특별한 냥이의 분석 ✨
               </span>
-              <h2 className="text-2xl font-bold mt-2 font-title">{character.name}</h2>
+              <h2 className="text-2xl font-light mt-2 font-title">{character.name}</h2>
               <p className="text-slate-500 mt-1">
                 {mbti} · {saju.dominantOhaeng}의 기운
               </p>

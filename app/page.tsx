@@ -6,7 +6,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="flex flex-col items-center px-6 py-12 text-center gap-6">
         <div className="space-y-2">
-          <h1 className="text-slate-900 text-3xl font-bold tracking-tight font-title">나는 어떤 고양이일까요?</h1>
+          <h1 className="text-slate-900 text-3xl font-light tracking-tight font-title">나는 어떤 고양이일까요?</h1>
           <p className="text-slate-600 text-lg font-medium leading-relaxed px-4">
             MBTI와 사주팔자로 알아보는<br />
             나의 운세 고양이, <span className="text-primary font-bold">냥세</span>

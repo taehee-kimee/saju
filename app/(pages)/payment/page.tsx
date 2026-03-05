@@ -15,7 +15,7 @@ export default function PaymentPage() {
         ← 뒤로
       </button>
 
-      <h1 className="text-2xl font-bold mb-2 font-title">풀리포트 구매</h1>
+      <h1 className="text-2xl font-light mb-2 font-title">풀리포트 구매</h1>
       <p className="text-gray-500 mb-6">냥세 풀리포트를 확인해보세요!</p>
 
       <div className="bg-orange-50 rounded-2xl p-5 mb-4">
