@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Gumi Romance';
+  src: url('/fonts/Gumi Romance.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #f9f7f6;
   --foreground: #171717;
@@ -11,6 +19,7 @@
   --color-primary: #ee7c2b;
   --color-secondary: #fdf1e6;
   --font-sans: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-title: 'Gumi Romance', serif;
 }
 
 @media (prefers-color-scheme: dark) {
