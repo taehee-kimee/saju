@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main className="max-w-md mx-auto pb-24">
       {/* Hero Section */}
-      <section className="flex flex-col items-center px-6 py-12 text-center gap-6">
+      <section className="flex flex-col items-center px-6 pt-20 pb-12 text-center gap-6">
         <div className="space-y-2">
           <h1 className="text-slate-900 text-3xl font-light tracking-tight font-title">나는 어떤 고양이일까요?</h1>
           <p className="text-slate-600 text-lg font-medium leading-relaxed px-4">
