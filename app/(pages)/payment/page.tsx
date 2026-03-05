@@ -32,16 +32,16 @@ export default function PaymentPage() {
       <div className="bg-gray-50 rounded-2xl p-4 mb-6">
         <h3 className="font-bold text-gray-700 mb-3">포함 내용</h3>
         <ul className="space-y-2 text-sm text-gray-600">
-          <li>✅ 냥세 한 줄 진단</li>
-          <li>✅ 오행 밸런스 지도</li>
-          <li>✅ 사주×MBTI 결합 해석</li>
-          <li>✅ 반복 패턴 분석</li>
-          <li>✅ 과부하 신호 가이드</li>
-          <li>🔓 연애 운세</li>
-          <li>🔓 재물 운세</li>
-          <li>🔓 커리어 운세</li>
-          <li>🔓 건강 운세</li>
-          <li>🔓 인간관계 운세</li>
+          <li>✅ 🐾 냥세 진단</li>
+          <li>✅ 🧭 오행 밸런스 지도</li>
+          <li>✅ 🧩 사주×MBTI 결합 해석</li>
+          <li>✅ 🔄 반복 패턴 분석</li>
+          <li>✅ 🚨 과부하 신호 가이드</li>
+          <li>🔓 💞 연애 운세</li>
+          <li>🔓 💰 재물 운세</li>
+          <li>🔓 🧑‍💻 커리어 운세</li>
+          <li>🔓 🧘‍♀️ 건강 운세</li>
+          <li>🔓 🤝 인간관계 운세</li>
         </ul>
       </div>
 
